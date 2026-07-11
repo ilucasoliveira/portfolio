@@ -1,0 +1,72 @@
+.signature {
+  margin-top: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.signature__name {
+  font-family: var(--font-script);
+  font-size: 46px;
+  color: var(--color-gold-light);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.6s ease 0.2s;
+}
+
+.signature.visible .signature__name {
+  clip-path: inset(0 0 0 0);
+}
+
+.signature__flourish {
+  width: 240px;
+  margin-top: -8px;
+}
+
+.signature__stroke,
+.signature__leaf {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 1.2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.2s ease 1.4s;
+}
+
+.signature__leaf {
+  stroke: var(--color-gold-dim);
+  stroke-width: 0.8;
+  transition-delay: 2.1s;
+}
+
+.signature.visible .signature__stroke,
+.signature.visible .signature__leaf {
+  stroke-dashoffset: 0;
+}
+
+.signature__caption {
+  font-family: var(--font-heading);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin-top: 12px;
+}
+
+@media (max-width: 600px) {
+  .signature {
+    align-items: center;
+  }
+  .signature__name {
+    font-size: 38px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signature__name,
+  .signature__stroke,
+  .signature__leaf {
+    transition: none;
+    clip-path: inset(0 0 0 0);
+    stroke-dashoffset: 0;
+  }
+}

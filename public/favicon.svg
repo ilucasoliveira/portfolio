@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .anel { stroke: #e8c97a; }
+    .sombra { stroke: #7a6128; }
+    .halo { stroke: #c9a84c; }
+    @media (prefers-color-scheme: light) {
+      .anel { stroke: #9a7c2e; }
+      .sombra { stroke: #6b5523; }
+      .halo { stroke: #8a6f2c; }
+    }
+  </style>
+  <circle class="anel" cx="32" cy="32" r="20" fill="none" stroke-width="7" />
+  <circle class="sombra" cx="32" cy="33.5" r="20" fill="none" stroke-width="1.2" opacity="0.9" />
+  <circle class="halo" cx="32" cy="32" r="28" fill="none" stroke-width="1" opacity="0.4" />
+</svg>
