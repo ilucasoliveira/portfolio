@@ -88,8 +88,43 @@
   color: var(--color-bg);
 }
 
-@media (max-width: 768px) {
-  .nav__links a:not(.nav__contact-btn) {
+@media (max-width: 700px) {
+  .nav {
+    padding: 14px 5vw;
+  }
+
+  .nav__logo {
+    font-size: 0;
+    gap: 6px;
+    letter-spacing: 0;
+    margin-right: auto;
+  }
+
+  .nav__logo .nav__rune {
+    font-size: 1rem;
+  }
+
+  .nav__logo::after {
+    content: "L.O";
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+  }
+
+  .nav__links {
+    gap: 12px;
+  }
+
+  .nav__links > a:not(.nav__contact-btn) {
     display: none;
+  }
+
+  .nav__contact-btn {
+    padding: 8px 14px;
+    font-size: 10px;
+  }
+
+  .nav__lang-toggle button {
+    padding: 6px 9px;
+    letter-spacing: 1px;
   }
 }

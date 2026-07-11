@@ -2,6 +2,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { projectsData } from "../data/projects";
 import { useReveal } from "../hooks/useReveal";
 import libraryShot from "../assets/personal-library.png";
+import libraryShotMobile from "../assets/personal-library-mobile.png";
 import "./Projects.css";
 
 function Projects() {
@@ -29,11 +30,14 @@ function Projects() {
         <div className="projects__featured-glow" />
 
         <div className="projects__featured-image">
-          <img
-            src={libraryShot}
-            alt="Personal Library — application interface"
-            className="projects__featured-img"
-          />
+          <picture>
+            <source media="(max-width: 700px)" srcSet={libraryShotMobile} />
+            <img
+              src={libraryShot}
+              alt="Personal Library — application interface"
+              className="projects__featured-img"
+            />
+          </picture>
         </div>
 
         <div className="projects__featured-meta">

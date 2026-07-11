@@ -70,7 +70,19 @@ function Contact() {
               href="mailto:lucasdeoliveira937@gmail.com"
               className="contact__link"
             >
-              <div className="contact__link-icon">✉</div>
+              <div className="contact__link-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                >
+                  <rect x="2" y="5" width="20" height="14" />
+                  <path d="M2 6 L12 13 L22 6" />
+                </svg>
+              </div>
               <div>
                 <div className="contact__link-label">Email</div>
                 <div className="contact__link-value">
