@@ -23,6 +23,7 @@ function Nav() {
       <div className="nav__links">
         <a href="#sobre">{t.nav.about}</a>
         <a href="#projetos">{t.nav.projects}</a>
+        <a href="#jornada">{t.nav.experience}</a>
         <a href="#stack">{t.nav.stack}</a>
         <a href="#contato" className="nav__contact-btn">
           {t.nav.contact}

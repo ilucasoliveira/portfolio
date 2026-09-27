@@ -3,6 +3,7 @@ export const translations = {
     nav: {
       about: "About",
       projects: "Projects",
+      experience: "Journey",
       stack: "Stack",
       contact: "Contact",
     },
@@ -18,8 +19,8 @@ export const translations = {
       chapter: "Chapter I",
       titlePre: "The",
       titleEm: "Architect",
-      badgeNumber: "1+",
-      badgeLabel: "Years of Craft",
+      badgeNumber: "4+",
+      badgeLabel: "Years in Tech",
       quote:
         "“Not everything solid makes noise as it is built: the firmest foundations are always the quietest.”",
       p1: "I'm Lucas de Oliveira, a full stack developer who operates in the deep layers of software, where architecture matters as much as delivery. I work mainly with Python on the backend and modern interfaces on the front, always chasing a balance between robustness and simplicity.",
@@ -43,9 +44,48 @@ export const translations = {
       },
       viewMore: "See more →",
     },
-    stack: { chapter: "Chapter III", titlePre: "The", titleEm: "Arsenal" },
+    experience: {
+      chapter: "Chapter III",
+      titlePre: "The",
+      titleEm: "Journey",
+      cv: "Résumé (PDF)",
+      workTitle: "Experience",
+      educationTitle: "Education",
+      work: [
+        {
+          company: "Neogrid (formerly Lett Digital) · Remote",
+          role: "Data Quality Assistant",
+          period: "Oct 2021 - Jun 2026",
+          note: "Freelance from Oct 2021, hired full-time in Nov 2022 after Neogrid acquired Lett Digital.",
+          highlights: [
+            "Reviewed about 1,000 SKUs a day across Nestlé, Ambev and PepsiCo catalogs, keeping product data consistent and traceable at high volume.",
+            "Ran the daily meetings of the 6-person Setup team, splitting the ClickUp backlog to balance the workload.",
+            "Resolved a critical incident with about 200 Nestlé SKUs wrongly unmonitored, coordinating the client, Delivery and Customer Success until it was fixed the same day.",
+            "Documented business rules in Notion and Trello, reducing reliance on individual knowledge and speeding up onboarding.",
+          ],
+        },
+      ],
+      education: [
+        {
+          name: "B.Sc. in Computer Science",
+          school: "UNIPAC Barbacena",
+          period: "Mar 2024 - Dec 2027 (expected)",
+        },
+        {
+          name: "Full Stack Python",
+          school: "EBAC",
+          period: "May 2026 - Dec 2026",
+        },
+        {
+          name: "Advanced English",
+          school: "Fluency Academy",
+          period: "Completed Apr 2026",
+        },
+      ],
+    },
+    stack: { chapter: "Chapter IV", titlePre: "The", titleEm: "Arsenal" },
     contact: {
-      chapter: "Chapter IV",
+      chapter: "Chapter V",
       titlePre: "Open a",
       titleEm: "Channel",
       subtitle: "Let's build something enduring",
@@ -73,6 +113,7 @@ export const translations = {
     nav: {
       about: "Sobre",
       projects: "Projetos",
+      experience: "Jornada",
       stack: "Stack",
       contact: "Contato",
     },
@@ -88,8 +129,8 @@ export const translations = {
       chapter: "Capítulo I",
       titlePre: "O",
       titleEm: "Arquiteto",
-      badgeNumber: "1+",
-      badgeLabel: "Anos de Ofício",
+      badgeNumber: "4+",
+      badgeLabel: "Anos em Tecnologia",
       quote:
         "“Nem tudo que é sólido faz barulho ao ser construído: as fundações mais firmes são sempre as mais silenciosas.”",
       p1: "Sou Lucas de Oliveira, desenvolvedor full stack que atua nas camadas profundas do software, onde a arquitetura importa tanto quanto a entrega. Trabalho principalmente com Python no backend e interfaces modernas no front, sempre buscando o equilíbrio entre robustez e simplicidade.",
@@ -113,9 +154,48 @@ export const translations = {
       },
       viewMore: "Ver mais →",
     },
-    stack: { chapter: "Capítulo III", titlePre: "O", titleEm: "Arsenal" },
+    experience: {
+      chapter: "Capítulo III",
+      titlePre: "A",
+      titleEm: "Jornada",
+      cv: "Currículo (PDF)",
+      workTitle: "Experiência",
+      educationTitle: "Formação",
+      work: [
+        {
+          company: "Neogrid (antiga Lett Digital) · Remoto",
+          role: "Assistente de Data Quality",
+          period: "out/2021 - jun/2026",
+          note: "Freelance a partir de out/2021, efetivado em nov/2022 após a aquisição da Lett Digital pela Neogrid.",
+          highlights: [
+            "Análise diária de cerca de 1.000 SKUs dos catálogos de Nestlé, Ambev e PepsiCo, mantendo os dados consistentes e rastreáveis em alto volume.",
+            "Condução das reuniões diárias do time de Setup (6 pessoas), distribuindo o backlog no ClickUp para equilibrar a carga de trabalho.",
+            "Resolução de incidente crítico com cerca de 200 SKUs da Nestlé desmonitorados indevidamente, articulando cliente, Delivery e Customer Success até a normalização no mesmo dia.",
+            "Documentação das regras de negócio em Notion e Trello, reduzindo a dependência de conhecimento individual e acelerando a integração de novos membros.",
+          ],
+        },
+      ],
+      education: [
+        {
+          name: "Bacharelado em Ciência da Computação",
+          school: "UNIPAC Barbacena",
+          period: "mar/2024 - dez/2027 (previsto)",
+        },
+        {
+          name: "Full Stack Python",
+          school: "EBAC",
+          period: "mai/2026 - dez/2026",
+        },
+        {
+          name: "Inglês Avançado",
+          school: "Fluency Academy",
+          period: "Concluído em abr/2026",
+        },
+      ],
+    },
+    stack: { chapter: "Capítulo IV", titlePre: "O", titleEm: "Arsenal" },
     contact: {
-      chapter: "Capítulo IV",
+      chapter: "Capítulo V",
       titlePre: "Abrir um",
       titleEm: "Canal",
       subtitle: "Vamos construir algo duradouro",
