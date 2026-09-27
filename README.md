@@ -79,7 +79,7 @@ src/
 - Portfolio: [lucasdeoliveira.vercel.app](https://lucasdeoliveira.vercel.app)
 - GitHub: [@ilucasoliveira](https://github.com/ilucasoliveira)
 - LinkedIn: [in/ilucasoliveira](https://www.linkedin.com/in/ilucasoliveira/)
-- Email: lucasdeoliveira937@gmail.com
+- Email: lucasoliveirapimentel.dev@gmail.com
 
 ---
 
