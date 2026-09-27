@@ -5,26 +5,28 @@ const categoryTitles = {
 
 const items = [
   [
-    { icon: "Py", name: "Python", level: 5 },
+    { icon: "Py", name: "Python", level: 4 },
     { icon: "Sq", name: "SQL", level: 4 },
     { icon: "Js", name: "JavaScript", level: 3 },
   ],
   [
-    { icon: "Fa", name: "FastAPI", level: 5 },
+    { icon: "Fa", name: "FastAPI", level: 4 },
     { icon: "Pd", name: "Pydantic v2", level: 4 },
-    { icon: "Sa", name: "SQLAlchemy", level: 4 },
-    { icon: "Dj", name: "Django / DRF", level: 4 },
+    { icon: "Sa", name: "SQLAlchemy 2.0", level: 4 },
+    { icon: "Jw", name: "JWT / OAuth2", level: 3 },
+    { icon: "Pt", name: "pytest", level: 3 },
   ],
   [
-    { icon: "Ht", name: "HTML / CSS", level: 5 },
+    { icon: "Ht", name: "HTML / CSS", level: 4 },
     { icon: "Re", name: "React", level: 3 },
     { icon: "Vi", name: "Vite", level: 3 },
   ],
   [
     { icon: "Pg", name: "PostgreSQL", level: 4 },
+    { icon: "Rd", name: "Redis", level: 3 },
+    { icon: "Dk", name: "Docker / Compose", level: 3 },
     { icon: "Gt", name: "Git", level: 4 },
     { icon: "Po", name: "Poetry", level: 4 },
-    { icon: "Dk", name: "Docker", level: 3 },
   ],
 ];
 
