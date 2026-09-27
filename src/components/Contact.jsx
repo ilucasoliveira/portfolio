@@ -86,7 +86,7 @@ function Contact() {
               <div>
                 <div className="contact__link-label">Email</div>
                 <div className="contact__link-value">
-                  lucasdeoliveira937@gmail.com
+                  lucasoliveirapimentel.dev@gmail.com
                 </div>
               </div>
             </a>
