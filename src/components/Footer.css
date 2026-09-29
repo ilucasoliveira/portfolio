@@ -30,7 +30,7 @@
   font-family: var(--font-heading);
   font-size: 0.9rem;
   letter-spacing: 0.15em;
-  color: var(--color-gold-dim);
+  color: var(--color-gold-muted);
 }
 
 .footer__copy {
@@ -51,7 +51,7 @@
 
 .footer__links a {
   font-family: var(--font-heading);
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-text-faint);

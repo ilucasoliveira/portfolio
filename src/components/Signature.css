@@ -45,7 +45,7 @@
 
 .signature__caption {
   font-family: var(--font-heading);
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--color-text-faint);

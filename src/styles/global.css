@@ -7,10 +7,11 @@
   --color-surface-hover: #151420;
   --color-gold: #c9a84c;
   --color-gold-light: #e8c97a;
-  --color-gold-dim: #7a6128;
+  --color-gold-dim: #7a6128; /* bordas e ornamentos, nunca texto */
+  --color-gold-muted: #a88a45; /* dourado discreto para texto */
   --color-text-primary: #f2ead0;
   --color-text-secondary: #c9c2ae;
-  --color-text-faint: #7a7364;
+  --color-text-faint: #958c7c;
   --color-mono-green: #8a8e7a;
   --color-border: rgba(201, 168, 76, 0.15);
 

@@ -12,7 +12,7 @@
 
 .projects__chapter {
   font-family: var(--font-heading);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--color-gold);
@@ -107,7 +107,7 @@
 
 .projects__featured-badge {
   font-family: var(--font-heading);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--color-gold);
@@ -148,7 +148,7 @@
 
 .projects__featured-tags span {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--color-mono-green);
   background: #17161c;
   border: 1px solid var(--color-border);
@@ -157,7 +157,7 @@
 
 .projects__featured-cta {
   font-family: var(--font-heading);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -208,10 +208,10 @@
 
 .projects__card-tags {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--color-gold-dim);
+  color: var(--color-gold-muted);
 }
 
 .projects__card-title {
@@ -232,7 +232,7 @@
 
 .projects__card-link {
   font-family: var(--font-heading);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;

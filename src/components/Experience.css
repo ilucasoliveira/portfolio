@@ -17,7 +17,7 @@
 
 .experience__chapter {
   font-family: var(--font-heading);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--color-gold);
@@ -50,7 +50,7 @@
 
 .experience__cv {
   font-family: var(--font-heading);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 2px;
   text-transform: uppercase;

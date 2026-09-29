@@ -145,7 +145,7 @@
 
 .hero__scroll span {
   font-family: var(--font-heading);
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
