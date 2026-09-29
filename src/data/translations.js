@@ -104,6 +104,12 @@ export const translations = {
         sending: "Sending...",
         success: "Message sent! I'll get back to you soon.",
         error: "Something went wrong. Please try again.",
+        errorRateLimit: "Too many messages sent. Please try again later.",
+        errorTimeout:
+          "The server took too long to respond. Please try again in a moment.",
+        fieldRequired: "This field is required.",
+        fieldEmail: "Enter a valid email address.",
+        fieldMessageShort: "Write at least 10 characters.",
         hint: "ᚠ ᚢ ᚦ ᚨ ᚱ — crafted with intent, received with care",
       },
     },
@@ -214,6 +220,13 @@ export const translations = {
         sending: "Enviando...",
         success: "Mensagem enviada! Retornarei em breve.",
         error: "Algo deu errado. Tente novamente.",
+        errorRateLimit:
+          "Muitas mensagens enviadas. Tente novamente mais tarde.",
+        errorTimeout:
+          "O servidor demorou para responder. Tente novamente em instantes.",
+        fieldRequired: "Campo obrigatório.",
+        fieldEmail: "Digite um email válido.",
+        fieldMessageShort: "Escreva pelo menos 10 caracteres.",
         hint: "ᚠ ᚢ ᚦ ᚨ ᚱ — feito com intenção, recebido com cuidado",
       },
     },
