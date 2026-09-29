@@ -4,6 +4,7 @@ import { useReveal } from "../hooks/useReveal";
 import "./Contact.css";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/message";
+const CONTACT_EMAIL = "lucasoliveirapimentel.dev@gmail.com";
 
 function Contact() {
   const { t } = useLanguage();
@@ -66,10 +67,7 @@ function Contact() {
           <p className="contact__paragraph">{t.contact.paragraph}</p>
 
           <div className="contact__links">
-            <a
-              href="mailto:lucasdeoliveira937@gmail.com"
-              className="contact__link"
-            >
+            <a href={`mailto:${CONTACT_EMAIL}`} className="contact__link">
               <div className="contact__link-icon">
                 <svg
                   width="16"
@@ -85,9 +83,7 @@ function Contact() {
               </div>
               <div>
                 <div className="contact__link-label">Email</div>
-                <div className="contact__link-value">
-                  lucasoliveirapimentel.dev@gmail.com
-                </div>
+                <div className="contact__link-value">{CONTACT_EMAIL}</div>
               </div>
             </a>
 
