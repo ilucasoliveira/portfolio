@@ -17,7 +17,9 @@ function Nav() {
   return (
     <nav className={`nav ${scrolled ? "nav--scrolled" : ""}`}>
       <a href="#hero" className="nav__logo">
-        <span className="nav__rune">ᚦ</span>
+        <span className="nav__rune" aria-hidden="true">
+          ᚦ
+        </span>
         Lucas de Oliveira
       </a>
       <div className="nav__links">
@@ -28,14 +30,26 @@ function Nav() {
         <a href="#contato" className="nav__contact-btn">
           {t.nav.contact}
         </a>
-        <div className="nav__lang-toggle">
+        <div
+          className="nav__lang-toggle"
+          role="group"
+          aria-label={t.nav.language}
+        >
           <button
+            type="button"
+            lang="en"
+            aria-label="English"
+            aria-pressed={lang === "en"}
             className={lang === "en" ? "active" : ""}
             onClick={() => setLang("en")}
           >
             EN
           </button>
           <button
+            type="button"
+            lang="pt-BR"
+            aria-label="Português"
+            aria-pressed={lang === "pt"}
             className={lang === "pt" ? "active" : ""}
             onClick={() => setLang("pt")}
           >

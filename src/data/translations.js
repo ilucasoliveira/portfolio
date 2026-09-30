@@ -6,6 +6,7 @@ export const translations = {
       experience: "Journey",
       stack: "Stack",
       contact: "Contact",
+      language: "Language",
     },
     hero: {
       eyebrow: "Full Stack Python Developer",
@@ -122,6 +123,7 @@ export const translations = {
       experience: "Jornada",
       stack: "Stack",
       contact: "Contato",
+      language: "Idioma",
     },
     hero: {
       eyebrow: "Desenvolvedor Full Stack Python",

@@ -174,7 +174,10 @@ function Contact() {
               rel="noopener noreferrer"
               className="contact__link"
             >
-              <div className="contact__link-icon contact__link-icon--mono">
+              <div
+                className="contact__link-icon contact__link-icon--mono"
+                aria-hidden="true"
+              >
                 in
               </div>
               <div>
@@ -191,7 +194,10 @@ function Contact() {
               rel="noopener noreferrer"
               className="contact__link"
             >
-              <div className="contact__link-icon contact__link-icon--mono">
+              <div
+                className="contact__link-icon contact__link-icon--mono"
+                aria-hidden="true"
+              >
                 gh
               </div>
               <div>
@@ -309,7 +315,9 @@ function Contact() {
           </div>
 
           {status === "idle" && (
-            <div className="contact__hint">{t.contact.form.hint}</div>
+            <div className="contact__hint" aria-hidden="true">
+              {t.contact.form.hint}
+            </div>
           )}
         </form>
       </div>

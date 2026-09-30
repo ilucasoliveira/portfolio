@@ -34,7 +34,9 @@ function Stack() {
 
             {category.items.map((item) => (
               <div key={item.name} className="stack__item">
-                <div className="stack__item-icon">{item.icon}</div>
+                <div className="stack__item-icon" aria-hidden="true">
+                  {item.icon}
+                </div>
                 <div className="stack__item-name">{item.name}</div>
                 <div className="stack__item-dots">
                   {Array.from({ length: 5 }, (_, i) => (

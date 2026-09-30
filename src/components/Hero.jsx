@@ -16,7 +16,11 @@ function Hero() {
 
   return (
     <section id="hero" className="hero">
-      <svg className="hero__ring hero__ring--outer" viewBox="0 0 640 640">
+      <svg
+        className="hero__ring hero__ring--outer"
+        viewBox="0 0 640 640"
+        aria-hidden="true"
+      >
         <defs>
           <path
             id="ringPathOuter"
@@ -45,7 +49,11 @@ function Hero() {
         </text>
       </svg>
 
-      <svg className="hero__ring hero__ring--inner" viewBox="0 0 440 440">
+      <svg
+        className="hero__ring hero__ring--inner"
+        viewBox="0 0 440 440"
+        aria-hidden="true"
+      >
         <circle
           cx="220"
           cy="220"
@@ -69,7 +77,7 @@ function Hero() {
           Oliveira
         </h1>
 
-        <div className="hero__rune-divider">
+        <div className="hero__rune-divider" aria-hidden="true">
           <span className="hero__line hero__line--short" />
           <span className="hero__rune-text">ᚠ ᛁ ᚾ</span>
           <span className="hero__line hero__line--short" />
@@ -87,7 +95,11 @@ function Hero() {
         </div>
       </div>
 
-      <div className="hero__scroll" style={{ opacity: scrollFade }}>
+      <div
+        className="hero__scroll"
+        style={{ opacity: scrollFade }}
+        aria-hidden="true"
+      >
         <div className="hero__scroll-inner">
           <span>{t.hero.scroll}</span>
           <div className="hero__scroll-line" />

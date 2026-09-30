@@ -37,7 +37,7 @@ function About() {
               className="about__portrait-img"
             />
           </div>
-          <div className="about__portrait-frame" />
+          <div className="about__portrait-frame" aria-hidden="true" />
           <div className="about__badge">
             <div className="about__badge-number">{t.about.badgeNumber}</div>
             <div className="about__badge-label">{t.about.badgeLabel}</div>
@@ -49,7 +49,7 @@ function About() {
           <p className="about__paragraph">{t.about.p1}</p>
           <p className="about__paragraph">{t.about.p2}</p>
 
-          <div className="about__divider">
+          <div className="about__divider" aria-hidden="true">
             <span className="about__divider-line" />
             <span className="about__divider-rune">ᚠ ᛁ ᚾ</span>
             <span className="about__divider-line" />

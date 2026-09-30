@@ -6,11 +6,14 @@ function Footer() {
 
   return (
     <footer className="footer">
-      <div className="footer__rune-border">
+      <div className="footer__rune-border" aria-hidden="true">
         ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ
       </div>
       <div className="footer__inner">
-        <div className="footer__logo">ᚦ Lucas de Oliveira</div>
+        <div className="footer__logo">
+          <span aria-hidden="true">ᚦ </span>
+          Lucas de Oliveira
+        </div>
         <p className="footer__copy">{t.footer.tagline}</p>
         <ul className="footer__links">
           <li>

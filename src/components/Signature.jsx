@@ -25,7 +25,9 @@ function Signature() {
           d="M198 12 c 6 -7 14 -7 18 -1 c -5 5 -13 5 -18 1"
         />
       </svg>
-      <span className="signature__caption">{t.about.signatureCaption}</span>
+      <span className="signature__caption" aria-hidden="true">
+        {t.about.signatureCaption}
+      </span>
     </div>
   );
 }
