@@ -1,0 +1,63 @@
+.api-status {
+  margin-top: 32px;
+  padding: 18px 20px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.api-status__row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.api-status__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.api-status__dot--checking,
+.api-status__dot--waking {
+  background: var(--color-gold);
+  animation: runeGlow 1.4s ease-in-out infinite;
+}
+
+.api-status__dot--online {
+  background: #7fb069;
+  box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.18);
+}
+
+.api-status__dot--offline {
+  background: #c96a5a;
+}
+
+.api-status__name {
+  color: var(--color-text-secondary);
+}
+
+.api-status__state {
+  color: var(--color-mono-green);
+}
+
+.api-status__docs {
+  align-self: flex-start;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.api-status__docs:hover {
+  color: var(--color-gold-light);
+}

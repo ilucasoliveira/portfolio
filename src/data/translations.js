@@ -96,6 +96,15 @@ export const translations = {
       subtitle: "Let's build something enduring",
       paragraph:
         "Every great journey begins with a message. If you have a project, an idea, or an opportunity, my channel is open.",
+      api: {
+        label: "Contact API",
+        checking: "checking…",
+        waking: "waking up the server…",
+        online: "online",
+        offline: "offline",
+        docs: "Explore the API docs →",
+      },
+      console: "Under the hood",
       form: {
         name: "Your Name",
         namePlaceholder: "What should I call you?",
@@ -217,6 +226,15 @@ export const translations = {
       subtitle: "Vamos construir algo duradouro",
       paragraph:
         "Toda grande jornada começa com uma mensagem. Se você tem um projeto, uma ideia ou uma oportunidade, meu canal está aberto.",
+      api: {
+        label: "API de contato",
+        checking: "verificando…",
+        waking: "acordando o servidor…",
+        online: "online",
+        offline: "offline",
+        docs: "Ver a documentação da API →",
+      },
+      console: "Por baixo dos panos",
       form: {
         name: "Seu Nome",
         namePlaceholder: "Como devo te chamar?",

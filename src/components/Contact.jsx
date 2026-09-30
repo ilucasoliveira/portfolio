@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useReveal } from "../hooks/useReveal";
+import { MESSAGE_PATH, MESSAGE_URL } from "../services/api";
+import ApiStatus from "./ApiStatus";
+import RequestConsole from "./RequestConsole";
+import RuneText from "./RuneText";
 import "./Contact.css";
 
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  (import.meta.env.DEV ? "http://127.0.0.1:8000/message" : "");
 const CONTACT_EMAIL = "lucasoliveirapimentel.dev@gmail.com";
 const REQUEST_TIMEOUT_MS = 20000;
 const MESSAGE_MIN_LENGTH = 10;
@@ -54,13 +55,7 @@ function Contact() {
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
-  const hasPinged = useRef(false);
-
-  useEffect(() => {
-    if (!isVisible || hasPinged.current || !API_URL) return;
-    hasPinged.current = true;
-    fetch(new URL("/ping", API_URL)).catch(() => {});
-  }, [isVisible]);
+  const [exchange, setExchange] = useState(null);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -85,20 +80,28 @@ function Contact() {
       return;
     }
 
-    if (!API_URL) {
+    if (!MESSAGE_URL) {
       setStatus("error");
       return;
     }
 
     setStatus("loading");
 
+    const { website: _honeypot, ...visiblePayload } = formData;
+    const base = { path: MESSAGE_PATH, payload: visiblePayload };
+    const start = performance.now();
+    const elapsed = () => Math.round(performance.now() - start);
+
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(MESSAGE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
         signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       });
+
+      const body = await response.json().catch(() => null);
+      setExchange({ ...base, status: response.status, body, ms: elapsed() });
 
       if (response.status === 429) {
         setStatus("rateLimit");
@@ -113,7 +116,13 @@ function Contact() {
       setStatus("success");
       setFormData(EMPTY_FORM);
     } catch (error) {
-      setStatus(error.name === "TimeoutError" ? "timeout" : "error");
+      const timedOut = error.name === "TimeoutError";
+      setExchange({
+        ...base,
+        error: timedOut ? "timeout" : "network error",
+        ms: elapsed(),
+      });
+      setStatus(timedOut ? "timeout" : "error");
     }
   }
 
@@ -137,7 +146,10 @@ function Contact() {
           {t.contact.chapter}
         </div>
         <h2 className="contact__title">
-          {t.contact.titlePre} <em>{t.contact.titleEm}</em>
+          {t.contact.titlePre}{" "}
+          <em>
+            <RuneText text={t.contact.titleEm} active={isVisible} />
+          </em>
         </h2>
       </div>
 
@@ -223,6 +235,8 @@ function Contact() {
               </div>
             </a>
           </div>
+
+          <ApiStatus active={isVisible} />
         </div>
 
         <form className="contact__form-wrap" onSubmit={handleSubmit} noValidate>
@@ -313,6 +327,8 @@ function Contact() {
               </div>
             )}
           </div>
+
+          <RequestConsole exchange={exchange} title={t.contact.console} />
 
           {status === "idle" && (
             <div className="contact__hint" aria-hidden="true">
