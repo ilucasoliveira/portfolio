@@ -176,3 +176,29 @@
     right: 0;
   }
 }
+
+/* ===== Quote: gold ink on scroll ===== */
+
+@keyframes goldInk {
+  from {
+    color: var(--color-text-faint);
+  }
+  to {
+    color: var(--color-gold-light);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .about__quote {
+      view-timeline-name: --quote;
+    }
+
+    .about__quote-word {
+      animation: goldInk linear both;
+      animation-timeline: --quote;
+      animation-range: cover calc(20% + var(--i) / var(--n) * 30%) cover
+        calc(24% + var(--i) / var(--n) * 30%);
+    }
+  }
+}

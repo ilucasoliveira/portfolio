@@ -8,6 +8,7 @@ import "./About.css";
 function About() {
   const { t } = useLanguage();
   const [ref, isVisible] = useReveal();
+  const quoteWords = t.about.quote.split(" ");
 
   return (
     <section
@@ -49,7 +50,16 @@ function About() {
         </div>
 
         <div className="about__content">
-          <blockquote className="about__quote">{t.about.quote}</blockquote>
+          <blockquote
+            className="about__quote"
+            style={{ "--n": quoteWords.length }}
+          >
+            {quoteWords.map((word, i) => (
+              <span key={i} className="about__quote-word" style={{ "--i": i }}>
+                {word}{" "}
+              </span>
+            ))}
+          </blockquote>
           <p className="about__paragraph">{t.about.p1}</p>
           <p className="about__paragraph">{t.about.p2}</p>
 

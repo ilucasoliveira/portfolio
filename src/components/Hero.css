@@ -1,6 +1,10 @@
 .hero {
   position: relative;
   z-index: 1;
+}
+
+.hero__stage {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -8,7 +12,7 @@
   justify-content: center;
   text-align: center;
   padding: 140px 6vw 130px;
-  overflow: hidden;
+  overflow: clip;
 }
 
 .hero__ring {
@@ -16,9 +20,12 @@
   top: 50%;
   left: 50%;
   pointer-events: none;
+  translate: calc(var(--mx, 0) * var(--depth)) calc(var(--my, 0) * var(--depth));
+  transition: translate 0.6s ease-out;
 }
 
 .hero__ring--outer {
+  --depth: 30px;
   width: 800px;
   height: 800px;
   transform: translate(-50%, -50%);
@@ -27,6 +34,7 @@
 }
 
 .hero__ring--inner {
+  --depth: 55px;
   width: 560px;
   height: 560px;
   transform: translate(-50%, -50%);
@@ -37,6 +45,8 @@
 .hero__content {
   position: relative;
   z-index: 2;
+  translate: calc(var(--mx, 0) * -12px) calc(var(--my, 0) * -12px);
+  transition: translate 0.6s ease-out;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -99,28 +109,7 @@
   line-height: 1.6;
   max-width: 600px;
   color: var(--color-text-secondary);
-  margin: 0 0 28px;
-}
-
-.hero__availability {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--color-mono-green);
-  margin: 0 0 32px;
-}
-
-.hero__availability-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #7fb069;
-  box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.18);
-  flex-shrink: 0;
+  margin: 0 0 44px;
 }
 
 .hero__cta-group {
@@ -212,5 +201,197 @@
     flex-direction: column;
     width: 100%;
     max-width: 280px;
+  }
+}
+
+/* ===== Portal: scroll-driven ===== */
+
+@property --glow {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.hero__runes,
+.hero__flash {
+  display: none;
+}
+
+.hero__runes {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  perspective: 600px;
+  pointer-events: none;
+  translate: calc(var(--mx, 0) * 80px) calc(var(--my, 0) * 80px);
+  transition: translate 0.6s ease-out;
+}
+
+.hero__rune {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 32px;
+  color: var(--color-gold-light);
+  opacity: 0;
+}
+
+.hero__flash {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: 300px;
+  height: 300px;
+  margin: -150px 0 0 -150px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #fff6dc 0%,
+    var(--color-gold-light) 30%,
+    rgba(201, 168, 76, 0.35) 60%,
+    rgba(201, 168, 76, 0) 72%
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes portalOuter {
+  55% {
+    --glow: 1;
+    opacity: 1;
+  }
+  to {
+    --glow: 1;
+    scale: 4;
+    rotate: 120deg;
+    opacity: 0;
+  }
+}
+
+@keyframes portalInner {
+  55% {
+    --glow: 1;
+    opacity: 1;
+  }
+  to {
+    --glow: 1;
+    scale: 6;
+    rotate: -90deg;
+    opacity: 0;
+  }
+}
+
+@keyframes portalContent {
+  to {
+    scale: 0.7;
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+
+@keyframes runeFly {
+  from {
+    transform: translate3d(var(--x), var(--y), -2400px) rotate(var(--rot));
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(var(--x), var(--y), 560px)
+      rotate(calc(var(--rot) + 90deg));
+    opacity: 0;
+  }
+}
+
+@keyframes portalFlash {
+  from {
+    opacity: 0;
+    scale: 0.2;
+  }
+  60% {
+    opacity: 1;
+    scale: 5;
+  }
+  to {
+    opacity: 0;
+    scale: 6;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero {
+      height: 200vh;
+      view-timeline-name: --portal;
+    }
+
+    .hero__stage {
+      position: sticky;
+      top: 0;
+    }
+
+    .hero + section {
+      margin-top: -40vh;
+    }
+
+    .hero__ring--outer {
+      animation:
+        slowSpin 70s linear infinite,
+        portalOuter ease-in both;
+      animation-timeline: auto, --portal;
+      animation-range:
+        normal,
+        contain 0% contain 100%;
+    }
+
+    .hero__ring--inner {
+      animation:
+        slowSpinReverse 50s linear infinite,
+        portalInner ease-in both;
+      animation-timeline: auto, --portal;
+      animation-range:
+        normal,
+        contain 0% contain 100%;
+    }
+
+    .hero__ring--outer circle {
+      stroke: rgb(201 168 76 / calc(0.1 + var(--glow) * 0.5));
+    }
+
+    .hero__ring--outer text {
+      fill: rgb(201 168 76 / calc(0.28 + var(--glow) * 0.6));
+    }
+
+    .hero__ring--inner circle {
+      stroke: rgb(201 168 76 / calc(0.35 + var(--glow) * 0.6));
+    }
+
+    .hero__content {
+      animation: portalContent linear both;
+      animation-timeline: --portal;
+      animation-range: contain 0% contain 60%;
+    }
+
+    .hero__runes,
+    .hero__flash {
+      display: block;
+    }
+
+    .hero__rune {
+      animation: runeFly linear both;
+      animation-timeline: --portal;
+      animation-range: contain var(--start) contain calc(var(--start) + 45%);
+    }
+
+    .hero__flash {
+      animation: portalFlash ease-out both;
+      animation-timeline: --portal;
+      animation-range: contain 62% contain 100%;
+    }
   }
 }

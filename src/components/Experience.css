@@ -192,3 +192,50 @@
     left: -29px;
   }
 }
+
+/* ===== Timeline: gold line drawn on scroll ===== */
+
+@keyframes inkLine {
+  from {
+    scale: 1 0;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes dotLight {
+  to {
+    background: var(--color-gold);
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .experience__timeline {
+      position: relative;
+      view-timeline-name: --journey;
+    }
+
+    .experience__timeline::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -1px;
+      width: 1px;
+      background: var(--color-gold);
+      transform-origin: top;
+      animation: inkLine linear both;
+      animation-timeline: --journey;
+      animation-range: entry 80% cover 55%;
+    }
+
+    .experience__dot {
+      animation: dotLight linear both;
+      animation-timeline: view();
+      animation-range: cover 35% cover 45%;
+    }
+  }
+}
