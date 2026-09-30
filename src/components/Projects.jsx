@@ -1,9 +1,32 @@
 import { useLanguage } from "../context/LanguageContext";
 import { projectsData } from "../data/projects";
 import { useReveal } from "../hooks/useReveal";
+import { useTilt } from "../hooks/useTilt";
+import RuneText from "./RuneText";
 import libraryShot from "../assets/personal-library.webp";
 import libraryShotMobile from "../assets/personal-library-mobile.webp";
 import "./Projects.css";
+
+function ProjectCard({ project, linkLabel }) {
+  const tiltRef = useTilt();
+
+  return (
+    <div ref={tiltRef} className="projects__card">
+      <div className="projects__card-hover-bar" />
+      <div className="projects__card-tags">{project.tags}</div>
+      <h3 className="projects__card-title">{project.title}</h3>
+      <p className="projects__card-desc">{project.desc}</p>
+      <a
+        href={project.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="projects__card-link"
+      >
+        {linkLabel}
+      </a>
+    </div>
+  );
+}
 
 function Projects() {
   const { t, lang } = useLanguage();
@@ -22,7 +45,10 @@ function Projects() {
           {t.projects.chapter}
         </div>
         <h2 className="projects__title">
-          {t.projects.titlePre} <em>{t.projects.titleEm}</em>
+          {t.projects.titlePre}{" "}
+          <em>
+            <RuneText text={t.projects.titleEm} active={isVisible} />
+          </em>
         </h2>
       </div>
 
@@ -84,20 +110,11 @@ function Projects() {
 
       <div className="projects__grid">
         {others.map((project) => (
-          <div key={project.title} className="projects__card">
-            <div className="projects__card-hover-bar" />
-            <div className="projects__card-tags">{project.tags}</div>
-            <h3 className="projects__card-title">{project.title}</h3>
-            <p className="projects__card-desc">{project.desc}</p>
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="projects__card-link"
-            >
-              {t.projects.viewMore}
-            </a>
-          </div>
+          <ProjectCard
+            key={project.title}
+            project={project}
+            linkLabel={t.projects.viewMore}
+          />
         ))}
       </div>
     </section>

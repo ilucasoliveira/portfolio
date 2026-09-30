@@ -1,6 +1,7 @@
 import { useLanguage } from "../context/LanguageContext";
 import { useReveal } from "../hooks/useReveal";
 import Signature from "./Signature";
+import RuneText from "./RuneText";
 import portrait from "../assets/portrait.webp";
 import "./About.css";
 
@@ -20,7 +21,10 @@ function About() {
           {t.about.chapter}
         </div>
         <h2 className="about__title">
-          {t.about.titlePre} <em>{t.about.titleEm}</em>
+          {t.about.titlePre}{" "}
+          <em>
+            <RuneText text={t.about.titleEm} active={isVisible} />
+          </em>
         </h2>
       </div>
 

@@ -1,6 +1,7 @@
 import { useLanguage } from "../context/LanguageContext";
 import { useReveal } from "../hooks/useReveal";
 import { CV_FILES } from "../data/cv";
+import RuneText from "./RuneText";
 import "./Experience.css";
 
 function Experience() {
@@ -21,7 +22,10 @@ function Experience() {
             {experience.chapter}
           </div>
           <h2 className="experience__title">
-            {experience.titlePre} <em>{experience.titleEm}</em>
+            {experience.titlePre}{" "}
+            <em>
+              <RuneText text={experience.titleEm} active={isVisible} />
+            </em>
           </h2>
         </div>
 

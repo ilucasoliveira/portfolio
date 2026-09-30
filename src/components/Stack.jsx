@@ -1,6 +1,7 @@
 import { useLanguage } from "../context/LanguageContext";
 import { getStackData } from "../data/stack";
 import { useReveal } from "../hooks/useReveal";
+import RuneText from "./RuneText";
 import "./Stack.css";
 
 function Stack() {
@@ -20,7 +21,10 @@ function Stack() {
           {t.stack.chapter}
         </div>
         <h2 className="stack__title">
-          {t.stack.titlePre} <em>{t.stack.titleEm}</em>
+          {t.stack.titlePre}{" "}
+          <em>
+            <RuneText text={t.stack.titleEm} active={isVisible} />
+          </em>
         </h2>
       </div>
 

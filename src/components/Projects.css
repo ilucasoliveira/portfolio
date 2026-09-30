@@ -191,7 +191,36 @@
   gap: 16px;
   position: relative;
   overflow: hidden;
-  transition: background 0.3s ease;
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+  transition:
+    background 0.3s ease,
+    transform 0.5s ease;
+}
+
+.projects__card.is-tilting {
+  z-index: 2;
+  transition:
+    background 0.3s ease,
+    transform 0.1s linear;
+}
+
+.projects__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(232, 201, 122, 0.12),
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.projects__card.is-tilting::after {
+  opacity: 1;
 }
 
 .projects__card:hover {
