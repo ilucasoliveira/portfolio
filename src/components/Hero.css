@@ -99,15 +99,39 @@
   line-height: 1.6;
   max-width: 600px;
   color: var(--color-text-secondary);
-  margin: 0 0 44px;
+  margin: 0 0 28px;
+}
+
+.hero__availability {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-mono-green);
+  margin: 0 0 32px;
+}
+
+.hero__availability-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7fb069;
+  box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.18);
+  flex-shrink: 0;
 }
 
 .hero__cta-group {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 }
 
 .hero__cta {
+  text-align: center;
   font-family: var(--font-heading);
   font-size: 12px;
   font-weight: 600;

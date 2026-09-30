@@ -14,6 +14,9 @@ export const translations = {
         "I build software with the precision of one who carves runes into stone — clean code, robust systems, and a journey told in every line.",
       ctaProjects: "View Projects",
       ctaContact: "Contact",
+      ctaCv: "Résumé (PDF)",
+      availability:
+        "Open to junior and internship roles · Remote · Brazil (UTC-3)",
       scroll: "Descend",
     },
     about: {
@@ -21,7 +24,7 @@ export const translations = {
       titlePre: "The",
       titleEm: "Architect",
       badgeNumber: "4+",
-      badgeLabel: "Years in Tech",
+      badgeLabel: "Years with Data",
       quote:
         "“Not everything solid makes noise as it is built: the firmest foundations are always the quietest.”",
       p1: "I'm Lucas de Oliveira, a full stack developer who operates in the deep layers of software, where architecture matters as much as delivery. I work mainly with Python on the backend and modern interfaces on the front, always chasing a balance between robustness and simplicity.",
@@ -41,7 +44,8 @@ export const translations = {
       titleEm: "Works",
       featured: {
         badge: "Featured",
-        cta: "Explore Project →",
+        cta: "View Code →",
+        demo: "Live Demo →",
       },
       viewMore: "See more →",
     },
@@ -131,6 +135,9 @@ export const translations = {
         "Construo software com a precisão de quem talha runas em pedra — código limpo, sistemas robustos e uma jornada contada em cada linha.",
       ctaProjects: "Ver Projetos",
       ctaContact: "Contato",
+      ctaCv: "Currículo (PDF)",
+      availability:
+        "Disponível para vagas júnior e estágio · Remoto · Brasil (UTC-3)",
       scroll: "Descer",
     },
     about: {
@@ -138,7 +145,7 @@ export const translations = {
       titlePre: "O",
       titleEm: "Arquiteto",
       badgeNumber: "4+",
-      badgeLabel: "Anos em Tecnologia",
+      badgeLabel: "Anos com Dados",
       quote:
         "“Nem tudo que é sólido faz barulho ao ser construído: as fundações mais firmes são sempre as mais silenciosas.”",
       p1: "Sou Lucas de Oliveira, desenvolvedor full stack que atua nas camadas profundas do software, onde a arquitetura importa tanto quanto a entrega. Trabalho principalmente com Python no backend e interfaces modernas no front, sempre buscando o equilíbrio entre robustez e simplicidade.",
@@ -158,7 +165,8 @@ export const translations = {
       titleEm: "Obras",
       featured: {
         badge: "Destaque",
-        cta: "Explorar Projeto →",
+        cta: "Ver Código →",
+        demo: "Ver ao Vivo →",
       },
       viewMore: "Ver mais →",
     },

@@ -60,14 +60,26 @@ function Projects() {
           ))}
         </div>
 
-        <a
-          href={featured.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="projects__featured-cta"
-        >
-          {t.projects.featured.cta}
-        </a>
+        <div className="projects__featured-actions">
+          {featured.demo && (
+            <a
+              href={featured.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="projects__featured-cta"
+            >
+              {t.projects.featured.demo}
+            </a>
+          )}
+          <a
+            href={featured.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="projects__featured-cta"
+          >
+            {t.projects.featured.cta}
+          </a>
+        </div>
       </div>
 
       <div className="projects__grid">

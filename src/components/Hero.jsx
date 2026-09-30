@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import { CV_FILES } from "../data/cv";
 import "./Hero.css";
 
 function Hero() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [scrollFade, setScrollFade] = useState(1);
 
   useEffect(() => {
@@ -85,12 +86,25 @@ function Hero() {
 
         <p className="hero__tagline">{t.hero.tagline}</p>
 
+        <p className="hero__availability">
+          <span className="hero__availability-dot" aria-hidden="true" />
+          {t.hero.availability}
+        </p>
+
         <div className="hero__cta-group">
           <a href="#projetos" className="hero__cta hero__cta--primary">
             {t.hero.ctaProjects}
           </a>
           <a href="#contato" className="hero__cta hero__cta--secondary">
             {t.hero.ctaContact}
+          </a>
+          <a
+            href={CV_FILES[lang]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero__cta hero__cta--secondary"
+          >
+            {t.hero.ctaCv}
           </a>
         </div>
       </div>

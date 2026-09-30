@@ -4,7 +4,7 @@
 
 My personal portfolio, designed as a dark medieval grimoire: obsidian and antique gold, runic details, and each section framed as a chapter of the journey. Fully bilingual (EN/PT), with a working contact form powered by my own FastAPI backend.
 
-**Live:** https://lucasdeoliveira.vercel.app
+**Live:** https://ilucasoliveira.dev
 **Backend repository:** [ilucasoliveira/portfolio-lucas-api](https://github.com/ilucasoliveira/portfolio-lucas-api)
 
 ## ✦ Features
@@ -65,7 +65,8 @@ src/
 ├── data/
 │   ├── translations.js       # all copy, both languages
 │   ├── projects.js           # featured + secondary projects
-│   └── stack.js              # tech stack with levels
+│   ├── stack.js              # tech stack by category
+│   └── cv.js                 # résumé PDF path per language
 ├── hooks/
 │   └── useReveal.js          # IntersectionObserver scroll reveals
 └── styles/
@@ -76,7 +77,7 @@ src/
 
 **Lucas de Oliveira** — Full Stack Python Developer
 
-- Portfolio: [lucasdeoliveira.vercel.app](https://lucasdeoliveira.vercel.app)
+- Portfolio: [ilucasoliveira.dev](https://ilucasoliveira.dev)
 - GitHub: [@ilucasoliveira](https://github.com/ilucasoliveira)
 - LinkedIn: [in/ilucasoliveira](https://www.linkedin.com/in/ilucasoliveira/)
 - Email: lucasoliveirapimentel.dev@gmail.com

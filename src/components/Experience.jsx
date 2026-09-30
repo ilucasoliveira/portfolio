@@ -1,16 +1,12 @@
 import { useLanguage } from "../context/LanguageContext";
 import { useReveal } from "../hooks/useReveal";
+import { CV_FILES } from "../data/cv";
 import "./Experience.css";
 
 function Experience() {
   const { t, lang } = useLanguage();
   const [ref, isVisible] = useReveal();
   const { experience } = t;
-
-  const cvFile =
-    lang === "pt"
-      ? "/cv-lucas-de-oliveira-pt.pdf"
-      : "/cv-lucas-de-oliveira-en.pdf";
 
   return (
     <section
@@ -30,7 +26,7 @@ function Experience() {
         </div>
 
         <a
-          href={cvFile}
+          href={CV_FILES[lang]}
           target="_blank"
           rel="noopener noreferrer"
           className="experience__cv"

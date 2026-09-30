@@ -168,6 +168,12 @@
   gap: 8px;
 }
 
+.projects__featured-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
 /* ===== Grid ===== */
 
 .projects__grid {

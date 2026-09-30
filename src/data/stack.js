@@ -5,28 +5,28 @@ const categoryTitles = {
 
 const items = [
   [
-    { icon: "Py", name: "Python", level: 4 },
-    { icon: "Sq", name: "SQL", level: 4 },
-    { icon: "Js", name: "JavaScript", level: 3 },
+    { icon: "Py", name: "Python" },
+    { icon: "Sq", name: "SQL" },
+    { icon: "Js", name: "JavaScript" },
   ],
   [
-    { icon: "Fa", name: "FastAPI", level: 4 },
-    { icon: "Pd", name: "Pydantic v2", level: 4 },
-    { icon: "Sa", name: "SQLAlchemy 2.0", level: 4 },
-    { icon: "Jw", name: "JWT / OAuth2", level: 3 },
-    { icon: "Pt", name: "pytest", level: 3 },
+    { icon: "Fa", name: "FastAPI" },
+    { icon: "Pd", name: "Pydantic v2" },
+    { icon: "Sa", name: "SQLAlchemy 2.0" },
+    { icon: "Jw", name: "JWT / OAuth2" },
+    { icon: "Pt", name: "pytest" },
   ],
   [
-    { icon: "Ht", name: "HTML / CSS", level: 4 },
-    { icon: "Re", name: "React", level: 3 },
-    { icon: "Vi", name: "Vite", level: 3 },
+    { icon: "Ht", name: "HTML / CSS" },
+    { icon: "Re", name: "React" },
+    { icon: "Vi", name: "Vite" },
   ],
   [
-    { icon: "Pg", name: "PostgreSQL", level: 4 },
-    { icon: "Rd", name: "Redis", level: 3 },
-    { icon: "Dk", name: "Docker / Compose", level: 3 },
-    { icon: "Gt", name: "Git", level: 4 },
-    { icon: "Po", name: "Poetry", level: 4 },
+    { icon: "Pg", name: "PostgreSQL" },
+    { icon: "Rd", name: "Redis" },
+    { icon: "Dk", name: "Docker / Compose" },
+    { icon: "Gt", name: "Git" },
+    { icon: "Po", name: "Poetry" },
   ],
 ];
 

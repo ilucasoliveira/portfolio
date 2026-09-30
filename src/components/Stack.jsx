@@ -38,14 +38,6 @@ function Stack() {
                   {item.icon}
                 </div>
                 <div className="stack__item-name">{item.name}</div>
-                <div className="stack__item-dots">
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <div
-                      key={i}
-                      className={`stack__dot ${i < item.level ? "stack__dot--filled" : ""}`}
-                    />
-                  ))}
-                </div>
               </div>
             ))}
           </div>

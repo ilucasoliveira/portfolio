@@ -128,22 +128,6 @@
   color: var(--color-text-primary);
 }
 
-.stack__item-dots {
-  display: flex;
-  gap: 3px;
-}
-
-.stack__dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--color-border);
-}
-
-.stack__dot--filled {
-  background: var(--color-gold);
-}
-
 @media (max-width: 900px) {
   .stack__grid {
     grid-template-columns: repeat(2, 1fr);
