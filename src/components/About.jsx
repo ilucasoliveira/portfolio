@@ -1,7 +1,7 @@
 import { useLanguage } from "../context/LanguageContext";
 import { useReveal } from "../hooks/useReveal";
 import Signature from "./Signature";
-import portrait from "../assets/portrait.png";
+import portrait from "../assets/portrait.webp";
 import "./About.css";
 
 function About() {
@@ -30,6 +30,10 @@ function About() {
             <img
               src={portrait}
               alt="Lucas de Oliveira"
+              width="900"
+              height="1200"
+              loading="lazy"
+              decoding="async"
               className="about__portrait-img"
             />
           </div>

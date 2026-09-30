@@ -1,8 +1,8 @@
 import { useLanguage } from "../context/LanguageContext";
 import { projectsData } from "../data/projects";
 import { useReveal } from "../hooks/useReveal";
-import libraryShot from "../assets/personal-library.png";
-import libraryShotMobile from "../assets/personal-library-mobile.png";
+import libraryShot from "../assets/personal-library.webp";
+import libraryShotMobile from "../assets/personal-library-mobile.webp";
 import "./Projects.css";
 
 function Projects() {
@@ -35,6 +35,10 @@ function Projects() {
             <img
               src={libraryShot}
               alt="Personal Library — application interface"
+              width="1198"
+              height="748"
+              loading="lazy"
+              decoding="async"
               className="projects__featured-img"
             />
           </picture>
