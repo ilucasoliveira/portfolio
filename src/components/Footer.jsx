@@ -1,6 +1,8 @@
 import { useLanguage } from "../context/LanguageContext";
 import "./Footer.css";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 function Footer() {
   const { t } = useLanguage();
 
@@ -14,7 +16,9 @@ function Footer() {
           <span aria-hidden="true">ᚦ </span>
           Lucas de Oliveira
         </div>
-        <p className="footer__copy">{t.footer.tagline}</p>
+        <p className="footer__copy">
+          {t.footer.tagline} © {CURRENT_YEAR}
+        </p>
         <ul className="footer__links">
           <li>
             <a href="#sobre">{t.nav.about}</a>

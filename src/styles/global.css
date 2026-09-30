@@ -19,10 +19,6 @@
   --font-body: "Cormorant Garamond", serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-script: "Great Vibes", cursive;
-
-  /* layout */
-  --side-margin: 6vw;
-  --section-gap: 110px;
 }
 
 * {

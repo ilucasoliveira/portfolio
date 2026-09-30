@@ -46,6 +46,7 @@ export const translations = {
         badge: "Featured",
         cta: "View Code →",
         demo: "Live Demo →",
+        imageAlt: "Personal Library application interface",
       },
       viewMore: "See more →",
     },
@@ -127,7 +128,7 @@ export const translations = {
         hint: "ᚠ ᚢ ᚦ ᚨ ᚱ — crafted with intent, received with care",
       },
     },
-    footer: { tagline: "Forged with attention to every detail. © 2026." },
+    footer: { tagline: "Forged with attention to every detail." },
   },
   pt: {
     nav: {
@@ -176,6 +177,7 @@ export const translations = {
         badge: "Destaque",
         cta: "Ver Código →",
         demo: "Ver ao Vivo →",
+        imageAlt: "Interface do aplicativo Personal Library",
       },
       viewMore: "Ver mais →",
     },
@@ -258,6 +260,6 @@ export const translations = {
         hint: "ᚠ ᚢ ᚦ ᚨ ᚱ — feito com intenção, recebido com cuidado",
       },
     },
-    footer: { tagline: "Forjado com atenção a cada detalhe. © 2026." },
+    footer: { tagline: "Forjado com atenção a cada detalhe." },
   },
 };

@@ -60,7 +60,7 @@ function Projects() {
             <source media="(max-width: 700px)" srcSet={libraryShotMobile} />
             <img
               src={libraryShot}
-              alt="Personal Library — application interface"
+              alt={t.projects.featured.imageAlt}
               width="1198"
               height="748"
               loading="lazy"
