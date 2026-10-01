@@ -23,16 +23,18 @@
 }
 
 .nebula__layer--echo {
-  opacity: 0.35;
-  mix-blend-mode: screen;
+  opacity: 0.3;
   animation: nebulaEcho 26s ease-in-out infinite alternate;
 }
 
 .nebula__layer--halo {
-  opacity: 0.25;
-  filter: blur(8px);
+  opacity: 0.18;
   scale: 1.3;
   animation: nebulaSwirl 70s linear infinite;
+}
+
+.nebula--paused .nebula__layer {
+  animation-play-state: paused;
 }
 
 .nebula__anchor {

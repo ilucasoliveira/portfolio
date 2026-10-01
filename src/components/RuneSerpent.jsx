@@ -11,7 +11,9 @@ import "./RuneSerpent.css";
 const RUNES = [..."ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒ"].slice(0, RUNE_COUNT);
 const HEAD_VIEWPORT_RATIO = 0.62;
 const GATHER_DISTANCE = 260;
-const LUT_STEP = 2;
+const LUT_STEP = 3;
+const REBUILD_DELAY_MS = 200;
+const SIZE_TOLERANCE = 2;
 const MIN_SCROLL_PER_PX = 0.35;
 const END_RAMP = 0.6;
 const FOLLOW_SPEED = 9;
@@ -69,6 +71,8 @@ function RuneSerpent() {
     let lastTime = 0;
     let running = false;
     let arrived = false;
+    let docHeight = 0;
+    let lastSize = { width: 0, height: 0 };
 
     function pointAt(len) {
       const pos = clamp(len, 0, length) / LUT_STEP;
@@ -96,7 +100,7 @@ function RuneSerpent() {
     function targetHead() {
       const vh = window.innerHeight;
       const sy = window.scrollY;
-      const maxScroll = document.documentElement.scrollHeight - vh;
+      const maxScroll = docHeight - vh;
       const lastKey = lut.keys[lut.count - 1];
 
       let y = sy + vh * HEAD_VIEWPORT_RATIO;
@@ -205,6 +209,17 @@ function RuneSerpent() {
     }
 
     function rebuild() {
+      const width = document.documentElement.clientWidth;
+      const height = document.documentElement.scrollHeight;
+      const unchanged =
+        geometry &&
+        Math.abs(width - lastSize.width) < SIZE_TOLERANCE &&
+        Math.abs(height - lastSize.height) < SIZE_TOLERANCE;
+      if (unchanged) return;
+
+      lastSize = { width, height };
+      docHeight = height;
+
       const next = collectGeometry();
       if (!next) return;
       geometry = next;
@@ -231,21 +246,21 @@ function RuneSerpent() {
       schedule();
     }
 
-    let rebuildFrame = 0;
+    let rebuildTimer = 0;
     function requestRebuild() {
-      cancelAnimationFrame(rebuildFrame);
-      rebuildFrame = requestAnimationFrame(rebuild);
+      clearTimeout(rebuildTimer);
+      rebuildTimer = setTimeout(rebuild, REBUILD_DELAY_MS);
     }
 
     const resizeObserver = new ResizeObserver(requestRebuild);
     resizeObserver.observe(document.body);
     if (!reduced)
       window.addEventListener("scroll", schedule, { passive: true });
-    requestRebuild();
+    rebuild();
 
     return () => {
       cancelAnimationFrame(frame);
-      cancelAnimationFrame(rebuildFrame);
+      clearTimeout(rebuildTimer);
       resizeObserver.disconnect();
       window.removeEventListener("scroll", schedule);
     };
