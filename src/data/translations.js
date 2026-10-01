@@ -14,9 +14,6 @@ export const translations = {
         "I build software with the precision of one who carves runes into stone — clean code, robust systems, and a journey told in every line.",
       ctaProjects: "View Projects",
       ctaContact: "Contact",
-      ctaCv: "Résumé (PDF)",
-      availability:
-        "Open to junior and internship roles · Remote · Brazil (UTC-3)",
       scroll: "Descend",
     },
     about: {
@@ -105,7 +102,6 @@ export const translations = {
         offline: "offline",
         docs: "Explore the API docs →",
       },
-      console: "Under the hood",
       form: {
         name: "Your Name",
         namePlaceholder: "What should I call you?",
@@ -145,9 +141,6 @@ export const translations = {
         "Construo software com a precisão de quem talha runas em pedra — código limpo, sistemas robustos e uma jornada contada em cada linha.",
       ctaProjects: "Ver Projetos",
       ctaContact: "Contato",
-      ctaCv: "Currículo (PDF)",
-      availability:
-        "Disponível para vagas júnior e estágio · Remoto · Brasil (UTC-3)",
       scroll: "Descer",
     },
     about: {
@@ -236,7 +229,6 @@ export const translations = {
         offline: "offline",
         docs: "Ver a documentação da API →",
       },
-      console: "Por baixo dos panos",
       form: {
         name: "Seu Nome",
         namePlaceholder: "Como devo te chamar?",

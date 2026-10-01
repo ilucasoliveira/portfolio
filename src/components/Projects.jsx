@@ -52,7 +52,7 @@ function Projects() {
         </h2>
       </div>
 
-      <div className="projects__featured">
+      <div className="projects__featured" data-serpent="featured">
         <div className="projects__featured-glow" />
 
         <div className="projects__featured-image">
@@ -108,7 +108,7 @@ function Projects() {
         </div>
       </div>
 
-      <div className="projects__grid">
+      <div className="projects__grid" data-serpent="projects">
         {others.map((project) => (
           <ProjectCard
             key={project.title}

@@ -34,12 +34,13 @@ function Experience() {
           target="_blank"
           rel="noopener noreferrer"
           className="experience__cv"
+          data-serpent="cv"
         >
           {experience.cv}
         </a>
       </div>
 
-      <div className="experience__grid">
+      <div className="experience__grid" data-serpent="journey">
         <div className="experience__column">
           <h3 className="experience__column-title">{experience.workTitle}</h3>
 

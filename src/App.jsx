@@ -7,12 +7,14 @@ import Projects from "./components/Projects";
 import Experience from "./components/Experience";
 import Stack from "./components/Stack";
 import Contact from "./components/Contact";
+import RuneSerpent from "./components/RuneSerpent";
 import Footer from "./components/Footer";
 
 function App() {
   return (
     <div className="app">
       <Background />
+      <RuneSerpent />
       <Nav />
       <Hero />
       <About />

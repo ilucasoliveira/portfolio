@@ -1,0 +1,56 @@
+.app {
+  position: relative;
+}
+
+.rune-serpent {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.rune-serpent__svg {
+  position: absolute;
+}
+
+.rune-serpent__rune {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  font-size: 19px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--color-gold-light);
+  opacity: 0;
+  will-change: transform;
+}
+
+@keyframes runeArrive {
+  0% {
+    color: var(--color-gold-light);
+  }
+  25% {
+    color: #fff6dc;
+    text-shadow: 0 0 14px rgba(232, 201, 122, 0.9);
+  }
+  45% {
+    color: var(--color-gold-light);
+    text-shadow: none;
+  }
+  65% {
+    color: #fff6dc;
+    text-shadow: 0 0 18px rgba(232, 201, 122, 1);
+  }
+  100% {
+    opacity: 0;
+    text-shadow: 0 0 24px rgba(232, 201, 122, 0);
+  }
+}
+
+.rune-serpent--arrived .rune-serpent__rune {
+  animation: runeArrive 1.6s ease-out forwards;
+  animation-delay: calc(var(--i) * 30ms);
+}

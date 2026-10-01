@@ -28,7 +28,7 @@ function Stack() {
         </h2>
       </div>
 
-      <div className="stack__grid">
+      <div className="stack__grid" data-serpent="stack">
         {categories.map((category) => (
           <div key={category.title} className="stack__category">
             <div className="stack__category-header">

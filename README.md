@@ -14,7 +14,8 @@ My personal portfolio, designed as a dark medieval grimoire: obsidian and antiqu
 - **Rune decoding titles**: each chapter title decodes from random runes into its final word when the section scrolls into view
 - **Tilting project cards**: cards tilt toward the cursor with a golden glare, enabled only on devices with a precise pointer
 - **Live API status**: the contact section pings the backend and shows whether it is online, its latency, and a link to the interactive API docs. Render cold starts are detected and explained to the visitor
-- **Request console**: after sending a message, a panel shows the actual `POST` request, the HTTP status, the response body and the round trip time
+- **Portal hero**: the hero pins while the rune rings glow and scale past the viewer, runes fly toward the camera in 3D and a golden flash opens the first chapter, all driven by CSS scroll timelines
+- **Rune serpent**: born from the portal flash, a chain of runes follows the scroll, coils around the portrait, weaves through the projects, the journey and the stack, crosses a generated nebula and settles in the contact chapter
 - **Contact form**: client-side validation with per-field errors, a spam honeypot, request timeout, and specific messages for rate limiting and slow servers
 - **Bilingual (EN/PT)**: language chosen from the `?lang=` URL parameter, then the visitor's saved choice, then the browser language. Shareable links like `ilucasoliveira.dev/?lang=pt`
 - **Accessibility**: WCAG AA text contrast, 12px minimum font size, visible keyboard focus, full `prefers-reduced-motion` support, decorative runes hidden from screen readers, and animated text exposed to them in its final form

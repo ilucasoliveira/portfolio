@@ -7,6 +7,8 @@
 }
 
 .contact__header {
+  position: relative;
+  z-index: 1;
   margin-bottom: 64px;
 }
 
@@ -44,6 +46,8 @@
 }
 
 .contact__grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: 80px;
@@ -328,49 +332,35 @@
   cursor: wait;
 }
 
-/* ===== Request console ===== */
+/* ===== Easter egg: name revealed by a lantern ===== */
 
-.contact__console {
-  margin-top: 24px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg);
+.contact__easter {
+  position: relative;
+  margin-top: 28px;
+  padding: 14px 0;
 }
 
-.contact__console-title {
+.contact__easter-name {
+  display: block;
   font-family: var(--font-heading);
-  font-size: 12px;
-  letter-spacing: 2px;
+  font-size: clamp(13px, 1.6vw, 18px);
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--color-text-faint);
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+  color: var(--color-gold-light);
+  visibility: hidden;
+  -webkit-mask-image: radial-gradient(
+    circle 70px at var(--lx, -200px) var(--ly, -200px),
+    #000 30%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 70px at var(--lx, -200px) var(--ly, -200px),
+    #000 30%,
+    transparent 100%
+  );
 }
 
-.contact__console-body {
-  margin: 0;
-  padding: 14px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  max-height: 280px;
-  overflow: auto;
-}
-
-.contact__console-method {
-  color: var(--color-gold);
-}
-
-.contact__console-status--ok {
-  color: #7fb069;
-}
-
-.contact__console-status--error {
-  color: #c96a5a;
-}
-
-.contact__console-time {
-  color: var(--color-text-faint);
+.contact__easter.is-awake .contact__easter-name {
+  visibility: visible;
 }

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useReveal } from "../hooks/useReveal";
-import { MESSAGE_PATH, MESSAGE_URL } from "../services/api";
+import { MESSAGE_URL } from "../services/api";
 import ApiStatus from "./ApiStatus";
-import RequestConsole from "./RequestConsole";
+import Nebula from "./Nebula";
 import RuneText from "./RuneText";
 import "./Contact.css";
 
@@ -55,7 +55,6 @@ function Contact() {
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
-  const [exchange, setExchange] = useState(null);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -87,11 +86,6 @@ function Contact() {
 
     setStatus("loading");
 
-    const { website: _honeypot, ...visiblePayload } = formData;
-    const base = { path: MESSAGE_PATH, payload: visiblePayload };
-    const start = performance.now();
-    const elapsed = () => Math.round(performance.now() - start);
-
     try {
       const response = await fetch(MESSAGE_URL, {
         method: "POST",
@@ -99,9 +93,6 @@ function Contact() {
         body: JSON.stringify(formData),
         signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       });
-
-      const body = await response.json().catch(() => null);
-      setExchange({ ...base, status: response.status, body, ms: elapsed() });
 
       if (response.status === 429) {
         setStatus("rateLimit");
@@ -116,14 +107,21 @@ function Contact() {
       setStatus("success");
       setFormData(EMPTY_FORM);
     } catch (error) {
-      const timedOut = error.name === "TimeoutError";
-      setExchange({
-        ...base,
-        error: timedOut ? "timeout" : "network error",
-        ms: elapsed(),
-      });
-      setStatus(timedOut ? "timeout" : "error");
+      setStatus(error.name === "TimeoutError" ? "timeout" : "error");
     }
+  }
+
+  function handleLanternMove(e) {
+    const name = e.currentTarget.firstElementChild;
+    const rect = name.getBoundingClientRect();
+    name.style.setProperty("--lx", `${e.clientX - rect.left}px`);
+    name.style.setProperty("--ly", `${e.clientY - rect.top}px`);
+  }
+
+  function handleLanternLeave(e) {
+    const name = e.currentTarget.firstElementChild;
+    name.style.removeProperty("--lx");
+    name.style.removeProperty("--ly");
   }
 
   const statusMessages = {
@@ -140,6 +138,8 @@ function Contact() {
       className={`contact reveal ${isVisible ? "visible" : ""}`}
       ref={ref}
     >
+      <Nebula />
+
       <div className="contact__header">
         <div className="contact__chapter">
           <span className="contact__chapter-line" />
@@ -154,7 +154,7 @@ function Contact() {
       </div>
 
       <div className="contact__grid">
-        <div className="contact__info">
+        <div className="contact__info" data-serpent="contact-info">
           <h3 className="contact__subtitle">{t.contact.subtitle}</h3>
           <p className="contact__paragraph">{t.contact.paragraph}</p>
 
@@ -237,9 +237,27 @@ function Contact() {
           </div>
 
           <ApiStatus active={isVisible} />
+
+          <div
+            className="contact__easter"
+            data-serpent="end"
+            aria-hidden="true"
+            onPointerMove={handleLanternMove}
+            onPointerDown={handleLanternMove}
+            onPointerLeave={handleLanternLeave}
+          >
+            <span className="contact__easter-name">
+              Lucas de Oliveira Pimentel
+            </span>
+          </div>
         </div>
 
-        <form className="contact__form-wrap" onSubmit={handleSubmit} noValidate>
+        <form
+          className="contact__form-wrap"
+          data-serpent="form"
+          onSubmit={handleSubmit}
+          noValidate
+        >
           <div className="contact__corner contact__corner--tl" />
           <div className="contact__corner contact__corner--tr" />
           <div className="contact__corner contact__corner--bl" />
@@ -327,8 +345,6 @@ function Contact() {
               </div>
             )}
           </div>
-
-          <RequestConsole exchange={exchange} title={t.contact.console} />
 
           {status === "idle" && (
             <div className="contact__hint" aria-hidden="true">

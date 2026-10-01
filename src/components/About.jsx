@@ -30,7 +30,7 @@ function About() {
       </div>
 
       <div className="about__grid">
-        <div className="about__portrait-wrap">
+        <div className="about__portrait-wrap" data-serpent="photo">
           <div className="about__portrait">
             <img
               src={portrait}
