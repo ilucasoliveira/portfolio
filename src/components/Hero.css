@@ -206,12 +206,6 @@
 
 /* ===== Portal: scroll-driven ===== */
 
-@property --glow {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
-
 .hero__runes,
 .hero__flash {
   display: none;
@@ -258,11 +252,9 @@
 
 @keyframes portalOuter {
   55% {
-    --glow: 1;
     opacity: 1;
   }
   to {
-    --glow: 1;
     scale: 4;
     rotate: 120deg;
     opacity: 0;
@@ -271,11 +263,9 @@
 
 @keyframes portalInner {
   55% {
-    --glow: 1;
     opacity: 1;
   }
   to {
-    --glow: 1;
     scale: 6;
     rotate: -90deg;
     opacity: 0;
@@ -286,7 +276,6 @@
   to {
     scale: 0.7;
     opacity: 0;
-    filter: blur(6px);
   }
 }
 
@@ -359,16 +348,28 @@
         contain 0% contain 100%;
     }
 
+    .hero__ring {
+      will-change: transform, opacity;
+    }
+
+    .hero__ring--outer {
+      opacity: 0.18;
+    }
+
+    .hero__ring--inner {
+      opacity: 0.4;
+    }
+
     .hero__ring--outer circle {
-      stroke: rgb(201 168 76 / calc(0.1 + var(--glow) * 0.5));
+      stroke: rgba(201, 168, 76, 0.6);
     }
 
     .hero__ring--outer text {
-      fill: rgb(201 168 76 / calc(0.28 + var(--glow) * 0.6));
+      fill: rgba(201, 168, 76, 0.9);
     }
 
     .hero__ring--inner circle {
-      stroke: rgb(201 168 76 / calc(0.35 + var(--glow) * 0.6));
+      stroke: rgba(201, 168, 76, 0.95);
     }
 
     .hero__content {

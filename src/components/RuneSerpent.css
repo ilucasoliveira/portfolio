@@ -9,10 +9,6 @@
   pointer-events: none;
 }
 
-.rune-serpent__svg {
-  position: absolute;
-}
-
 .rune-serpent__rune {
   position: absolute;
   top: 0;

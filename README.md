@@ -66,8 +66,7 @@ src/
 │   ├── Background       # star field, noise and glow layers
 │   ├── Signature        # animated SVG signature
 │   ├── RuneText         # rune decoding text, screen reader safe
-│   ├── ApiStatus        # live backend status and latency
-│   └── RequestConsole   # last request and response of the contact form
+│   └── ApiStatus        # live backend status and latency
 ├── context/
 │   └── LanguageContext.jsx   # EN/PT switching, URL and storage detection
 ├── data/

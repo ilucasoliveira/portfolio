@@ -1,0 +1,15 @@
+.rune-text {
+  position: relative;
+  display: inline-block;
+}
+
+.rune-text--decoding .rune-text__final {
+  visibility: hidden;
+}
+
+.rune-text__scramble {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+}

@@ -4,7 +4,7 @@ import {
   HELIX,
   RUNE_COUNT,
   collectGeometry,
-  toPathData,
+  sampleCurve,
 } from "../utils/serpentPath";
 import "./RuneSerpent.css";
 
@@ -31,20 +31,15 @@ const BURST = RUNES.map((_, i) => {
 const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
 const smooth = (t) => t * t * (3 - 2 * t);
 
-function buildLookup(path, length) {
-  const count = Math.ceil(length / LUT_STEP) + 1;
-  const xs = new Float32Array(count);
-  const ys = new Float32Array(count);
+function buildLookup(curve) {
+  const { xs, ys, count } = curve;
   const keys = new Float32Array(count);
 
   for (let k = 0; k < count; k++) {
-    const point = path.getPointAtLength(Math.min(k * LUT_STEP, length));
-    xs[k] = point.x;
-    ys[k] = point.y;
     keys[k] =
       k === 0
-        ? point.y
-        : Math.max(keys[k - 1] + MIN_SCROLL_PER_PX * LUT_STEP, point.y);
+        ? ys[0]
+        : Math.max(keys[k - 1] + MIN_SCROLL_PER_PX * LUT_STEP, ys[k]);
   }
 
   return { xs, ys, keys, count };
@@ -52,14 +47,12 @@ function buildLookup(path, length) {
 
 function RuneSerpent() {
   const layerRef = useRef(null);
-  const pathRef = useRef(null);
   const runeRefs = useRef([]);
 
   useEffect(() => {
     const layer = layerRef.current;
-    const path = pathRef.current;
     const runes = runeRefs.current;
-    if (!layer || !path) return;
+    if (!layer) return;
 
     const reduced = prefersReducedMotion();
     let geometry = null;
@@ -82,12 +75,6 @@ function RuneSerpent() {
         x: lut.xs[i] + (lut.xs[i + 1] - lut.xs[i]) * f,
         y: lut.ys[i] + (lut.ys[i + 1] - lut.ys[i]) * f,
       };
-    }
-
-    function prefixLength(points, index) {
-      if (index <= 0) return 0;
-      path.setAttribute("d", toPathData(points.slice(0, index + 1)));
-      return path.getTotalLength();
     }
 
     function setArrived(value) {
@@ -229,15 +216,16 @@ function RuneSerpent() {
         return;
       }
 
+      const curve = sampleCurve(next.points, LUT_STEP);
+
       zones = next.zones.map((z) => ({
         type: z.type,
-        start: prefixLength(next.points, z.from),
-        end: prefixLength(next.points, z.to),
+        start: curve.nodeLengths[z.from],
+        end: curve.nodeLengths[z.to],
       }));
 
-      path.setAttribute("d", toPathData(next.points));
-      length = path.getTotalLength();
-      lut = buildLookup(path, length);
+      length = curve.length;
+      lut = buildLookup(curve);
 
       if (head === null) head = targetHead();
       head = Math.min(head, length);
@@ -268,9 +256,6 @@ function RuneSerpent() {
 
   return (
     <div className="rune-serpent" ref={layerRef} aria-hidden="true">
-      <svg className="rune-serpent__svg" width="0" height="0">
-        <path ref={pathRef} />
-      </svg>
       {RUNES.map((char, i) => (
         <span
           key={i}

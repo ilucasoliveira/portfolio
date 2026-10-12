@@ -1,16 +1,14 @@
-.bg-noise,
-.bg-glow,
-.bg-stars {
+.bg {
   position: fixed;
   inset: 0;
-  pointer-events: none;
   z-index: 0;
+  pointer-events: none;
 }
 
-.bg-noise {
-  z-index: 999;
-  opacity: 0.35;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+.bg-glow,
+.bg-stars {
+  position: absolute;
+  inset: 0;
 }
 
 .bg-glow {
@@ -28,10 +26,8 @@
     linear-gradient(160deg, #0c0b10 0%, #050506 45%, var(--color-bg) 100%);
 }
 
-.bg-stars--drift {
-  inset: -320px 0 0 -380px;
-  opacity: 0.8;
-  animation: starTravel 76s linear infinite;
+.bg-stars {
+  opacity: 0.75;
   background-image:
     radial-gradient(
       1.4px 1.4px at 40px 60px,
@@ -72,15 +68,7 @@
       1px 1px at 340px 200px,
       rgba(255, 255, 255, 0.4),
       transparent
-    );
-  background-size: 380px 320px;
-  background-repeat: repeat;
-}
-
-.bg-stars--twinkle-a {
-  opacity: 0.6;
-  animation: twinkleA 7s ease-in-out infinite;
-  background-image:
+    ),
     radial-gradient(
       1px 1px at 90px 110px,
       rgba(255, 255, 255, 0.6),
@@ -102,43 +90,40 @@
       transparent
     ),
     radial-gradient(1px 1px at 380px 60px, rgba(201, 168, 76, 0.4), transparent);
-  background-size: 420px 380px;
-  background-repeat: repeat;
+  background-size:
+    380px 320px,
+    380px 320px,
+    380px 320px,
+    380px 320px,
+    380px 320px,
+    380px 320px,
+    380px 320px,
+    380px 320px,
+    420px 380px,
+    420px 380px,
+    420px 380px,
+    420px 380px,
+    420px 380px;
 }
 
-.bg-stars--twinkle-b {
-  opacity: 0.5;
-  animation: twinkleB 9s ease-in-out infinite;
-  background-image:
-    radial-gradient(
-      1.2px 1.2px at 160px 80px,
-      rgba(255, 255, 255, 0.5),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 280px 220px,
-      rgba(201, 168, 76, 0.5),
-      transparent
-    ),
-    radial-gradient(
-      1.3px 1.3px at 50px 300px,
-      rgba(255, 255, 255, 0.4),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 350px 320px,
-      rgba(255, 255, 255, 0.35),
-      transparent
-    );
-  background-size: 400px 400px;
-  background-repeat: repeat;
+.bg-twinkle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  opacity: 0.15;
+  animation: twinkle 8s ease-in-out infinite;
 }
 
-@keyframes starTravel {
-  from {
-    translate: 0 0;
+.bg-twinkle--gold {
+  background: var(--color-gold-light);
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
   }
-  to {
-    translate: 380px 320px;
+  50% {
+    opacity: 0.9;
   }
 }

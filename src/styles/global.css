@@ -71,36 +71,6 @@ body {
     opacity: 1;
   }
 }
-@keyframes twinkleA {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.85;
-  }
-}
-@keyframes twinkleB {
-  0%,
-  100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 0.25;
-  }
-}
-@keyframes starDrift {
-  from {
-    background-position:
-      0 0,
-      0 0;
-  }
-  to {
-    background-position:
-      1200px 800px,
-      -900px 700px;
-  }
-}
 
 .js .reveal {
   opacity: 0;

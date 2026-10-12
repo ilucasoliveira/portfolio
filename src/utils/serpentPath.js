@@ -1,5 +1,5 @@
 export const RUNE_COUNT = 18;
-export const HELIX = { from: -90, to: 450, step: 30 };
+export const HELIX = { from: -90, to: 360, step: 30 };
 
 const MIN_GAP = 14;
 const MAX_GAP = 26;
@@ -7,6 +7,9 @@ const EDGE_MARGIN = 16;
 const SIDE_OFFSET = 34;
 const ROW_TOLERANCE = 4;
 const ZIGZAG_STEP = 110;
+const NARROW_RATIO = 0.6;
+const HELIX_TOP = 0.12;
+const HELIX_SPAN = 0.6;
 
 export function docRect(el) {
   let left = 0;
@@ -43,8 +46,18 @@ function rectOf(name) {
   return el ? docRect(el) : null;
 }
 
-export function toPathData(points) {
-  let d = `M${points[0][0]},${points[0][1]}`;
+const CURVE_SUBDIVISIONS = 24;
+
+function cubicPoint(a, b, c, d, t) {
+  const u = 1 - t;
+  return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c + t * t * t * d;
+}
+
+export function sampleCurve(points, step) {
+  const denseX = [points[0][0]];
+  const denseY = [points[0][1]];
+  const denseLen = [0];
+  const nodeLengths = [0];
 
   for (let i = 0; i < points.length - 1; i++) {
     const p0 = points[i - 1] || points[i];
@@ -57,10 +70,36 @@ export function toPathData(points) {
     const c2x = p2[0] - (p3[0] - p1[0]) / 6;
     const c2y = p2[1] - (p3[1] - p1[1]) / 6;
 
-    d += ` C${c1x},${c1y} ${c2x},${c2y} ${p2[0]},${p2[1]}`;
+    for (let s = 1; s <= CURVE_SUBDIVISIONS; s++) {
+      const t = s / CURVE_SUBDIVISIONS;
+      const x = cubicPoint(p1[0], c1x, c2x, p2[0], t);
+      const y = cubicPoint(p1[1], c1y, c2y, p2[1], t);
+      const last = denseX.length - 1;
+      const dist = Math.hypot(x - denseX[last], y - denseY[last]);
+      denseX.push(x);
+      denseY.push(y);
+      denseLen.push(denseLen[last] + dist);
+    }
+
+    nodeLengths.push(denseLen[denseLen.length - 1]);
   }
 
-  return d;
+  const length = denseLen[denseLen.length - 1];
+  const count = Math.ceil(length / step) + 1;
+  const xs = new Float32Array(count);
+  const ys = new Float32Array(count);
+  let j = 0;
+
+  for (let k = 0; k < count; k++) {
+    const target = Math.min(k * step, length);
+    while (j < denseLen.length - 2 && denseLen[j + 1] < target) j++;
+    const span = denseLen[j + 1] - denseLen[j];
+    const f = span > 0 ? (target - denseLen[j]) / span : 0;
+    xs[k] = denseX[j] + (denseX[j + 1] - denseX[j]) * f;
+    ys[k] = denseY[j] + (denseY[j + 1] - denseY[j]) * f;
+  }
+
+  return { xs, ys, count, length, nodeLengths };
 }
 
 function groupRows(rects) {
@@ -91,8 +130,9 @@ function ellipsePoints(center, rx, ry, from, to, step) {
   return points;
 }
 
-function photoHelix(photo) {
-  const rx = photo.width * 0.65;
+function photoHelix(photo, docWidth) {
+  const narrow = photo.width > docWidth * NARROW_RATIO;
+  const rx = narrow ? photo.width / 2 + 10 : photo.width * 0.65;
   const ry = Math.min(photo.width * 0.16, 60);
   const points = [];
 
@@ -101,7 +141,9 @@ function photoHelix(photo) {
     const progress = (a - HELIX.from) / (HELIX.to - HELIX.from);
     points.push([
       photo.cx + Math.cos(angle) * rx,
-      photo.top + photo.height * (0.15 + progress * 0.7) + Math.sin(angle) * ry,
+      photo.top +
+        photo.height * (HELIX_TOP + progress * HELIX_SPAN) +
+        Math.sin(angle) * ry,
     ]);
   }
 
@@ -124,6 +166,16 @@ function projectsPoints(featured, grid) {
 
 function journeyPoints(cv, journey) {
   if (!cv || !journey) return [];
+  const rightX = journey.right + SIDE_OFFSET;
+  const besideTitle = cv.left > journey.cx;
+
+  if (!besideTitle) {
+    return [
+      [rightX, cv.top - 70],
+      [rightX, journey.bottom - 40],
+    ];
+  }
+
   const loop = ellipsePoints(
     cv,
     cv.width / 2 + 30,
@@ -132,7 +184,6 @@ function journeyPoints(cv, journey) {
     720,
     45,
   );
-  const rightX = journey.right + SIDE_OFFSET;
   return [
     [journey.cx, cv.top - 70],
     ...loop,
@@ -192,7 +243,7 @@ export function collectGeometry() {
 
   const photo = docRect(photoEl);
   const end = docRect(endEl);
-  const helix = photoHelix(photo);
+  const helix = photoHelix(photo, docWidth);
   const points = [];
   const zones = [];
 
@@ -204,7 +255,7 @@ export function collectGeometry() {
   const helixFrom = points.length - 1;
   points.push(...helix.points);
   zones.push({ type: "helix", from: helixFrom, to: points.length - 1 });
-  points.push([photo.cx + helix.rx + 30, photo.bottom + 80]);
+  points.push([photo.cx + helix.rx, photo.bottom + 80]);
 
   points.push(...projectsPoints(rectOf("featured"), rectOf("projects")));
   points.push(...journeyPoints(rectOf("cv"), rectOf("journey")));
