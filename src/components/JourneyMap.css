@@ -1,0 +1,147 @@
+.map {
+  /* progresso da jornada (0 a 1), animado pelo componente quando o mapa aparece */
+  --t: 0;
+  position: relative;
+  margin: 0 0 64px;
+  border: 1px solid var(--color-border);
+  background: #070a12;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.map__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.map__trail {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.map__trail--ghost {
+  stroke: rgba(232, 201, 122, 0.22);
+  stroke-width: 3;
+  stroke-dasharray: 2 14;
+}
+
+/* traço de brasa revelado pela rolagem */
+.map__trail--live {
+  stroke: rgba(255, 170, 80, 0.9);
+  stroke-width: 4;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--t));
+  filter: drop-shadow(0 0 6px rgba(255, 140, 50, 0.9));
+}
+
+/* pontos escuros por cima do traço: deixam a trilha pontilhada, como em mapa antigo */
+.map__trail--dots {
+  stroke: #070a12;
+  stroke-width: 6;
+  stroke-dasharray: 10 12;
+  opacity: 0.85;
+}
+
+.map__stop {
+  --on: clamp(0, calc((var(--t) - var(--at)) / 0.04), 1);
+}
+
+.map__stop-glow {
+  opacity: calc(var(--on) * 0.95);
+  transform: scale(calc(0.3 + var(--on) * 0.9));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.map__stop-ring {
+  fill: none;
+  stroke: var(--color-gold-light);
+  stroke-width: 2;
+  opacity: calc(0.25 + var(--on) * 0.75);
+}
+
+.map__stop-ring--pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: var(--on);
+  animation: mapPulse 2.6s ease-out infinite;
+}
+
+@keyframes mapPulse {
+  from {
+    transform: scale(1);
+    stroke-opacity: 0.9;
+  }
+  to {
+    transform: scale(2.6);
+    stroke-opacity: 0;
+  }
+}
+
+.map__labels {
+  list-style: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.map__label {
+  --on: clamp(0, calc((var(--t) - var(--at)) / 0.04), 1);
+  position: absolute;
+  translate: -50% calc(-100% - 26px + (1 - var(--on)) * 10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
+  padding: 6px 12px;
+  background: radial-gradient(ellipse at center, rgba(7, 10, 18, 0.85), rgba(7, 10, 18, 0) 75%);
+  opacity: calc(0.15 + var(--on) * 0.85);
+  filter: blur(calc((1 - var(--on)) * 3px));
+}
+
+.map__label--below {
+  translate: -50% calc(26px + (1 - var(--on)) * -10px);
+}
+
+.map__label-when {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-gold-light);
+}
+
+.map__label-name {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--color-text-primary);
+  text-shadow:
+    0 0 6px #070a12,
+    0 0 14px #070a12;
+}
+
+@media (max-width: 760px) {
+  .map {
+    overflow-x: auto;
+  }
+
+  .map__svg {
+    min-width: 760px;
+  }
+
+  .map__labels {
+    width: 760px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map {
+    --t: 1;
+  }
+
+  .map__stop-ring--pulse {
+    animation: none;
+  }
+}

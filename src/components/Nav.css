@@ -52,7 +52,8 @@
   transition: color 0.3s ease;
 }
 
-.nav__links a:hover {
+.nav__links a:hover,
+.nav__links a[aria-current="page"] {
   color: var(--color-gold);
 }
 
@@ -87,6 +88,200 @@
   color: var(--color-bg);
 }
 
+/* telas médias: o menu inteiro cabe com espaços menores */
+@media (max-width: 1180px) {
+  .nav__links {
+    gap: 18px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+  }
+
+  .nav__logo {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+  }
+
+  .nav__contact-btn {
+    padding: 9px 16px;
+  }
+}
+
+/* ===== Menu hambúrguer (celular e tablet) ===== */
+
+.nav__burger {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--color-gold-dim);
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav__burger span {
+  position: absolute;
+  left: 11px;
+  right: 11px;
+  height: 1px;
+  background: var(--color-gold);
+  transition:
+    transform 0.35s var(--ease-out),
+    opacity 0.25s ease;
+}
+
+.nav__burger span:nth-child(1) {
+  top: 13px;
+}
+
+.nav__burger span:nth-child(2) {
+  top: 19px;
+  right: 15px;
+}
+
+.nav__burger span:nth-child(3) {
+  top: 25px;
+}
+
+/* aberto: as linhas viram um X */
+.nav--open .nav__burger span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav--open .nav__burger span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav--open .nav__burger span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.nav__drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 8vw 60px;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201, 168, 76, 0.07), transparent 70%),
+    rgba(7, 7, 10, 0.97);
+  backdrop-filter: blur(6px);
+  animation: drawerIn 0.4s var(--ease-out) both;
+}
+
+.nav__drawer[hidden] {
+  display: none;
+}
+
+.nav__drawer-list {
+  list-style: none;
+  counter-reset: none;
+}
+
+.nav__drawer-list li {
+  border-bottom: 1px solid var(--color-border);
+  opacity: 0;
+  translate: 0 14px;
+  animation: drawerItem 0.5s var(--ease-out) both;
+  animation-delay: calc(0.08s + var(--i) * 0.05s);
+}
+
+.nav__drawer-list li:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.nav__drawer-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 16px 4px;
+  font-family: var(--font-heading);
+  font-size: clamp(22px, 6vw, 30px);
+  letter-spacing: 1.5px;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav__drawer-list a:hover,
+.nav__drawer-list a:focus-visible,
+.nav__drawer-list a[aria-current="page"] {
+  color: var(--color-gold-light);
+}
+
+.nav__drawer-n {
+  min-width: 34px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--color-gold);
+}
+
+.nav__drawer-runes {
+  margin-top: 36px;
+  font-family: var(--font-runic);
+  font-size: 14px;
+  letter-spacing: 10px;
+  text-align: center;
+  color: rgba(201, 168, 76, 0.3);
+}
+
+html.nav-open {
+  overflow: hidden;
+}
+
+/* com o menu aberto a barra do topo fica sobre o painel, sem fundo próprio */
+.nav--open {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+@keyframes drawerIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drawerItem {
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* tablet e celular: os links viram o menu hambúrguer; ficam o nome, o contato, o idioma e o botão */
+@media (max-width: 1000px) {
+  .nav__links > a:not(.nav__contact-btn) {
+    display: none;
+  }
+
+  .nav__links {
+    gap: 14px;
+  }
+
+  .nav__burger {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__drawer,
+  .nav__drawer-list li {
+    animation: none;
+    opacity: 1;
+    translate: none;
+  }
+}
+
 @media (max-width: 700px) {
   .nav {
     padding: 14px 5vw;
@@ -117,13 +312,28 @@
     display: none;
   }
 
-  .nav__contact-btn {
-    padding: 8px 14px;
-    font-size: 12px;
+  /* no celular o "Contato" fica dentro do menu */
+  .nav__links > .nav__contact-btn {
+    display: none;
   }
 
   .nav__lang-toggle button {
     padding: 6px 9px;
     letter-spacing: 1px;
+  }
+}
+
+/* celulares bem estreitos (360px): "Contato" e o seletor de idioma precisam caber ao lado do L.O */
+@media (max-width: 380px) {
+  .nav {
+    padding: 12px 4vw;
+  }
+
+  .nav__links {
+    gap: 8px;
+  }
+
+  .nav__lang-toggle button {
+    padding: 5px 7px;
   }
 }

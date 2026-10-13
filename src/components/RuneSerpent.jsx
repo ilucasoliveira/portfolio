@@ -20,6 +20,17 @@ const FOLLOW_SPEED = 9;
 const BACK_OPACITY = 0.35;
 const TAIL_FADE = 0.5;
 const ARRIVED_CLASS = "rune-serpent--arrived";
+
+// geometria do desenho do portão (mesmo viewBox de Gate.jsx: 600 x 820)
+const GATE_W = 600;
+const GATE_H = 820;
+const GATE_CX = 300;
+const GATE_ARCH_Y = 330;
+const GATE_RING = 262; // um pouco fora do arco externo (230)
+const GATE_FOOT = 640; // até onde as runas descem pelas colunas
+const GATE_SUCK_FROM = 0.6; // quando as portas começam a abrir
+const GATE_SUCK_SPAN = 0.16;
+const GATE_RELEASE = 0.9;
 const AWAKE_CLASS = "is-awake";
 
 const BURST = RUNES.map((_, i) => {
@@ -123,10 +134,56 @@ function RuneSerpent() {
       return zones.find((z) => len > z.start && len < z.end);
     }
 
+    // o Portão: enquanto a seção fica presa na tela, a serpente se enrola em
+    // volta do arco, espera as runas acenderem e é sugada pela luz das portas
+    function gateState(vh, sy) {
+      const gate = document.querySelector(".gate");
+      const frame = gate?.querySelector(".gate__frame");
+      if (!gate || !frame) return null;
+
+      const rect = gate.getBoundingClientRect();
+      const span = rect.height - vh;
+      if (span <= 0 || rect.top > vh || rect.bottom < 0) return null;
+
+      const p = clamp(-rect.top / span, 0, 1);
+      // chega ao arco enquanto o portão sobe até o topo da tela
+      const enter = smooth(clamp(1 - rect.top / (vh * 0.75), 0, 1));
+      // é sugada quando as portas abrem, e reaparece na trilha depois
+      const suck = smooth(clamp((p - GATE_SUCK_FROM) / GATE_SUCK_SPAN, 0, 1));
+      const back = clamp((p - GATE_RELEASE) / (1 - GATE_RELEASE), 0, 1);
+      if (enter <= 0 || back >= 1) return null;
+
+      const f = frame.getBoundingClientRect();
+      const toDoc = (gx, gy) => ({
+        x: f.left + (gx / GATE_W) * f.width,
+        y: sy + f.top + (gy / GATE_H) * f.height,
+      });
+
+      return { p, enter, suck, back, toDoc, center: toDoc(GATE_CX, GATE_ARCH_Y + 120) };
+    }
+
+    // ponto no contorno em U do arco (coluna esquerda, arco, coluna direita)
+    function archPoint(t) {
+      const pillar = GATE_FOOT - GATE_ARCH_Y;
+      const arc = Math.PI * GATE_RING;
+      const total = pillar * 2 + arc;
+      let d = (((t % 1) + 1) % 1) * total;
+      if (d < pillar) return [GATE_CX - GATE_RING, GATE_FOOT - d];
+      d -= pillar;
+      if (d < arc) {
+        const a = Math.PI + d / GATE_RING;
+        return [GATE_CX + Math.cos(a) * GATE_RING, GATE_ARCH_Y + Math.sin(a) * GATE_RING];
+      }
+      d -= arc;
+      return [GATE_CX + GATE_RING, GATE_ARCH_Y + d];
+    }
+
     function render() {
       const vh = window.innerHeight;
       const sy = window.scrollY;
       const { start, portal, heroTop, gap } = geometry;
+      const gate = gateState(vh, sy);
+      layer.classList.toggle("rune-serpent--gate", Boolean(gate && gate.enter > 0.6 && gate.suck < 0.5));
 
       let appear = 1;
       let gather = 1;
@@ -159,10 +216,31 @@ function RuneSerpent() {
           y = by + (y - by) * gather;
         }
 
+        let gateFade = 1;
+        if (gate) {
+          if (gate.back > 0) {
+            // depois das portas: volta à trilha, surgindo aos poucos
+            gateFade = gate.back;
+          } else {
+            const t = (i + 0.5) / RUNE_COUNT + gate.p * 0.35;
+            const [gx, gy] = archPoint(t);
+            let target = gate.toDoc(gx, gy);
+            if (gate.suck > 0) {
+              const c = gate.center;
+              target = { x: target.x + (c.x - target.x) * gate.suck, y: target.y + (c.y - target.y) * gate.suck };
+              gateFade = 1 - gate.suck;
+            }
+            x += (target.x - x) * gate.enter;
+            y += (target.y - y) * gate.enter;
+            front = true;
+          }
+        }
+
         const opacity =
           appear *
+          gateFade *
           (front ? 1 : BACK_OPACITY) *
-          (1 - (i / RUNE_COUNT) * TAIL_FADE);
+          (1 - (i / RUNE_COUNT) * (gate && gate.back === 0 ? TAIL_FADE * (1 - gate.enter) : TAIL_FADE));
 
         el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
         el.style.zIndex = front ? "2" : "0";

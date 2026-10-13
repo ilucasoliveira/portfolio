@@ -1,15 +1,19 @@
 .rune-text {
   position: relative;
-  display: inline-block;
 }
 
-.rune-text--decoding .rune-text__final {
+/* letra ainda não decifrada: ocupa o seu espaço, mas quem aparece é a runa por cima */
+.rune-text__ch {
+  position: relative;
   visibility: hidden;
 }
 
-.rune-text__scramble {
+.rune-text__ch::after {
+  content: attr(data-rune);
+  visibility: visible;
   position: absolute;
+  left: 50%;
   top: 0;
-  left: 0;
-  white-space: nowrap;
+  translate: -50% 0;
+  font-style: normal;
 }

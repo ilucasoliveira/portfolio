@@ -43,7 +43,9 @@
 
 .footer__links {
   display: flex;
-  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 28px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -64,6 +66,10 @@
 }
 
 @media (max-width: 768px) {
+  .footer__links {
+    gap: 10px 20px;
+  }
+
   .footer__inner {
     flex-direction: column;
     gap: 24px;
