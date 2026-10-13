@@ -17,6 +17,7 @@
   height: 20px;
   margin: -10px 0 0 -10px;
   font-size: 19px;
+  font-family: var(--font-runic);
   line-height: 20px;
   text-align: center;
   color: var(--color-gold-light);
@@ -49,4 +50,41 @@
 .rune-serpent--arrived .rune-serpent__rune {
   animation: runeArrive 1.6s ease-out forwards;
   animation-delay: calc(var(--i) * 30ms);
+}
+
+/* em volta do Portão: as runas pulsam em ouro branco, esperando as portas */
+.rune-serpent--gate .rune-serpent__rune {
+  color: #fff3d0;
+  font-size: 23px;
+  text-shadow:
+    0 0 8px rgba(232, 201, 122, 0.95),
+    0 0 18px rgba(255, 170, 80, 0.6);
+  animation: runeGatePulse 2.4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.13s);
+  transition:
+    color 0.6s ease,
+    text-shadow 0.6s ease;
+}
+
+/* sem scale/translate aqui: a posição vem do transform inline e seria multiplicada */
+@keyframes runeGatePulse {
+  0%,
+  100% {
+    filter: brightness(1);
+    text-shadow:
+      0 0 8px rgba(232, 201, 122, 0.9),
+      0 0 18px rgba(255, 170, 80, 0.5);
+  }
+  50% {
+    filter: brightness(1.5);
+    text-shadow:
+      0 0 12px rgba(255, 240, 200, 1),
+      0 0 28px rgba(255, 170, 80, 0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rune-serpent--gate .rune-serpent__rune {
+    animation: none;
+  }
 }

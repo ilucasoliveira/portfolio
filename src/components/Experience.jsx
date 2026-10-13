@@ -2,6 +2,7 @@ import { useLanguage } from "../context/LanguageContext";
 import { useReveal } from "../hooks/useReveal";
 import { CV_FILES } from "../data/cv";
 import RuneText from "./RuneText";
+import JourneyMap from "./JourneyMap";
 import "./Experience.css";
 
 function Experience() {
@@ -39,6 +40,8 @@ function Experience() {
           {experience.cv}
         </a>
       </div>
+
+      <JourneyMap />
 
       <div className="experience__grid" data-serpent="journey">
         <div className="experience__column">

@@ -1,0 +1,554 @@
+/* ===== A forja: cena inteira como fundo da seção ===== */
+
+.forge {
+  --p: 0;
+  /* a cena fica no centro, como um quadro sem moldura; as stacks ficam dos lados */
+  --scene-w: min(60vw, 980px, calc((100vh - 150px) * 1.25));
+  --scene-h: calc(var(--scene-w) / 1.25);
+  position: relative;
+  z-index: 1;
+  min-height: calc(var(--scene-h) + 190px);
+  overflow: hidden;
+  /* escuro no meio e transparente nas duas pontas: nenhuma faixa separando da próxima seção */
+  background: linear-gradient(180deg, transparent 0, #08080a 140px, #08080a calc(100% - 260px), transparent 100%);
+}
+
+.forge__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.forge__backdrop {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 150px;
+  pointer-events: none;
+}
+
+/* luz do fogo que transborda a imagem e tinge o preto em volta */
+.forge__heat-wide {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(170, 50, 15, 0.3), transparent 75%);
+  animation: forgeHeat 3.2s ease-in-out infinite;
+}
+
+.forge__scene {
+  position: relative;
+  flex: none;
+  width: var(--scene-w);
+  height: var(--scene-h);
+  margin: 0;
+  /* oval que chega a zero antes de qualquer borda: a cena se dissolve no fundo, sem quadro */
+  -webkit-mask-image: radial-gradient(ellipse 50% 49% at 50% 54%, #000 52%, rgba(0, 0, 0, 0.55) 78%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 49% at 50% 54%, #000 52%, rgba(0, 0, 0, 0.55) 78%, transparent 100%);
+}
+
+/* véu escuro nas bordas para o fogo laranja casar com o escuro do site */
+.forge__scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 70% at 50% 52%, transparent 40%, rgba(8, 8, 10, 0.75) 100%),
+    linear-gradient(to bottom, rgba(8, 8, 10, 0.55), transparent 22%, transparent 80%, rgba(8, 8, 10, 0.7));
+}
+
+.forge__zoom {
+  position: absolute;
+  inset: 0;
+  /* a imagem também como fundo: se o <img> falhar, a cena continua lá */
+  background: var(--forge-img) 50% 45% / cover no-repeat;
+  transform-origin: 50% 60%;
+  scale: calc(1 + var(--p) * 0.08);
+}
+
+.forge__base,
+.forge__live {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+  filter: brightness(0.82) saturate(1.05);
+}
+
+/* cópias distorcidas por ruído fazem o fogo ondular; o mago fica firme.
+   "lighten" só soma o que for mais claro: se o navegador não aplicar o filtro
+   e pintar a cópia de preto, a imagem de baixo continua aparecendo */
+.forge__live {
+  pointer-events: none;
+  mix-blend-mode: lighten;
+  -webkit-mask-image: radial-gradient(ellipse 8% 22% at 50% 86%, transparent 55%, #000 100%);
+  mask-image: radial-gradient(ellipse 8% 22% at 50% 86%, transparent 55%, #000 100%);
+}
+
+.forge__live--a {
+  filter: url(#forge-live-a) brightness(0.82);
+  animation: forgeRiseA 4.8s ease-in-out infinite;
+}
+
+.forge__live--b {
+  filter: url(#forge-live-b) brightness(0.82);
+  animation: forgeRiseB 4.8s ease-in-out infinite;
+}
+
+.forge__heat {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 40% at 50% 30%, rgba(255, 110, 40, 0.28), rgba(255, 70, 30, 0) 70%);
+  mix-blend-mode: screen;
+  animation: forgeHeat 2.8s ease-in-out infinite;
+}
+
+.forge__ember {
+  position: absolute;
+  z-index: 2;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  opacity: 0;
+  animation: forgeEmber var(--d) linear infinite;
+  animation-delay: var(--dl);
+}
+
+.forge__ember--light {
+  z-index: 4;
+}
+
+/* luz branca do cajado: núcleo, halo pulsando e raios girando */
+.forge__glow {
+  position: absolute;
+  z-index: 3;
+  width: 34vw;
+  max-width: 560px;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(220, 235, 255, 0.45) 10%,
+    rgba(160, 200, 255, 0.16) 30%,
+    rgba(140, 180, 255, 0) 62%
+  );
+  mix-blend-mode: screen;
+  animation: forgeGlow 2.4s ease-in-out infinite;
+}
+
+.forge__rays {
+  position: absolute;
+  z-index: 3;
+  width: 46vw;
+  max-width: 760px;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.16) 0deg 3deg,
+    transparent 3deg 22deg
+  );
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 62%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 62%);
+  mix-blend-mode: screen;
+  animation: forgeRays 16s linear infinite;
+}
+
+.forge__tip {
+  position: absolute;
+  z-index: 4;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, #ffffff 0%, #d8ecff 40%, rgba(120, 180, 255, 0) 100%);
+  box-shadow: 0 0 26px 10px rgba(200, 225, 255, 0.55);
+  animation: forgeTip 1.7s ease-in-out infinite;
+}
+
+/* ===== Conteúdo por cima ===== */
+
+/* mesma largura das outras seções: título e placas ficam dentro da grade */
+.forge__content {
+  position: relative;
+  z-index: 2;
+  min-height: calc(var(--scene-h) + 190px);
+  display: flex;
+  flex-direction: column;
+  padding: 110px 6vw 40px;
+  max-width: 1340px;
+  margin: 0 auto;
+}
+
+.forge__head {
+  max-width: 460px;
+}
+
+/* as placas ficam sobre as bordas já apagadas da cena; o centro fica livre */
+.forge__orbits {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc(var(--scene-w) * 0.58) minmax(0, 1fr);
+  align-items: center;
+  margin-top: 24px;
+}
+
+.forge__orbit {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* as placas encostam nas bordas da página, longe da criatura e do mago */
+.forge__orbit--left {
+  align-items: flex-start;
+  text-align: right;
+}
+
+.forge__orbit--right {
+  align-items: flex-end;
+}
+
+/* cada tecnologia: uma placa de pedra com runa que acende em brasa */
+.forge__orbit li {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  align-items: center;
+  min-width: 180px;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, rgba(20, 16, 18, 0.88), rgba(10, 8, 10, 0.88));
+  border: 1px solid rgba(201, 120, 60, 0.25);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.6);
+  opacity: calc(0.25 + clamp(0, calc((var(--p) - 0.12 - var(--i) * 0.025) / 0.12), 1) * 0.75);
+  translate: 0 calc((1 - clamp(0, calc((var(--p) - 0.12 - var(--i) * 0.025) / 0.12), 1)) * 16px);
+  animation: forgeFloat 6s ease-in-out infinite;
+  animation-delay: var(--dl);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.forge__orbit li:hover {
+  border-color: var(--color-ember);
+  box-shadow:
+    inset 0 0 18px rgba(0, 0, 0, 0.6),
+    0 0 22px rgba(255, 106, 43, 0.35);
+}
+
+.forge__orbit--left li {
+  margin-left: calc(var(--off) * 0.5);
+  grid-template-columns: auto auto;
+}
+
+.forge__orbit--right li {
+  margin-right: calc(var(--off) * 0.5);
+}
+
+/* fio de brasa ligando a placa à cena */
+.forge__orbit li::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.forge__orbit--left li::after {
+  left: 100%;
+  background: linear-gradient(90deg, rgba(255, 120, 50, 0.6), transparent);
+}
+
+.forge__orbit--right li::after {
+  right: 100%;
+  background: linear-gradient(270deg, rgba(255, 120, 50, 0.6), transparent);
+}
+
+.forge__rune {
+  grid-row: 1 / 3;
+  font-family: var(--font-runic);
+  font-size: 22px;
+  color: #ffb066;
+  text-shadow:
+    0 0 6px rgba(255, 140, 60, 0.9),
+    0 0 14px rgba(255, 90, 30, 0.5);
+  animation: forgeRuneFlicker 2.6s ease-in-out infinite;
+  animation-delay: var(--dl);
+}
+
+.forge__orbit--left .forge__rune {
+  grid-column: 2;
+}
+
+.forge__orbit--left .forge__name,
+.forge__orbit--left .forge__role {
+  grid-column: 1;
+}
+
+.forge__name {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--color-text-primary);
+}
+
+.forge__role {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: var(--color-text-faint);
+}
+
+.forge--paused *,
+.forge--paused *::after {
+  animation-play-state: paused;
+}
+
+@media (max-width: 1100px) {
+  .forge {
+    --scene-h: auto;
+    background: linear-gradient(180deg, transparent 0, #08080a 120px, #08080a calc(100% - 200px), transparent 100%);
+  }
+
+  .forge__backdrop {
+    position: relative;
+    inset: auto;
+    padding-top: 0;
+  }
+
+  .forge__scene {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 4;
+  }
+
+  .forge {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .forge__content {
+    display: contents;
+  }
+
+  .forge__head {
+    order: -1;
+    max-width: none;
+    position: relative;
+    z-index: 2;
+    padding: 80px 5vw 0;
+  }
+
+  .forge__orbits {
+    order: 1;
+    position: relative;
+    z-index: 2;
+    padding: 0 5vw 64px;
+    margin-top: -2vw;
+  }
+
+  .forge__orbits {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .forge__gap {
+    display: none;
+  }
+
+  .forge__orbit,
+  .forge__orbit--left,
+  .forge__orbit--right {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .forge__orbit li,
+  .forge__orbit--left li,
+  .forge__orbit--right li {
+    min-width: 0;
+    margin: 0;
+    text-align: left;
+    opacity: 1;
+    translate: none;
+    animation: none;
+  }
+
+  .forge__orbit--left .forge__rune {
+    grid-column: 1;
+  }
+
+  .forge__orbit--left .forge__name,
+  .forge__orbit--left .forge__role {
+    grid-column: 2;
+  }
+
+  .forge__orbit li::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forge *,
+  .forge *::after {
+    animation: none !important;
+  }
+
+  .forge__live,
+  .forge__ember,
+  .forge__rays {
+    display: none;
+  }
+
+  .forge__orbit li {
+    opacity: 1;
+    translate: none;
+  }
+}
+
+/* ===== Keyframes ===== */
+
+@keyframes forgeRiseA {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes forgeRiseB {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateY(-6px);
+  }
+  50% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes forgeHeat {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  45% {
+    opacity: 0.6;
+  }
+  70% {
+    opacity: 1;
+  }
+}
+
+@keyframes forgeEmber {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), var(--y));
+  }
+}
+
+@keyframes forgeBeam {
+  0%,
+  100% {
+    opacity: 0.82;
+    transform: translateX(-50%) scaleX(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1.3);
+  }
+}
+
+@keyframes forgeTip {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+@keyframes forgeFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes forgeRuneFlicker {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  30% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 1;
+  }
+}
+
+@keyframes forgeGlow {
+  0%,
+  100% {
+    opacity: 0.75;
+    scale: 0.92;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.1;
+  }
+}
+
+@keyframes forgeRays {
+  to {
+    rotate: 360deg;
+  }
+}

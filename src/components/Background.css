@@ -3,127 +3,97 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
 }
 
-.bg-glow,
-.bg-stars {
+.bg > * {
   position: absolute;
   inset: 0;
 }
 
+/* céu: azul de meia-noite no alto, preto da forja embaixo */
 .bg-glow {
   background:
-    radial-gradient(
-      ellipse 900px 500px at 15% 0%,
-      rgba(201, 168, 76, 0.06),
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 900px 600px at 85% 100%,
-      rgba(60, 50, 90, 0.1),
-      transparent 60%
-    ),
-    linear-gradient(160deg, #0c0b10 0%, #050506 45%, var(--color-bg) 100%);
+    radial-gradient(ellipse 70% 55% at 78% -8%, rgba(70, 92, 160, 0.22), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 8% 10%, rgba(201, 168, 76, 0.07), transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 120%, rgba(120, 40, 20, 0.14), transparent 70%),
+    linear-gradient(180deg, #0d1120 0%, #0a0c15 35%, #08080b 75%, var(--color-bg) 100%);
 }
 
-.bg-stars {
-  opacity: 0.75;
-  background-image:
-    radial-gradient(
-      1.4px 1.4px at 40px 60px,
-      rgba(255, 255, 255, 0.55),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 130px 20px,
-      rgba(201, 168, 76, 0.6),
-      transparent
-    ),
-    radial-gradient(
-      1.8px 1.8px at 220px 140px,
-      rgba(255, 255, 255, 0.4),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 300px 90px,
-      rgba(201, 168, 76, 0.45),
-      transparent
-    ),
-    radial-gradient(
-      1.3px 1.3px at 60px 190px,
-      rgba(255, 255, 255, 0.5),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 170px 230px,
-      rgba(255, 255, 255, 0.35),
-      transparent
-    ),
-    radial-gradient(
-      1.5px 1.5px at 260px 260px,
-      rgba(201, 168, 76, 0.5),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 340px 200px,
-      rgba(255, 255, 255, 0.4),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 90px 110px,
-      rgba(255, 255, 255, 0.6),
-      transparent
-    ),
-    radial-gradient(
-      1.4px 1.4px at 210px 40px,
-      rgba(201, 168, 76, 0.55),
-      transparent
-    ),
-    radial-gradient(
-      1px 1px at 320px 170px,
-      rgba(255, 255, 255, 0.45),
-      transparent
-    ),
-    radial-gradient(
-      1.2px 1.2px at 30px 250px,
-      rgba(255, 255, 255, 0.4),
-      transparent
-    ),
-    radial-gradient(1px 1px at 380px 60px, rgba(201, 168, 76, 0.4), transparent);
-  background-size:
-    380px 320px,
-    380px 320px,
-    380px 320px,
-    380px 320px,
-    380px 320px,
-    380px 320px,
-    380px 320px,
-    380px 320px,
-    420px 380px,
-    420px 380px,
-    420px 380px,
-    420px 380px,
-    420px 380px;
-}
-
-.bg-twinkle {
-  position: absolute;
+.bg-moon {
+  inset: auto;
+  top: -14vmin;
+  right: 6vw;
+  width: 46vmin;
+  height: 46vmin;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.85);
-  opacity: 0.15;
-  animation: twinkle 8s ease-in-out infinite;
+  background: radial-gradient(
+    circle at 45% 45%,
+    rgba(235, 240, 255, 0.16) 0%,
+    rgba(190, 205, 255, 0.07) 32%,
+    rgba(120, 140, 220, 0.03) 55%,
+    transparent 70%
+  );
+  filter: blur(2px);
 }
 
-.bg-twinkle--gold {
-  background: var(--color-gold-light);
+.bg-stars-canvas {
+  width: 100%;
+  height: 100%;
 }
 
-@keyframes twinkle {
-  0%,
-  100% {
-    opacity: 0.15;
+/* neblina em duas camadas que derivam em sentidos opostos */
+.bg-fog {
+  inset: auto -30% -10% -30%;
+  height: 55vh;
+  opacity: 0.55;
+  background:
+    radial-gradient(ellipse 30% 40% at 20% 70%, rgba(170, 180, 210, 0.07), transparent 70%),
+    radial-gradient(ellipse 25% 35% at 55% 80%, rgba(170, 180, 210, 0.06), transparent 70%),
+    radial-gradient(ellipse 35% 45% at 85% 65%, rgba(170, 180, 210, 0.07), transparent 70%);
+  filter: blur(18px);
+  animation: fogDrift 60s ease-in-out infinite alternate;
+}
+
+.bg-fog--b {
+  bottom: 18%;
+  opacity: 0.35;
+  animation-duration: 85s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes fogDrift {
+  from {
+    transform: translateX(-6%);
   }
-  50% {
-    opacity: 0.9;
+  to {
+    transform: translateX(6%);
+  }
+}
+
+.bg-vignette {
+  background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+/* lanterna do cursor */
+.bg-lantern {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  background: radial-gradient(
+    circle 260px at var(--lx, 50%) var(--ly, 50%),
+    rgba(255, 196, 110, 0.07),
+    rgba(255, 150, 60, 0.03) 45%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+}
+
+.bg-lantern.is-on {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-fog {
+    animation: none;
   }
 }

@@ -3,7 +3,6 @@ import { useLanguage } from "../context/LanguageContext";
 import { useReveal } from "../hooks/useReveal";
 import { MESSAGE_URL } from "../services/api";
 import ApiStatus from "./ApiStatus";
-import Nebula from "./Nebula";
 import RuneText from "./RuneText";
 import "./Contact.css";
 
@@ -138,8 +137,6 @@ function Contact() {
       className={`contact reveal ${isVisible ? "visible" : ""}`}
       ref={ref}
     >
-      <Nebula />
-
       <div className="contact__header">
         <div className="contact__chapter">
           <span className="contact__chapter-line" />

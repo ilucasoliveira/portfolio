@@ -1,0 +1,318 @@
+/* ===== O Portão (seção presa, animada pela rolagem via --p) ===== */
+
+.gate {
+  --p: 0;
+  position: relative;
+  z-index: 1;
+  height: 340vh;
+}
+
+/* depois de atravessar o portão, as obras sobem por dentro dele, ainda com o palco preso */
+.gate + .projects {
+  position: relative;
+  z-index: 2;
+  margin-top: -60vh;
+}
+
+.gate__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 90px 6vw 40px;
+}
+
+/*
+ * Linha do tempo da seção presa:
+ * 0 → 0,44  as linhas de prata se desenham e as runas acendem (--dp)
+ * 0,5 → 0,64  as portas se abrem (--open)
+ * 0,62 → 0,8  a câmera atravessa o vão de luz (--enter)
+ * 0,75 → 1  o capítulo II sobe por dentro do portão
+ */
+.gate {
+  --dp: calc(var(--p) * 1.35);
+  --lit: clamp(0, calc((var(--dp) - 0.05) / 0.5), 1);
+  --open: clamp(0, calc((var(--p) - 0.5) / 0.14), 1);
+  --enter: clamp(0, calc((var(--p) - 0.62) / 0.18), 1);
+}
+
+.gate__light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(120, 160, 255, 0.1), transparent 70%);
+  /* só a opacidade muda: a GPU resolve sem repintar o gradiente a cada quadro */
+  opacity: var(--lit);
+}
+
+/* a câmera avança para dentro do vão: o portão cresce a partir da luz e passa pelas bordas da tela */
+.gate__frame {
+  position: relative;
+  z-index: 1;
+  height: min(66vh, 640px);
+  aspect-ratio: 600 / 820;
+  scale: calc(1 + var(--open) * 0.1 + var(--enter) * var(--enter) * 9);
+  transform-origin: 50% 72%;
+  opacity: calc(1 - clamp(0, calc((var(--enter) - 0.75) / 0.25), 1));
+  will-change: scale, opacity;
+}
+
+/* clarão quente ao cruzar a soleira; assenta numa luz suave lá dentro */
+.gate__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 70% at 50% 55%, rgba(255, 242, 210, 0.95), rgba(255, 200, 120, 0.45) 45%, rgba(255, 170, 80, 0) 80%);
+  opacity: calc(clamp(0, calc((var(--enter) - 0.2) / 0.4), 1) * (1 - clamp(0, calc((var(--p) - 0.79) / 0.1), 1) * 0.92));
+}
+
+/* lá dentro: o arco visto por dentro emoldura a tela, com luz caindo do alto */
+.gate__vault {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: clamp(0, calc((var(--enter) - 0.7) / 0.3), 1);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+.gate__vault-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 55% at 50% 8%, rgba(255, 214, 150, 0.2), rgba(255, 190, 110, 0.06) 55%, transparent 80%);
+  opacity: clamp(0, calc((var(--enter) - 0.6) / 0.4), 1);
+}
+
+.gate__vault path {
+  fill: none;
+  stroke: var(--color-moon);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 6px rgba(170, 210, 255, 0.6));
+}
+
+.gate__vault .gate__vault-shade {
+  fill: rgba(6, 6, 9, 0.72);
+  stroke: none;
+  filter: none;
+}
+
+
+.gate__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.gate__stone path {
+  fill: none;
+  stroke: rgba(150, 160, 190, 0.12);
+  stroke-width: 1.2;
+}
+
+.gate__lines path {
+  fill: none;
+  stroke: var(--color-moon);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - clamp(0, calc((var(--dp) - var(--s)) / var(--len)), 1));
+}
+
+/* brilho de prata: traço largo e translúcido por baixo da linha */
+.gate__lines .gate__halo {
+  stroke: rgba(150, 195, 255, 0.22);
+  stroke-width: 6;
+}
+
+.gate__runes text {
+  font-family: var(--font-runic);
+  font-size: 17px;
+  fill: var(--color-moon);
+  opacity: calc(0.12 + clamp(0, calc((var(--dp) - var(--s)) / 0.05), 1) * 0.88);
+  /* brilho por contorno largo (sem filtro) */
+  stroke: rgba(150, 195, 255, 0.3);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+/* parede de rocha: quase invisível no escuro, ganha relevo com o luar */
+.gate__wall {
+  position: absolute;
+  left: -36.7%;
+  right: -36.7%;
+  top: -7.3%;
+  bottom: -7.3%;
+  pointer-events: none;
+  background:
+    var(--rock) 0 0 / 100% 100% no-repeat,
+    #0c0e15;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 52%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 52%, #000 45%, transparent 100%);
+  opacity: calc(0.35 + var(--lit) * 0.4);
+  will-change: opacity;
+}
+
+/* vão de luz: a camada inteira só muda de opacidade */
+.gate__svg--wall {
+  opacity: var(--open);
+  will-change: opacity;
+}
+
+/* folhas da porta: cada uma é a metade da gravura e gira para dentro */
+.gate__doors {
+  position: absolute;
+  left: calc((300 - 196) / 600 * 100%);
+  right: calc((300 - 196) / 600 * 100%);
+  top: calc((330 - 196) / 820 * 100%);
+  bottom: calc(40 / 820 * 100%);
+  display: flex;
+  perspective: 900px;
+}
+
+.gate__door {
+  position: relative;
+  flex: 1;
+}
+
+.gate__door svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.gate__door-stone {
+  fill: #12141c;
+  stroke: rgba(150, 160, 190, 0.1);
+  stroke-width: 1;
+}
+
+.gate__door--l {
+  transform-origin: 0 50%;
+  transform: rotateY(calc(var(--open) * 80deg));
+}
+
+.gate__door--r {
+  transform-origin: 100% 50%;
+  transform: rotateY(calc(var(--open) * -80deg));
+}
+
+/* sombra da folha girando: escurece conforme vira de lado */
+.gate__door-shade {
+  fill: #040408;
+  opacity: calc(var(--open) * 0.65);
+}
+
+.gate__caption {
+  position: relative;
+  z-index: 2;
+  margin-top: 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: calc(clamp(0, calc((var(--dp) - 0.4) / 0.15), 1) - var(--open) * 1.6);
+  translate: 0 calc((1 - clamp(0, calc((var(--dp) - 0.4) / 0.15), 1)) * 20px + var(--open) * 40px);
+}
+
+.gate__eyebrow {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--color-moon);
+  opacity: 0.75;
+}
+
+.gate__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(26px, 3.6vw, 40px);
+  color: var(--color-text-primary);
+  text-shadow: 0 0 30px rgba(170, 210, 255, 0.35);
+}
+
+.gate__elvish {
+  height: 22px;
+  width: auto;
+}
+
+.gate__line {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 19px;
+  color: var(--color-text-secondary);
+}
+
+/* camadas por fase: só existe na tela o que aparece naquele trecho */
+@media (prefers-reduced-motion: no-preference) {
+  .gate[data-phase="draw"] .gate__vault,
+  .gate[data-phase="draw"] .gate__vault-glow,
+  .gate[data-phase="draw"] .gate__flash,
+  .gate[data-phase="open"] .gate__vault,
+  .gate[data-phase="open"] .gate__vault-glow,
+  .gate[data-phase="open"] .gate__flash,
+  .gate[data-phase="enter"] .gate__caption,
+  .gate[data-phase="inside"] .gate__caption,
+  .gate[data-phase="inside"] .gate__light,
+  .gate[data-phase="inside"] .gate__frame {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .gate {
+    height: 320vh;
+  }
+
+  .gate__frame {
+    height: min(52vh, 460px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate {
+    height: auto;
+    --dp: 1;
+    --open: 0;
+    --enter: 0;
+  }
+
+  .gate + .projects {
+    margin-top: 0;
+  }
+
+  .gate__flash,
+  .gate__vault,
+  .gate__vault-glow {
+    display: none;
+  }
+
+  .gate__frame {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .gate__stage {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+  }
+}

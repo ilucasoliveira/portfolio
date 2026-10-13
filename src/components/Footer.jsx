@@ -1,13 +1,15 @@
 import { useLanguage } from "../context/LanguageContext";
+import Link from "./Link";
+import { PROJECTS } from "../data/projects";
 import "./Footer.css";
 
 const CURRENT_YEAR = new Date().getFullYear();
 
-function Footer() {
+function Footer({ className = "" }) {
   const { t } = useLanguage();
 
   return (
-    <footer className="footer">
+    <footer className={`footer ${className}`.trim()}>
       <div className="footer__rune-border" aria-hidden="true">
         ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ
       </div>
@@ -21,13 +23,16 @@ function Footer() {
         </p>
         <ul className="footer__links">
           <li>
-            <a href="#sobre">{t.nav.about}</a>
+            <Link href="/#sobre">{t.nav.about}</Link>
           </li>
           <li>
-            <a href="#projetos">{t.nav.projects}</a>
+            <Link href={`/projetos/${PROJECTS[0].slug}`}>{t.nav.projects}</Link>
           </li>
           <li>
-            <a href="#contato">{t.nav.contact}</a>
+            <Link href="/inspiracoes">{t.nav.inspirations}</Link>
+          </li>
+          <li>
+            <Link href="/#contato">{t.nav.contact}</Link>
           </li>
         </ul>
       </div>

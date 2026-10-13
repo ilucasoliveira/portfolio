@@ -1,0 +1,760 @@
+/* ===== Inspirações: diagramada como a página de um livro antigo =====
+   Papel marfim, tinta quase preta, um verde-escuro e um vermelho de rubrica.
+   Sem cantos arredondados nem enfeites: fios finos, capitulares, numerais. */
+
+html.page-shire {
+  --bk-paper: #f1ead8;
+  --bk-paper-2: #e8dfc7;
+  --bk-ink: #1e1d18;
+  --bk-ink-2: #4a463b;
+  --bk-ink-3: #6f6959;
+  --bk-green: #2f4a2a;
+  --bk-red: #8c2a1c;
+  --bk-rule: rgba(30, 29, 24, 0.18);
+  background: var(--bk-paper);
+}
+
+html.page-shire body {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 252, 240, 0.7), transparent 70%),
+    var(--bk-paper);
+  color: var(--bk-ink);
+}
+
+.book {
+  position: relative;
+  z-index: 1;
+  color: var(--bk-ink);
+}
+
+.book ::selection {
+  background: rgba(140, 42, 28, 0.18);
+}
+
+/* ----- Abertura ----- */
+
+.bhero {
+  position: relative;
+  padding: 170px 6vw 110px;
+  border-bottom: 1px solid var(--bk-rule);
+}
+
+.bhero__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.book-back {
+  display: inline-block;
+  margin-bottom: 64px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--bk-ink-3);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 4px;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.book-back:hover {
+  color: var(--bk-red);
+  border-bottom-color: var(--bk-red);
+}
+
+.bhero__label {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--bk-red);
+  margin-bottom: 22px;
+}
+
+.bhero__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(40px, 7vw, 104px);
+  line-height: 1;
+  letter-spacing: 1px;
+  color: var(--bk-ink);
+  overflow-wrap: anywhere;
+}
+
+.bhero__title:focus {
+  outline: none;
+}
+
+.bhero__welcome {
+  margin-top: 22px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(20px, 2.2vw, 26px);
+  color: var(--bk-green);
+}
+
+/* fio com losango ao centro */
+.bhero__rule {
+  position: relative;
+  display: block;
+  width: min(320px, 60%);
+  height: 1px;
+  margin: 36px auto;
+  background: var(--bk-rule);
+}
+
+.bhero__rule::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  translate: -50% -50%;
+  rotate: 45deg;
+  background: var(--bk-red);
+}
+
+.bhero__lead {
+  max-width: 60ch;
+  margin: 0 auto;
+  font-family: var(--font-body);
+  font-size: clamp(19px, 1.9vw, 23px);
+  line-height: 1.7;
+  color: var(--bk-ink-2);
+}
+
+/* com a imagem na pasta src/assets/shire: ela ocupa a abertura e o texto fica claro por cima */
+.book--image .bhero {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 16vh;
+  border-bottom: 0;
+  overflow: hidden;
+}
+
+.bhero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 35%;
+}
+
+.book--image .bhero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 18, 12, 0.35) 0%,
+    rgba(20, 18, 12, 0) 28%,
+    rgba(20, 18, 12, 0.3) 50%,
+    rgba(20, 18, 12, 0.78) 88%,
+    rgba(20, 18, 12, 0.6) 95%,
+    var(--bk-paper) 100%
+  );
+}
+
+.book--image .bhero__inner {
+  width: 100%;
+}
+
+.book--image .bhero__label,
+.book--image .bhero__welcome {
+  color: #f1e3c0;
+}
+
+.book--image .bhero__title {
+  color: #fbf6e8;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
+}
+
+.book--image .bhero__lead {
+  color: rgba(251, 246, 232, 0.92);
+}
+
+.book--image .bhero__rule {
+  background: rgba(251, 246, 232, 0.4);
+}
+
+.book--image .bhero .book-back {
+  color: #fbf6e8;
+}
+
+/* ----- Seções ----- */
+
+.bsec {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 100px 6vw 40px;
+  box-sizing: content-box;
+}
+
+.bchapter {
+  margin-bottom: 48px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--bk-rule);
+}
+
+.bchapter__label {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--bk-red);
+  margin-bottom: 12px;
+}
+
+.bchapter__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(32px, 4.4vw, 52px);
+  line-height: 1.1;
+  color: var(--bk-ink);
+}
+
+.bchapter__title em {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--bk-green);
+}
+
+.bsec__intro {
+  max-width: 62ch;
+  margin-bottom: 56px;
+  font-family: var(--font-body);
+  font-size: 21px;
+  line-height: 1.7;
+  color: var(--bk-ink-2);
+}
+
+/* ----- O Professor ----- */
+
+.bprof {
+  display: grid;
+  grid-template-columns: minmax(220px, 330px) minmax(0, 1fr);
+  gap: 64px;
+  align-items: start;
+}
+
+/* retrato como prancha de livro: fio duplo e legenda embaixo */
+.bprof__plate {
+  margin: 0;
+  padding: 10px;
+  border: 1px solid var(--bk-rule);
+  outline: 1px solid var(--bk-rule);
+  outline-offset: 4px;
+  background: var(--bk-paper-2);
+}
+
+.bprof__plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: grayscale(1) contrast(1.05) sepia(0.12);
+}
+
+.bprof__plate figcaption {
+  margin-top: 12px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--bk-ink-3);
+}
+
+.bprof__body p {
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.75;
+  color: var(--bk-ink-2);
+  margin-bottom: 20px;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* capitular em vermelho de rubrica */
+.bdrop::first-letter {
+  float: left;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 4.2em;
+  line-height: 0.85;
+  margin: 6px 12px 0 0;
+  color: var(--bk-red);
+}
+
+.bprof__facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 34px;
+  border-top: 1px solid var(--bk-ink);
+  border-bottom: 1px solid var(--bk-rule);
+}
+
+.bprof__facts > div {
+  padding: 16px 18px 16px 0;
+}
+
+.bprof__facts > div + div {
+  padding-left: 18px;
+  border-left: 1px solid var(--bk-rule);
+}
+
+.bprof__facts dt {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--bk-ink-3);
+  margin-bottom: 6px;
+}
+
+.bprof__facts dd {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--bk-ink);
+}
+
+/* ----- Epígrafe ----- */
+
+.bquote {
+  max-width: 820px;
+  margin: 70px auto 0;
+  padding: 0 6vw;
+  text-align: center;
+}
+
+.bquote p {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.4;
+  color: var(--bk-green);
+}
+
+.bquote p::before,
+.bquote p::after {
+  font-family: var(--font-display);
+  color: var(--bk-red);
+}
+
+.bquote p::before {
+  content: "“";
+  margin-right: 4px;
+}
+
+.bquote p::after {
+  content: "”";
+  margin-left: 4px;
+}
+
+/* ----- As obras ----- */
+
+.bshelf {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 40px 34px;
+}
+
+.bbook {
+  opacity: 0;
+  translate: 0 18px;
+  transition:
+    opacity 0.9s ease,
+    translate 0.9s var(--ease-out);
+  transition-delay: calc(var(--i) * 0.1s);
+}
+
+.bbook.is-in {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.bbook__cover {
+  aspect-ratio: 2 / 3;
+  margin-bottom: 20px;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.2),
+    0 16px 30px rgba(30, 29, 24, 0.22);
+  transition:
+    translate 0.4s var(--ease-out),
+    box-shadow 0.4s ease;
+}
+
+.bbook__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bbook:hover .bbook__cover {
+  translate: 0 -6px;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.2),
+    0 24px 40px rgba(30, 29, 24, 0.3);
+}
+
+.bbook__meta {
+  padding-top: 10px;
+  border-top: 1px solid var(--bk-ink);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--bk-red);
+  margin-bottom: 8px;
+}
+
+.bbook__title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.25;
+  color: var(--bk-ink);
+  margin-bottom: 10px;
+}
+
+.bbook__text {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--bk-ink-2);
+}
+
+/* ----- Ecos: índice com pontilhado ----- */
+
+.bindex {
+  list-style: none;
+  counter-reset: echo;
+  border-top: 1px solid var(--bk-ink);
+}
+
+.bindex li {
+  counter-increment: echo;
+  display: grid;
+  grid-template-columns: 44px auto minmax(30px, 1fr) minmax(0, 46%);
+  align-items: baseline;
+  gap: 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--bk-rule);
+}
+
+.bindex li::before {
+  content: counter(echo, upper-roman);
+  font-family: var(--font-heading);
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--bk-red);
+}
+
+.bindex__here {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--bk-ink);
+}
+
+.bindex__dots {
+  border-bottom: 1px dotted var(--bk-ink-3);
+  translate: 0 -5px;
+}
+
+.bindex__source {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--bk-green);
+}
+
+/* ----- Por quê ----- */
+
+.bwhy {
+  max-width: 62ch;
+}
+
+.bwhy__p {
+  font-family: var(--font-body);
+  font-size: clamp(20px, 2vw, 23px);
+  line-height: 1.7;
+  color: var(--bk-ink);
+  margin-bottom: 22px;
+}
+
+/* ----- Créditos ----- */
+
+.bsec--credits {
+  padding-top: 60px;
+  padding-bottom: 130px;
+}
+
+.bcredits {
+  max-width: 760px;
+  padding-top: 18px;
+  border-top: 1px solid var(--bk-ink);
+}
+
+.bcredits__title {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--bk-ink-3);
+  margin-bottom: 14px;
+}
+
+.bcredits p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--bk-ink-2);
+  margin-bottom: 10px;
+}
+
+/* botão do fim da página: moldura de tinta, preenche ao passar o mouse */
+.book-back--end {
+  margin: 48px 0 0;
+  padding: 14px 26px;
+  border: 1px solid var(--bk-ink);
+  color: var(--bk-ink);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.book-back--end:hover {
+  background: var(--bk-ink);
+  border-color: var(--bk-ink);
+  color: var(--bk-paper);
+}
+
+/* ----- Menu, grade e rodapé nesta página ----- */
+
+html.page-shire .nav {
+  background: rgba(241, 234, 216, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--bk-rule);
+}
+
+html.page-shire .nav__logo {
+  color: var(--bk-ink);
+}
+
+html.page-shire .nav__rune {
+  color: var(--bk-red);
+}
+
+html.page-shire .nav__links {
+  color: var(--bk-ink-3);
+}
+
+html.page-shire .nav__links a:hover,
+html.page-shire .nav__links a[aria-current="page"] {
+  color: var(--bk-red);
+}
+
+html.page-shire .nav__contact-btn {
+  color: var(--bk-ink) !important;
+  border-color: var(--bk-ink);
+}
+
+html.page-shire .nav__lang-toggle {
+  border-color: var(--bk-rule);
+}
+
+html.page-shire .nav__lang-toggle button {
+  color: var(--bk-ink-3);
+}
+
+html.page-shire .nav__lang-toggle button.active {
+  background: var(--bk-ink);
+  color: var(--bk-paper);
+}
+
+html.page-shire .hairlines__v,
+html.page-shire .hairlines__h {
+  background: linear-gradient(var(--dir, 180deg), transparent, var(--bk-rule) 12%, var(--bk-rule) 88%, transparent);
+}
+
+html.page-shire .hairlines__star,
+html.page-shire .hairlines__mark {
+  fill: var(--bk-red);
+  filter: none;
+}
+
+html.page-shire .footer {
+  border-top-color: var(--bk-rule);
+}
+
+html.page-shire .footer__rune-border {
+  color: rgba(30, 29, 24, 0.18);
+}
+
+html.page-shire .footer__logo {
+  color: var(--bk-ink);
+}
+
+html.page-shire .footer__copy,
+html.page-shire .footer__links a {
+  color: var(--bk-ink-3);
+}
+
+html.page-shire .footer__links a:hover {
+  color: var(--bk-red);
+}
+
+/* ----- Telas menores ----- */
+
+@media (max-width: 1000px) {
+  .bshelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bprof {
+    grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (max-width: 700px) {
+  .bhero {
+    padding: 120px 5vw 70px;
+  }
+
+  /* no celular o recorte vertical mostra a colina com a porta redonda */
+  .bhero__image {
+    object-position: 20% 35%;
+  }
+
+  .book-back {
+    margin-bottom: 44px;
+  }
+
+  .bsec {
+    padding: 72px 5vw 24px;
+  }
+
+  .bprof {
+    grid-template-columns: 1fr;
+  }
+
+  .bprof__plate {
+    max-width: 280px;
+  }
+
+  .bprof__body p {
+    text-align: left;
+  }
+
+  .bprof__facts {
+    grid-template-columns: 1fr;
+  }
+
+  .bprof__facts > div,
+  .bprof__facts > div + div {
+    padding: 12px 0;
+    border-left: 0;
+  }
+
+  .bprof__facts > div + div {
+    border-top: 1px solid var(--bk-rule);
+  }
+
+  /* índice: item, e a origem embaixo */
+  .bindex li {
+    grid-template-columns: 34px minmax(0, 1fr);
+    row-gap: 4px;
+  }
+
+  .bindex__dots {
+    display: none;
+  }
+
+  .bindex__source {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 420px) {
+  .bshelf {
+    gap: 36px 16px;
+  }
+
+  .bbook__title {
+    font-size: 16px;
+  }
+
+  .bbook__text {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bbook {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}
+
+html:not(.js) .bbook {
+  opacity: 1;
+  translate: none;
+}
+
+/* menu do celular nesta página: papel e tinta */
+html.page-shire .nav--open {
+  backdrop-filter: none;
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+html.page-shire .nav__burger {
+  border-color: var(--bk-ink);
+}
+
+html.page-shire .nav__burger span {
+  background: var(--bk-ink);
+}
+
+html.page-shire .nav__drawer {
+  background: rgba(241, 234, 216, 0.98);
+}
+
+html.page-shire .nav__drawer-list li,
+html.page-shire .nav__drawer-list li:first-child {
+  border-color: var(--bk-rule);
+}
+
+html.page-shire .nav__drawer-list a {
+  color: var(--bk-ink);
+}
+
+html.page-shire .nav__drawer-list a:hover,
+html.page-shire .nav__drawer-list a[aria-current="page"] {
+  color: var(--bk-red);
+}
+
+html.page-shire .nav__drawer-n {
+  color: var(--bk-red);
+}
+
+html.page-shire .nav__drawer-runes {
+  color: rgba(30, 29, 24, 0.25);
+}

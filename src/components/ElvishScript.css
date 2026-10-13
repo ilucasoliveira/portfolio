@@ -1,0 +1,70 @@
+/* inscrição élfica: traços se desenham e acendem como metal no fogo */
+
+.elvish {
+  display: block;
+  overflow: visible;
+  fill: none;
+}
+
+.elvish--line {
+  width: calc(var(--w) * 1.4px);
+  max-width: 100%;
+  height: auto;
+}
+
+.elvish path {
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0.25;
+  transition:
+    stroke-dashoffset 0.9s var(--ease-out),
+    opacity 0.9s ease;
+  transition-delay: calc(var(--k) * 14ms);
+}
+
+.elvish.is-lit path {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* brilho de inscrição aquecida: o halo é fixo e só a opacidade pulsa
+   (animar o próprio filtro obrigava o navegador a repintar o brilho a cada quadro) */
+.elvish.is-lit {
+  filter: drop-shadow(0 0 3px rgba(255, 190, 100, 0.85)) drop-shadow(0 0 10px rgba(255, 110, 35, 0.42));
+  animation: elvishPulse 3.6s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+@keyframes elvishPulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* versão de prata lunar (portão) */
+.elvish--moon path {
+  stroke: #d8e9ff;
+}
+
+.elvish--moon.is-lit {
+  filter: drop-shadow(0 0 3px rgba(210, 232, 255, 0.9)) drop-shadow(0 0 12px rgba(130, 180, 255, 0.45));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .elvish path {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    transition: none;
+  }
+
+  .elvish.is-lit {
+    animation: none;
+  }
+}

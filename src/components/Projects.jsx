@@ -1,44 +1,66 @@
 import { useLanguage } from "../context/LanguageContext";
-import { projectsData } from "../data/projects";
+import { PROJECTS, tx } from "../data/projects";
 import { useReveal } from "../hooks/useReveal";
 import { useTilt } from "../hooks/useTilt";
 import RuneText from "./RuneText";
-import libraryShot from "../assets/personal-library.webp";
-import libraryShotMobile from "../assets/personal-library-mobile.webp";
+import Corners from "./Corners";
+import Link from "./Link";
 import "./Projects.css";
 
-function ProjectCard({ project, linkLabel }) {
+const NUMERAL_RUNES = { I: "ᚠ", II: "ᚢ", III: "ᚦ", IV: "ᚨ" };
+
+export function ExternalLinks({ project, className = "projects__card-link" }) {
+  const { t } = useLanguage();
+  return project.links.map((link) => (
+    <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className={className}>
+      {t.projects.links[link.type]} ↗<span className="sr-only"> {t.projects.newTab}</span>
+    </a>
+  ));
+}
+
+function ProjectCard({ project }) {
+  const { t, lang } = useLanguage();
   const tiltRef = useTilt();
+  const text = project.text[lang];
+  const href = `/projetos/${project.slug}`;
 
   return (
-    <div ref={tiltRef} className="projects__card">
+    <article ref={tiltRef} className="projects__card">
       <div className="projects__card-hover-bar" />
-      <div className="projects__card-tags">{project.tags}</div>
-      <h3 className="projects__card-title">{project.title}</h3>
-      <p className="projects__card-desc">{project.desc}</p>
-      <a
-        href={project.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="projects__card-link"
-      >
-        {linkLabel}
-      </a>
-    </div>
+      <span className="projects__card-rune" aria-hidden="true">
+        {NUMERAL_RUNES[project.numeral]}
+      </span>
+      <div className="projects__card-tags">{project.tags.join(" · ")}</div>
+      <h3 className="projects__card-title">
+        <Link href={href} className="projects__card-title-link">
+          {tx(project.name, lang)}
+        </Link>
+      </h3>
+      <p className="projects__card-desc">{text.summary}</p>
+      <ul className="projects__card-list">
+        {text.bullets.slice(0, 3).map((b) => (
+          <li key={b}>{b}</li>
+        ))}
+      </ul>
+      <div className="projects__card-actions">
+        <Link href={href} className="link-rune projects__details">
+          {t.projects.details}
+        </Link>
+        <ExternalLinks project={project} />
+      </div>
+    </article>
   );
 }
 
 function Projects() {
   const { t, lang } = useLanguage();
-  const { featured, others } = projectsData[lang];
+  const [featured, ...others] = PROJECTS;
   const [ref, isVisible] = useReveal();
+  const text = featured.text[lang];
+  const href = `/projetos/${featured.slug}`;
 
   return (
-    <section
-      id="projetos"
-      className={`projects reveal ${isVisible ? "visible" : ""}`}
-      ref={ref}
-    >
+    <section id="projetos" className={`projects reveal ${isVisible ? "visible" : ""}`} ref={ref}>
       <div className="projects__header">
         <div className="projects__chapter">
           <span className="projects__chapter-line" />
@@ -52,15 +74,16 @@ function Projects() {
         </h2>
       </div>
 
-      <div className="projects__featured" data-serpent="featured">
+      <article className="projects__featured" data-serpent="featured">
+        <Corners />
         <div className="projects__featured-glow" />
 
-        <div className="projects__featured-image">
+        <Link href={href} className="projects__featured-image" tabIndex={-1} aria-hidden="true">
           <picture>
-            <source media="(max-width: 700px)" srcSet={libraryShotMobile} />
+            <source media="(max-width: 700px)" srcSet={featured.imageMobile} />
             <img
-              src={libraryShot}
-              alt={t.projects.featured.imageAlt}
+              src={featured.image}
+              alt=""
               width="1198"
               height="748"
               loading="lazy"
@@ -68,17 +91,22 @@ function Projects() {
               className="projects__featured-img"
             />
           </picture>
-        </div>
+          <span className="projects__featured-veil">{t.projects.enter}</span>
+        </Link>
 
         <div className="projects__featured-meta">
-          <span className="projects__featured-badge">
-            {t.projects.featured.badge}
+          <span className="projects__featured-badge">{t.projects.featured.badge}</span>
+          <span className="projects__featured-year">
+            {featured.year} · {text.kind}
           </span>
-          <span className="projects__featured-year">{featured.year}</span>
         </div>
 
-        <h3 className="projects__featured-title">{featured.title}</h3>
-        <p className="projects__featured-desc">{featured.desc}</p>
+        <h3 className="projects__featured-title">
+          <Link href={href} className="projects__card-title-link">
+            {tx(featured.name, lang)}
+          </Link>
+        </h3>
+        <p className="projects__featured-desc">{text.lead}</p>
 
         <div className="projects__featured-tags">
           {featured.tags.map((tag) => (
@@ -87,34 +115,16 @@ function Projects() {
         </div>
 
         <div className="projects__featured-actions">
-          {featured.demo && (
-            <a
-              href={featured.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="projects__featured-cta"
-            >
-              {t.projects.featured.demo}
-            </a>
-          )}
-          <a
-            href={featured.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="projects__featured-cta"
-          >
-            {t.projects.featured.cta}
-          </a>
+          <Link href={href} className="cta cta--gold">
+            {t.projects.details}
+          </Link>
+          <ExternalLinks project={featured} className="projects__featured-cta" />
         </div>
-      </div>
+      </article>
 
       <div className="projects__grid" data-serpent="projects">
         {others.map((project) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            linkLabel={t.projects.viewMore}
-          />
+          <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
     </section>

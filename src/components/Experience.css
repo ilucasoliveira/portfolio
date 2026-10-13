@@ -90,10 +90,12 @@
   margin-bottom: 28px;
 }
 
+/* a linha começa no centro do primeiro losango (nada sobra acima dele) */
 .experience__timeline {
+  position: relative;
   list-style: none;
-  border-left: 1px solid var(--color-border);
   padding-left: 32px;
+  background: linear-gradient(var(--color-border), var(--color-border)) 0 12px / 1px calc(100% - 12px) no-repeat;
 }
 
 .experience__item {
@@ -221,9 +223,9 @@
     .experience__timeline::before {
       content: "";
       position: absolute;
-      top: 0;
+      top: 12px;
       bottom: 0;
-      left: -1px;
+      left: 0;
       width: 1px;
       background: var(--color-gold);
       transform-origin: top;

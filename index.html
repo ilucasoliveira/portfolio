@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <script>
       document.documentElement.classList.add("js");
+      // página de inspirações (clima claro do Condado): aplica antes de pintar, sem piscar escuro
+      if (/^\/inspiracoes\/?$/.test(location.pathname)) document.documentElement.classList.add("page-shire");
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,11 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;1,300;1,400&family=JetBrains+Mono:wght@400&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&text=Lucas%20de%20Oliveira.&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@400&family=Great+Vibes&family=Noto+Sans+Runic&display=swap"
     />
     <meta
       property="og:image"

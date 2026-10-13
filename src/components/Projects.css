@@ -178,7 +178,7 @@
 
 .projects__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2px;
   background: var(--color-border);
 }
@@ -276,7 +276,22 @@
   align-self: flex-start;
 }
 
+/* tablet: duas colunas; um card sozinho na última linha ocupa a largura toda (sem célula vazia) */
+@media (max-width: 1080px) {
+  .projects__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .projects__card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 700px) {
+  .projects__grid {
+    grid-template-columns: 1fr;
+  }
+
   .projects__featured-image {
     height: 300px;
   }
@@ -285,3 +300,128 @@
     object-position: center top;
   }
 }
+
+/* ===== Obras: links para as páginas, runas e luz de forja ===== */
+
+.projects__featured {
+  background: rgba(10, 10, 14, 0.82);
+  backdrop-filter: blur(2px);
+}
+
+.projects__featured .corner {
+  color: var(--color-gold);
+  opacity: 0.7;
+}
+
+.projects__featured-image {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.projects__featured-veil {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--color-gold-light);
+  background: radial-gradient(ellipse at center, rgba(8, 8, 10, 0.55), rgba(8, 8, 10, 0.85));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.projects__featured-image:hover .projects__featured-veil {
+  opacity: 1;
+}
+
+.projects__card-title-link {
+  color: inherit;
+  text-decoration: none;
+  background: linear-gradient(var(--color-gold), var(--color-gold)) 0 100% / 0 1px no-repeat;
+  transition:
+    background-size 0.4s var(--ease-out),
+    color 0.3s ease;
+}
+
+.projects__card-title-link:hover {
+  color: var(--color-gold-light);
+  background-size: 100% 1px;
+}
+
+.projects__featured-actions {
+  align-items: center;
+}
+
+.projects__featured-actions .cta {
+  padding: 13px 26px;
+}
+
+.projects__card {
+  background: rgba(10, 10, 14, 0.88);
+}
+
+.projects__card-rune {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-family: var(--font-runic);
+  font-size: 34px;
+  line-height: 1;
+  color: var(--color-gold-dim);
+  opacity: 0.45;
+  transition:
+    color 0.4s ease,
+    opacity 0.4s ease,
+    text-shadow 0.4s ease;
+}
+
+.projects__card:hover .projects__card-rune {
+  color: var(--color-gold-light);
+  opacity: 1;
+  text-shadow:
+    0 0 10px rgba(255, 170, 80, 0.8),
+    0 0 24px rgba(255, 110, 40, 0.5);
+}
+
+.projects__card-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.projects__card-list li {
+  position: relative;
+  padding-left: 18px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text-faint);
+}
+
+.projects__card-list li::before {
+  content: "ᛜ";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  font-family: var(--font-runic);
+  font-size: 11px;
+  color: var(--color-gold-dim);
+}
+
+.projects__card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.projects__details {
+  color: var(--color-gold-light);
+}
+.projects__card-desc { flex: none; }
