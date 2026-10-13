@@ -18,7 +18,7 @@ export const PROJECTS = [
   {
     slug: "personal-library",
     numeral: "I",
-    name: "Personal Library",
+    name: "My Own BookShelf",
     year: "2026",
     featured: true,
     image: libraryShot,
