@@ -13,12 +13,17 @@ const WORKSHOP_PATH = /^\/oficina\/?$/;
 const ROUTE_EVENT = "app:navigate";
 export const VEIL_EVENT = "app:veil";
 
-function readRoute() {
-  const match = window.location.pathname.match(PROJECT_PATH);
+// qual página um caminho abre (também usado pelos links para baixar a página antes)
+export function routeFor(pathname) {
+  const match = pathname.match(PROJECT_PATH);
   if (match) return { page: "project", slug: decodeURIComponent(match[1]) };
-  if (INSPIRATIONS_PATH.test(window.location.pathname)) return { page: "inspirations" };
-  if (WORKSHOP_PATH.test(window.location.pathname)) return { page: "workshop" };
+  if (INSPIRATIONS_PATH.test(pathname)) return { page: "inspirations" };
+  if (WORKSHOP_PATH.test(pathname)) return { page: "workshop" };
   return { page: "home" };
+}
+
+function readRoute() {
+  return routeFor(window.location.pathname);
 }
 
 export function useRoute() {

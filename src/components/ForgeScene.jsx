@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useInView } from "../hooks/useInView";
 import { useScrollProgress } from "../hooks/useScrollProgress";
 import { FUTHARK } from "../utils/runes";
 import forge from "../assets/forge-balrog.webp";
@@ -15,6 +16,10 @@ import "./ForgeScene.css";
  * easterEgg: frase escondida que aparece entre o mago e a criatura quando o
  * mouse passa sobre o mago (no celular, ao tocar nele); a luz do cajado estoura junto.
  */
+
+// a imagem (~220 KB) só começa a baixar quando a cena está a menos de uma
+// tela e pouco de distância, e não logo ao abrir a página
+const NEAR = { threshold: 0, rootMargin: "900px 0px" };
 
 // ponta do cajado na imagem (onde nasce a luz branca)
 const STAFF = { x: "49.8%", y: "71%" };
@@ -87,6 +92,7 @@ function ForgeScene({
   const [playing, setPlaying] = useState(false);
   const watchRef = useRef(null);
   const ref = useScrollProgress("pass");
+  const [nearRef, near] = useInView(NEAR);
   const half = Math.ceil(stack.length / 2);
   const left = orbit(stack.slice(0, half), "left");
   const right = orbit(stack.slice(half), "right");
@@ -123,11 +129,15 @@ function ForgeScene({
       {/* a cena: fundo inteiro da seção */}
       <div className="forge__backdrop" ref={watchRef}>
         <div className="forge__heat-wide" aria-hidden="true" />
-        <figure className="forge__scene" role="img" aria-label={sceneLabel}>
-          <div className="forge__zoom" style={{ "--forge-img": `url(${forge})` }}>
-            <img className="forge__base" src={forge} alt="" width="1920" height="1200" decoding="async" />
-            <img className="forge__live forge__live--a" src={forge} alt="" aria-hidden="true" />
-            <img className="forge__live forge__live--b" src={forge} alt="" aria-hidden="true" />
+        <figure className="forge__scene" role="img" aria-label={sceneLabel} ref={nearRef}>
+          <div className="forge__zoom" style={near ? { "--forge-img": `url(${forge})` } : undefined}>
+            {near && (
+              <>
+                <img className="forge__base" src={forge} alt="" width="1920" height="1200" decoding="async" />
+                <img className="forge__live forge__live--a" src={forge} alt="" aria-hidden="true" />
+                <img className="forge__live forge__live--b" src={forge} alt="" aria-hidden="true" />
+              </>
+            )}
             <span className="forge__heat" aria-hidden="true" />
             {EMBERS.map((style, i) => (
               <span key={`e${i}`} className="forge__ember" style={style} aria-hidden="true" />

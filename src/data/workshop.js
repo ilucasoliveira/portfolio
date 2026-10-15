@@ -17,7 +17,6 @@ const both = (en, pt) => ({ en, pt });
 
 export const WORKSHOP_TEXT = {
   en: {
-    metaTitle: "Workshop · Lucas de Oliveira",
     chapter: "Chapter IV",
     titlePre: "The",
     titleEm: "Workshop",
@@ -34,7 +33,6 @@ export const WORKSHOP_TEXT = {
     toContact: "Open a channel",
   },
   pt: {
-    metaTitle: "Oficina · Lucas de Oliveira",
     chapter: "Capítulo IV",
     titlePre: "A",
     titleEm: "Oficina",

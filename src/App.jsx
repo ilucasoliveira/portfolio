@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import "./styles/global.css";
 import { useLanguage } from "./context/LanguageContext";
 import { useRoute } from "./hooks/useRoute";
@@ -8,11 +8,7 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import { AnchorJump, Hairlines, Intro, RouteVeil } from "./components/Veils";
 import Home from "./pages/Home";
-import ProjectPage from "./pages/ProjectPage";
-import InspirationsPage from "./pages/InspirationsPage";
-import WorkshopPage from "./pages/WorkshopPage";
-import { INSPIRATIONS } from "./data/inspirations";
-import { WORKSHOP_TEXT } from "./data/workshop";
+import { InspirationsPage, ProjectPage, WorkshopPage } from "./pages/lazy";
 
 function App() {
   const route = useRoute();
@@ -22,8 +18,8 @@ function App() {
   // título da aba acompanha a página e o idioma
   useEffect(() => {
     if (project) document.title = `${tx(project.name, lang)} · Lucas de Oliveira`;
-    else if (route.page === "inspirations") document.title = INSPIRATIONS[lang].metaTitle;
-    else if (route.page === "workshop") document.title = WORKSHOP_TEXT[lang].metaTitle;
+    else if (route.page === "inspirations") document.title = t.meta.inspirations;
+    else if (route.page === "workshop") document.title = t.meta.workshop;
     else document.title = t.meta.title;
   }, [project, route.page, t, lang]);
 
@@ -44,7 +40,10 @@ function App() {
       {!shire && <Background />}
       <Hairlines />
       <Nav page={route.page} />
-      <main key={pageKey}>{page}</main>
+      <main key={pageKey}>
+        {/* enquanto o código da página chega, uma tela vazia segura o rodapé lá embaixo */}
+        <Suspense fallback={<div className="page-loading" />}>{page}</Suspense>
+      </main>
       {/* na home o rodapé faz parte do epílogo */}
       {route.page !== "home" && <Footer />}
       <RouteVeil />

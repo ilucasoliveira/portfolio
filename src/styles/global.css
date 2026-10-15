@@ -31,7 +31,6 @@
   --font-body: "Cormorant Garamond", serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-script: "Great Vibes", cursive;
-  --font-fell: "IM Fell English", "Cormorant Garamond", serif;
   --font-runic: "Noto Sans Runic", "Segoe UI Symbol", "Segoe UI Historic", sans-serif;
 }
 
@@ -325,4 +324,9 @@ html:not(.js) .words .w {
 .icon--sm {
   width: 13px;
   height: 13px;
+}
+
+/* enquanto o código de uma página chega (páginas carregadas sob demanda) */
+.page-loading {
+  min-height: 100svh;
 }

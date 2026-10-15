@@ -25,11 +25,16 @@ const STOPS = [
 
 const JOURNEY_MS = 6500;
 
+// a ilustração (~200 KB) só baixa quando o mapa está a menos de uma tela e pouco
+// de distância; antes disso fica só o fundo escuro do quadro
+const NEAR = { threshold: 0, rootMargin: "900px 0px" };
+
 const TRAIL = "M531 335C640 420 760 470 853 520S960 650 1015 640 1150 420 1233 323 1420 200 1525 190";
 
 function JourneyMap() {
   const { t } = useLanguage();
   const [ref, inView] = useInView({ threshold: 0.6, rootMargin: "0px" });
+  const [nearRef, near] = useInView(NEAR);
   const stops = t.experience.mapStops;
 
   // percorre a trilha uma vez, no próprio ritmo, assim que o mapa está na tela
@@ -63,7 +68,7 @@ function JourneyMap() {
 
   return (
     <figure className="map" ref={ref}>
-      <svg className="map__svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t.experience.mapLabel}>
+      <svg className="map__svg" ref={nearRef} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t.experience.mapLabel}>
         <defs>
           <radialGradient id="mapGlow">
             <stop offset="0" stopColor="#fff1c4" />
@@ -72,7 +77,7 @@ function JourneyMap() {
           </radialGradient>
         </defs>
 
-        <image href={mapArt} x="0" y="0" width={W} height={H} preserveAspectRatio="xMidYMid slice" />
+        {near && <image href={mapArt} x="0" y="0" width={W} height={H} preserveAspectRatio="xMidYMid slice" />}
 
         {/* trilha: base apagada e traço que se desenha com a rolagem */}
         <path className="map__trail map__trail--ghost" d={TRAIL} />

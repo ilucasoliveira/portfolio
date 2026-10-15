@@ -2,7 +2,6 @@
 
 export const INSPIRATIONS = {
   en: {
-    metaTitle: "Inspirations · Lucas de Oliveira",
     back: "← Back to the journey",
     label: "Appendix A · Inspirations",
     title: "Inspirations",
@@ -99,7 +98,6 @@ export const INSPIRATIONS = {
   },
 
   pt: {
-    metaTitle: "Inspirações · Lucas de Oliveira",
     back: "← Voltar à jornada",
     label: "Apêndice A · Inspirações",
     title: "Inspirações",

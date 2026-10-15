@@ -1,6 +1,10 @@
 export const translations = {
   en: {
-    meta: { title: "Lucas de Oliveira · Full Stack Python Developer" },
+    meta: {
+      title: "Lucas de Oliveira · Full Stack Python Developer",
+      inspirations: "Inspirations · Lucas de Oliveira",
+      workshop: "Workshop · Lucas de Oliveira",
+    },
     gate: {
       eyebrow: "Chapter IV · The Workshop",
       title: "The Gate of Moria",
@@ -185,7 +189,11 @@ export const translations = {
     footer: { tagline: "Forged with attention to every detail." },
   },
   pt: {
-    meta: { title: "Lucas de Oliveira · Desenvolvedor Full Stack Python" },
+    meta: {
+      title: "Lucas de Oliveira · Desenvolvedor Full Stack Python",
+      inspirations: "Inspirações · Lucas de Oliveira",
+      workshop: "Oficina · Lucas de Oliveira",
+    },
     gate: {
       eyebrow: "Capítulo IV · A Oficina",
       title: "O Portão de Moria",
