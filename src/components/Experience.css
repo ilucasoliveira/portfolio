@@ -214,30 +214,28 @@
 }
 
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .experience__timeline {
-      position: relative;
-      view-timeline-name: --journey;
-    }
+  .experience__timeline {
+    position: relative;
+    view-timeline-name: --journey;
+  }
 
-    .experience__timeline::before {
-      content: "";
-      position: absolute;
-      top: 12px;
-      bottom: 0;
-      left: 0;
-      width: 1px;
-      background: var(--color-gold);
-      transform-origin: top;
-      animation: inkLine linear both;
-      animation-timeline: --journey;
-      animation-range: entry 80% cover 55%;
-    }
+  .experience__timeline::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    background: var(--color-gold);
+    transform-origin: top;
+    animation: inkLine linear both;
+    animation-timeline: --journey;
+    animation-range: entry 80% cover 55%;
+  }
 
-    .experience__dot {
-      animation: dotLight linear both;
-      animation-timeline: view();
-      animation-range: cover 35% cover 45%;
-    }
+  .experience__dot {
+    animation: dotLight linear both;
+    animation-timeline: view();
+    animation-range: cover 35% cover 45%;
   }
 }

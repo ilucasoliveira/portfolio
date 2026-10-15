@@ -157,8 +157,10 @@ function Category({ category, lang, text }) {
 function WorkshopPage() {
   const { lang } = useLanguage();
   const text = WORKSHOP_TEXT[lang];
-  const [gate, setGate] = useState(() => !prefersReducedMotion());
-  const [revealed, setRevealed] = useState(() => prefersReducedMotion());
+  // com menos movimento no sistema o portão também abre a página, na versão suave
+  const [gate, setGate] = useState(true);
+  const [revealed, setRevealed] = useState(false);
+  const [gentle] = useState(prefersReducedMotion);
   const rootRef = useRef(null);
   const [upper, lower] = SCENES;
 
@@ -166,7 +168,7 @@ function WorkshopPage() {
 
   return (
     <div ref={rootRef} className={`workshop ${revealed ? "is-revealed" : ""}`}>
-      {gate && <Gate onReveal={() => setRevealed(true)} onDone={() => setGate(false)} />}
+      {gate && <Gate gentle={gentle} onReveal={() => setRevealed(true)} onDone={() => setGate(false)} />}
 
       {/* fundo fixo: o escuro das minas e o fogo que sobe do fundo conforme se desce */}
       <div className="workshop__atmosphere" aria-hidden="true" />

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { prefersReducedMotion } from "../utils/motion";
 
 const RUNES = "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ";
 const TICK_MS = 45;
@@ -20,7 +19,7 @@ export function useRuneDecode(text, active) {
   const hasPlayed = useRef(false);
 
   useEffect(() => {
-    if (!active || hasPlayed.current || prefersReducedMotion()) {
+    if (!active || hasPlayed.current) {
       setDisplay(text);
       return;
     }

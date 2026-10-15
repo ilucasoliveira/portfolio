@@ -135,13 +135,3 @@
     width: 760px;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .map {
-    --t: 1;
-  }
-
-  .map__stop-ring--pulse {
-    animation: none;
-  }
-}

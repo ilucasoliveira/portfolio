@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { prefersReducedMotion } from "../utils/motion";
 
 /*
  * Roteamento mínimo sem dependência nova: a home ("/"), a de projeto
@@ -65,11 +64,11 @@ export function go(href) {
   requestAnimationFrame(() => requestAnimationFrame(scroll));
 }
 
-// troca de página com o véu (portal) quando há movimento; sem movimento, direto
+// troca de página com o véu (com menos movimento, o véu só escurece e clareia)
 export function navigate(href, origin) {
   const url = resolve(href);
   const samePath = url.pathname === window.location.pathname;
-  if (samePath || prefersReducedMotion()) {
+  if (samePath) {
     go(href);
     return;
   }

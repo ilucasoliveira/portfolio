@@ -27,6 +27,7 @@ function Background() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+    // com menos movimento as estrelas continuam cintilando; só a estrela cadente fica de fora
     const reduced = prefersReducedMotion();
     let stars = [];
     let width = 0;
@@ -47,8 +48,6 @@ function Background() {
       // no celular a barra de endereço muda só a altura ao rolar: mantém as mesmas estrelas
       // (sortear de novo fazia o céu "pular")
       if (!sameWidth || !stars.length) stars = makeStars(width, Math.max(height, window.screen?.height || 0) * 1.6);
-      // redimensionar apaga o canvas; com movimento reduzido não há laço de animação para redesenhar
-      if (reduced) draw(performance.now());
     }
 
     let lastDraw = -1;
@@ -57,7 +56,7 @@ function Background() {
     function draw(time) {
       const scroll = window.scrollY;
       // parado (sem rolar e sem estrela cadente), o cintilar não precisa de 60 quadros: ~20 por segundo bastam
-      if (!reduced && !shooting && scroll === lastScroll && time - lastDraw < 50 && time < nextShot) {
+      if (!shooting && scroll === lastScroll && time - lastDraw < 50 && time < nextShot) {
         if (running) frame = requestAnimationFrame(draw);
         return;
       }
@@ -70,7 +69,7 @@ function Background() {
         const span = height * 1.6;
         const y = (((s.y - scroll * s.depth * 0.12) % span) + span) % span;
         if (y > height) continue;
-        const twinkle = reduced ? 0.7 : 0.45 + 0.55 * Math.sin(t * s.speed + s.phase) ** 2;
+        const twinkle = 0.45 + 0.55 * Math.sin(t * s.speed + s.phase) ** 2;
         ctx.globalAlpha = twinkle * (0.35 + s.depth * 0.65);
         ctx.fillStyle = s.gold ? "#f3d488" : "#e9eeff";
         if (s.size < 1.3) {
@@ -121,7 +120,7 @@ function Background() {
       }
 
       ctx.globalAlpha = 1;
-      if (running && !reduced) frame = requestAnimationFrame(draw);
+      if (running) frame = requestAnimationFrame(draw);
     }
 
     function onVisibility() {
@@ -130,14 +129,9 @@ function Background() {
       if (running) frame = requestAnimationFrame(draw);
     }
 
-    function onScroll() {
-      if (reduced) draw(performance.now());
-    }
-
     resize();
     frame = requestAnimationFrame(draw);
     window.addEventListener("resize", resize);
-    window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
 
     // lanterna: luz quente que acompanha o cursor
@@ -155,14 +149,13 @@ function Background() {
         lantern.classList.add("is-on");
       });
     }
-    const hover = canHover() && !reduced;
+    const hover = canHover();
     if (hover) window.addEventListener("pointermove", onMove, { passive: true });
 
     return () => {
       cancelAnimationFrame(frame);
       cancelAnimationFrame(lframe);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("scroll", onScroll);
       document.removeEventListener("visibilitychange", onVisibility);
       if (hover) window.removeEventListener("pointermove", onMove);
     };

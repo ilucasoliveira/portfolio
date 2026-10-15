@@ -79,10 +79,10 @@ export function Hairlines() {
 /*
  * Abertura (uma vez por sessão): linhas se desenham, ✦ surgem nos cruzamentos,
  * o anel de runas acende e o véu se abre ao meio como um portão.
+ * Com menos movimento, o mesmo desenho, mas a cortina se dissolve em vez de se partir (CSS).
  */
 export function Intro() {
   const [phase, setPhase] = useState(() => {
-    if (prefersReducedMotion()) return "done";
     try {
       if (sessionStorage.getItem(INTRO_KEY)) return "done";
     } catch {
@@ -161,6 +161,7 @@ export function Intro() {
 /*
  * Véu entre páginas: um portal de luz se fecha a partir do clique,
  * a página troca por trás e o véu se abre de novo com as runas girando.
+ * Com menos movimento, a tela só escurece e clareia (CSS).
  */
 export function RouteVeil() {
   const [state, setState] = useState({ phase: "idle", x: "50%", y: "50%" });
@@ -235,8 +236,9 @@ export function AnchorJump() {
       event.preventDefault();
       window.history.pushState(null, "", url.pathname + url.search + url.hash);
 
+      // perto: rolagem suave (com menos movimento, pula direto); longe: escurece, pula e clareia
       const distance = Math.abs(target.getBoundingClientRect().top);
-      if (prefersReducedMotion() || distance < window.innerHeight * 1.5) {
+      if (distance < window.innerHeight * 1.5) {
         target.scrollIntoView({ behavior: prefersReducedMotion() ? "instant" : "smooth", block: "start" });
         return;
       }

@@ -477,21 +477,10 @@
 /* ----- movimento reduzido: sem animações ----- */
 
 @media (prefers-reduced-motion: reduce) {
-  .workshop__atmosphere::before,
-  .workshop-hero__line {
-    animation: none;
-  }
-
+  /* as ferramentas aparecem só com fade, sem subir */
   .tool,
-  .workshop__atmosphere,
-  .workshop__content {
-    opacity: 1;
+  .tools-group.is-in .tool {
     translate: none;
-    transition: none;
-  }
-
-  .tool article {
-    transition: none;
   }
 }
 

@@ -439,8 +439,67 @@ html.is-intro {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hairlines * {
-    animation: none !important;
+  /* estrelas da grade: acendem e cintilam, sem crescer nem girar */
+  .hairlines__star {
+    animation:
+      fadeIn 0.8s ease 1.2s both,
+      starTwinkle 7s ease 2.4s infinite;
+  }
+
+  .hairlines__mark {
+    rotate: none;
+  }
+
+  /* abertura: as linhas e o anel se desenham igual; no fim a cortina se dissolve
+     inteira, em vez de se partir ao meio */
+  .intro__star {
+    animation-name: fadeIn;
+  }
+
+  .intro {
+    transition: opacity 1.1s ease;
+  }
+
+  .intro--open {
+    opacity: 0;
+  }
+
+  .intro--open .intro__half--top,
+  .intro--open .intro__half--bottom {
+    transform: none;
+  }
+
+  /* troca de página: escurece e clareia, sem o círculo crescendo nem o anel girando */
+  .route-veil__iris,
+  .route-veil--reveal .route-veil__iris {
+    clip-path: none;
+  }
+
+  .route-veil--cover .route-veil__iris,
+  .route-veil--cover .route-veil__ring {
+    animation: anchorIn 0.5s ease both;
+  }
+
+  .route-veil--reveal .route-veil__iris {
+    animation: anchorOut 0.8s ease 0.1s both;
+  }
+
+  .route-veil--reveal .route-veil__ring {
+    animation: anchorOut 0.6s ease both;
+  }
+}
+
+@keyframes starTwinkle {
+  0%,
+  86%,
+  100% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.35;
+  }
+  94% {
+    opacity: 1;
   }
 }
 

@@ -131,18 +131,15 @@ section[id] {
   }
 }
 
+/*
+ * Menos movimento (opção "efeitos de animação" desligada no sistema): o site não
+ * fica parado, só tira o que mexe a tela. Nada desliza, gira, dá zoom ou segue a
+ * rolagem; luz, brilho, fagulhas, traços se desenhando e fades continuam. Cada
+ * componente ajusta o seu no próprio CSS, dentro de (prefers-reduced-motion: reduce).
+ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    transition-delay: 0s !important;
-  }
-
-  .js .reveal {
-    opacity: 1;
+  .js .reveal,
+  .js .reveal.visible {
     transform: none;
   }
 }

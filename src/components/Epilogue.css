@@ -273,6 +273,12 @@ html:not(.js) .epilogue__word {
     filter: none;
     translate: 0 0;
   }
+
+  /* a figura e a névoa ficam no lugar; o brilho e o anel continuam vivos */
+  .epilogue__body,
+  .epilogue__wisp {
+    animation: none;
+  }
 }
 
 /* só encurta a seção presa quando há animação (com movimento reduzido ela não fica presa) */

@@ -706,10 +706,10 @@ html.page-shire .footer__links a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bbook {
-    opacity: 1;
+  /* os livros aparecem só com fade, sem subir */
+  .bbook,
+  .bbook.is-in {
     translate: none;
-    transition: none;
   }
 }
 

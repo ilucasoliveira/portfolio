@@ -552,20 +552,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .forge *,
-  .forge *::after {
-    animation: none !important;
-  }
-
-  .forge__live,
-  .forge__ember,
+  /* o fogo ondulando, as fagulhas e a luz do cajado continuam;
+     só os raios param de girar e as runas param de flutuar */
   .forge__rays {
-    display: none;
+    animation: none;
   }
 
   .forge__orbit li {
     opacity: 1;
     translate: none;
+    animation: none;
   }
 }
 

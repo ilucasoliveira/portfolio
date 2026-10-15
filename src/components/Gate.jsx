@@ -42,8 +42,13 @@ const TIMELINE_REPEAT = [
   [2500, 0.64],
   [3100, 0.84],
 ];
+// menos movimento: as linhas se desenham e as runas acendem igual, mas as portas não
+// se abrem nem a câmera entra no túnel; depois da pausa no título o portão se dissolve
+const TIMELINE_GENTLE_FIRST = TIMELINE_FIRST.slice(0, 3);
+const TIMELINE_GENTLE_REPEAT = TIMELINE_REPEAT.slice(0, 3);
 const REPEAT_START = 1200;
 const FADE_MS = 600;
+const GENTLE_FADE_MS = 1200; // a versão suave termina num dissolver mais lento (igual ao CSS)
 const SEEN_KEY = "gate-seen";
 
 function progressAt(timeline, ms) {
@@ -314,7 +319,8 @@ function Door({ side }) {
 }
 
 // onReveal: a luz começou a baixar (a página aparece por trás); onDone: o portão saiu da tela
-function Gate({ onReveal, onDone }) {
+// gentle: versão para quem pediu menos movimento no sistema (ver TIMELINE_GENTLE_*)
+function Gate({ onReveal, onDone, gentle = false }) {
   const { t } = useLanguage();
   const ref = useRef(null);
   const [leaving, setLeaving] = useState(false);
@@ -323,7 +329,13 @@ function Gate({ onReveal, onDone }) {
   useEffect(() => {
     const el = ref.current;
     const seen = wasSeen();
-    const timeline = seen ? TIMELINE_REPEAT : TIMELINE_FIRST;
+    const timeline = gentle
+      ? seen
+        ? TIMELINE_GENTLE_REPEAT
+        : TIMELINE_GENTLE_FIRST
+      : seen
+        ? TIMELINE_REPEAT
+        : TIMELINE_FIRST;
     const offset = seen ? REPEAT_START : 0;
     const end = timeline[timeline.length - 1][0];
     let frame = 0;
@@ -343,7 +355,7 @@ function Gate({ onReveal, onDone }) {
       setLeaving(true);
       onReveal?.();
       document.documentElement.classList.remove("gate-open");
-      timer = setTimeout(() => onDone?.(), FADE_MS);
+      timer = setTimeout(() => onDone?.(), gentle ? GENTLE_FADE_MS : FADE_MS);
     }
     finish.current = leave;
 
@@ -387,7 +399,7 @@ function Gate({ onReveal, onDone }) {
 
   return (
     <section
-      className={`gate ${leaving ? "gate--leaving" : ""}`}
+      className={`gate ${gentle ? "gate--gentle" : ""} ${leaving ? "gate--leaving" : ""}`}
       ref={ref}
       data-phase="draw"
       aria-labelledby="gate-title"

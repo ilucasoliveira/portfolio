@@ -274,11 +274,10 @@ html.nav-open {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav__drawer,
+  /* itens do menu aparecem só com fade, sem subir */
   .nav__drawer-list li {
-    animation: none;
-    opacity: 1;
     translate: none;
+    animation-name: drawerIn;
   }
 }
 

@@ -512,14 +512,24 @@ html:not(.js) .hero__title-line {
 
 
 @media (prefers-reduced-motion: reduce) {
+  /* o título acende e ganha foco no lugar, sem subir */
   .hero__title-line {
-    opacity: 1;
-    filter: none;
     translate: 0 0;
   }
 
-  .hero__embers {
-    display: none;
+  /* os anéis de runas não giram: só respiram a luz */
+  .hero__ring--outer,
+  .hero__ring--inner {
+    animation: heroRingBreath 5s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes heroRingBreath {
+  from {
+    filter: brightness(0.7);
+  }
+  to {
+    filter: brightness(1.3);
   }
 }
 

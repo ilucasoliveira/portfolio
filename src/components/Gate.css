@@ -14,6 +14,11 @@
   pointer-events: none;
 }
 
+/* menos movimento: o portão não abre, se dissolve devagar (GENTLE_FADE_MS) */
+.gate--gentle {
+  transition-duration: 1200ms;
+}
+
 /* enquanto o portão abre, a página por trás não rola */
 html.gate-open,
 html.gate-open body {

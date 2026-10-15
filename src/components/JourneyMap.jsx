@@ -41,16 +41,13 @@ function JourneyMap() {
   useEffect(() => {
     const el = ref.current;
     if (!el || !inView) return;
-    if (prefersReducedMotion()) {
-      el.style.setProperty("--t", "1");
-      return;
-    }
     let frame = 0;
     const start = performance.now();
     // no celular o mapa é mais largo que a tela (rola de lado): a câmera acompanha a trilha
+    // (com menos movimento a trilha se desenha igual, mas a tela não anda sozinha)
     const live = el.querySelector(".map__trail--live");
     const total = live.getTotalLength();
-    const follow = el.scrollWidth > el.clientWidth + 4;
+    const follow = el.scrollWidth > el.clientWidth + 4 && !prefersReducedMotion();
     function step(now) {
       const x = Math.min((now - start) / JOURNEY_MS, 1);
       const eased = 0.5 - Math.cos(Math.PI * x) / 2;
