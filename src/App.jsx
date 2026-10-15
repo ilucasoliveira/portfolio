@@ -10,7 +10,9 @@ import { AnchorJump, Hairlines, Intro, RouteVeil } from "./components/Veils";
 import Home from "./pages/Home";
 import ProjectPage from "./pages/ProjectPage";
 import InspirationsPage from "./pages/InspirationsPage";
+import WorkshopPage from "./pages/WorkshopPage";
 import { INSPIRATIONS } from "./data/inspirations";
+import { WORKSHOP_TEXT } from "./data/workshop";
 
 function App() {
   const route = useRoute();
@@ -21,6 +23,7 @@ function App() {
   useEffect(() => {
     if (project) document.title = `${tx(project.name, lang)} · Lucas de Oliveira`;
     else if (route.page === "inspirations") document.title = INSPIRATIONS[lang].metaTitle;
+    else if (route.page === "workshop") document.title = WORKSHOP_TEXT[lang].metaTitle;
     else document.title = t.meta.title;
   }, [project, route.page, t, lang]);
 
@@ -34,6 +37,7 @@ function App() {
   let page = <Home />;
   if (route.page === "project") page = <ProjectPage slug={route.slug} />;
   if (route.page === "inspirations") page = <InspirationsPage />;
+  if (route.page === "workshop") page = <WorkshopPage />;
 
   return (
     <div className="app">

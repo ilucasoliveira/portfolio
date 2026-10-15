@@ -20,10 +20,26 @@
   padding-top: 12px;
 }
 
+/* três colunas: as das pontas têm a mesma largura, então a frase fica no centro exato
+   da página (com space-between ela ia para o lado do item mais curto) */
 .footer__inner {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
+  gap: 24px;
+}
+
+.footer__logo {
+  justify-self: start;
+}
+
+.footer__copy {
+  text-align: center;
+}
+
+.footer__inner > .footer__links {
+  justify-self: end;
+  justify-content: flex-end;
 }
 
 .footer__logo {
@@ -71,8 +87,15 @@
   }
 
   .footer__inner {
+    display: flex;
     flex-direction: column;
     gap: 24px;
     text-align: center;
+  }
+
+  .footer__logo,
+  .footer__inner > .footer__links {
+    justify-self: auto;
+    justify-content: center;
   }
 }

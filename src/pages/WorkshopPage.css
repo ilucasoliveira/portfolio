@@ -1,0 +1,521 @@
+/* ===== A Oficina: descida pelas minas =====
+ * O fundo é o escuro das minas (fixo e opaco: as estrelas do céu só aparecem no portão).
+ * --depth (0 no topo, 1 no fim) faz o brilho do fogo subir do fundo da tela.
+ * --footer-h é a altura do rodapé: a cena final ocupa o resto da tela.
+ */
+
+.workshop {
+  --depth: 0;
+  position: relative;
+}
+
+/* enquanto o portão abre, a página espera por trás; quando a luz baixa, ela aparece */
+.workshop__atmosphere,
+.workshop__content {
+  opacity: 0;
+  transition: opacity 900ms var(--ease);
+}
+
+.workshop.is-revealed .workshop__atmosphere,
+.workshop.is-revealed .workshop__content {
+  opacity: 1;
+}
+
+/* ----- atmosfera: preto, um resto de luz fria no alto, fogo lá embaixo ----- */
+
+.workshop__atmosphere {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh; /* altura cheia mesmo com a barra do celular escondida: o fundo não pula */
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% -5%, rgba(130, 150, 200, 0.07), transparent 70%),
+    var(--color-bg);
+}
+
+/* o fogo do abismo: fraco no começo, mais forte perto da forja */
+.workshop__atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 85% 50% at 50% 112%,
+    rgba(255, 95, 35, 0.3),
+    rgba(160, 40, 12, 0.12) 50%,
+    transparent 76%
+  );
+  opacity: calc(0.12 + var(--depth) * 0.88);
+  transform-origin: 50% 100%;
+  animation: workshopHeat 4s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/* bordas sempre apagadas */
+.workshop__atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 85% 80% at 50% 50%, transparent 45%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.workshop__content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ----- abertura: o salão ocupa a primeira tela e some no escuro ----- */
+
+.workshop-hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 110px 0 90px;
+  overflow: hidden;
+}
+
+.workshop-hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+.workshop-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(8, 8, 10, 0.65), rgba(8, 8, 10, 0) 60%),
+    linear-gradient(
+      180deg,
+      rgba(8, 8, 10, 0.55) 0%,
+      rgba(8, 8, 10, 0) 24%,
+      rgba(8, 8, 10, 0.2) 55%,
+      rgba(8, 8, 10, 0.8) 85%,
+      var(--color-bg) 100%
+    );
+}
+
+/* mesma régua das outras seções do site (caixa de até 1280px com 6vw de respiro dentro):
+   o texto fica longe das linhas finas verticais da grade */
+.workshop-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 6vw;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.9);
+}
+
+.workshop-hero__title {
+  font-size: clamp(46px, 7vw, 86px);
+  line-height: 1.05;
+}
+
+.workshop-hero__intro {
+  margin-top: 22px;
+  max-width: 34ch;
+  font-size: 22px;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.workshop-hero__descend {
+  margin-top: 46px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--color-gold-muted);
+}
+
+.workshop-hero__line {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(180deg, var(--color-gold), transparent);
+  transform-origin: top;
+  animation: workshopDescend 2.4s var(--ease) infinite;
+}
+
+/* ----- partes com as ferramentas ----- */
+
+.workshop__part {
+  /* prata fria em cima; depois da ponte, cor de brasa */
+  --accent: var(--color-moon);
+  --accent-soft: rgba(216, 233, 255, 0.2);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 6vw;
+}
+
+.workshop-bridge ~ .workshop__part {
+  --accent: #ffad73;
+  --accent-soft: rgba(255, 150, 90, 0.24);
+}
+
+/* a ponte: uma faixa larga que se dissolve no escuro em cima e embaixo */
+.workshop-bridge {
+  position: relative;
+  height: clamp(300px, 72vh, 760px);
+  margin: 90px 0 10px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 24%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 24%, #000 72%, transparent 100%);
+}
+
+.workshop-bridge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 44% 50%;
+}
+
+.workshop-bridge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 75% 90% at 50% 50%, transparent 45%, rgba(8, 8, 10, 0.85) 100%);
+}
+
+/* ----- categorias e cards ----- */
+
+.tools-group {
+  padding-top: 80px;
+}
+
+.tools-group__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 30px;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 18px var(--accent-soft);
+}
+
+.tools-group__title span[aria-hidden] {
+  font-family: var(--font-runic);
+  font-size: 14px;
+  letter-spacing: 0;
+  opacity: 0.6;
+}
+
+/* cards centralizados: a última linha incompleta fica no meio, não encostada à esquerda */
+.tools-group__grid {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.tool {
+  flex: 0 1 calc((100% - 32px) / 3);
+  min-width: 0;
+  opacity: 0;
+  translate: 0 22px;
+  transition:
+    opacity 700ms var(--ease-out),
+    translate 700ms var(--ease-out);
+  transition-delay: calc(var(--i) * 70ms);
+}
+
+.tools-group.is-in .tool {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* cada ferramenta: uma placa de pedra escura com fio de luz no alto */
+.tool article {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 18px;
+  background: linear-gradient(180deg, rgba(20, 19, 25, 0.92), rgba(11, 11, 14, 0.95));
+  border: 1px solid rgba(201, 168, 76, 0.13);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 18px 40px rgba(0, 0, 0, 0.45);
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    translate 0.35s var(--ease-out);
+}
+
+.tool article::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.35;
+  transition: opacity 0.35s ease;
+}
+
+.tool article:hover {
+  border-color: var(--accent-soft);
+  translate: 0 -3px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 22px 48px rgba(0, 0, 0, 0.55),
+    0 0 28px var(--accent-soft);
+}
+
+.tool article:hover::before {
+  opacity: 0.9;
+}
+
+.tool__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.tool__icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--color-gold-light);
+  transition:
+    color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.tool__icon svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.tool__rune {
+  font-family: var(--font-runic);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.tool article:hover .tool__icon {
+  color: var(--color-gold-pale);
+  box-shadow: 0 0 18px rgba(232, 201, 122, 0.25);
+}
+
+.tool__name {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--color-text-primary);
+}
+
+.tool__text {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.tool__label {
+  margin-top: auto;
+  padding-top: 18px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.tool__used {
+  margin-top: 6px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--color-text-faint);
+}
+
+.tool__used a {
+  color: var(--color-gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.tool__used a:hover {
+  color: var(--color-gold-light);
+  border-color: var(--color-gold-light);
+}
+
+.tool__visit {
+  align-self: flex-end;
+  margin-top: 12px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-gold-muted);
+  transition: color 0.25s ease;
+}
+
+.tool__visit:hover {
+  color: var(--color-gold-light);
+}
+
+.tool a:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* ----- fim: uma frase curta embaixo da forja ----- */
+
+.workshop__content > .forge--finale {
+  margin-top: 90px;
+}
+
+/* nesta página o rodapé encosta na cena final (sem a margem de cima de sempre) */
+.app:has(.workshop) .footer {
+  margin-top: 0;
+}
+
+.workshop-finale {
+  font-family: var(--font-heading);
+  font-size: clamp(14px, 1.4vw, 18px);
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  line-height: 1.5;
+  color: var(--color-gold-pale);
+  text-shadow:
+    0 0 24px rgba(255, 120, 50, 0.4),
+    0 2px 14px rgba(0, 0, 0, 0.9);
+}
+
+.workshop-finale__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+/* botões um pouco mais baixos que os do resto do site: a cena fica com a maior parte da tela */
+.workshop-finale__actions .cta {
+  padding: 12px 24px;
+}
+
+/* ----- telas menores ----- */
+
+@media (max-width: 1100px) {
+  .tool {
+    flex-basis: calc((100% - 16px) / 2);
+  }
+}
+
+@media (max-width: 700px) {
+  .workshop-hero {
+    padding: 100px 0 80px;
+  }
+
+  .workshop-hero__inner {
+    padding: 0 5vw;
+  }
+
+  .workshop__part {
+    padding: 0 5vw;
+  }
+
+  .workshop-hero__intro {
+    font-size: 19px;
+  }
+
+  .tools-group {
+    padding-top: 64px;
+  }
+
+  .tool {
+    flex-basis: 100%;
+  }
+
+  .tool article {
+    padding: 20px 20px 16px;
+  }
+
+  .workshop-bridge {
+    height: 46vh;
+    margin-top: 70px;
+  }
+}
+
+/* ----- movimento reduzido: sem animações ----- */
+
+@media (prefers-reduced-motion: reduce) {
+  .workshop__atmosphere::before,
+  .workshop-hero__line {
+    animation: none;
+  }
+
+  .tool,
+  .workshop__atmosphere,
+  .workshop__content {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+
+  .tool article {
+    transition: none;
+  }
+}
+
+@keyframes workshopHeat {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.12);
+  }
+}
+
+@keyframes workshopDescend {
+  0% {
+    transform: scaleY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}

@@ -9,6 +9,11 @@ import "./ForgeScene.css";
  * As bordas da imagem se dissolvem no preto da página; o fogo ondula, as
  * fagulhas sobem e a luz branca pulsa na ponta do cajado. As tecnologias
  * ficam nos lados, como runas presas em pedra.
+ *
+ * finale: só a cena, maior, com o conteúdo (children) embaixo dela. É o fim
+ * da descida da Oficina.
+ * easterEgg: frase escondida que aparece entre o mago e a criatura quando o
+ * mouse passa sobre o mago (no celular, ao tocar nele); a luz do cajado estoura junto.
  */
 
 // ponta do cajado na imagem (onde nasce a luz branca)
@@ -69,7 +74,16 @@ function Stone({ item }) {
   );
 }
 
-function ForgeScene({ stack, labelA, labelB, sceneLabel, children }) {
+function ForgeScene({
+  stack = [],
+  labelA,
+  labelB,
+  sceneLabel,
+  finale = false,
+  easterEgg,
+  labelledBy = "forge-title",
+  children,
+}) {
   const [playing, setPlaying] = useState(false);
   const watchRef = useRef(null);
   const ref = useScrollProgress("pass");
@@ -88,7 +102,11 @@ function ForgeScene({ stack, labelA, labelB, sceneLabel, children }) {
   }, []);
 
   return (
-    <section className={`forge ${playing ? "" : "forge--paused"}`} ref={ref} aria-labelledby="forge-title">
+    <section
+      className={`forge ${finale ? "forge--finale" : ""} ${playing ? "" : "forge--paused"}`}
+      ref={ref}
+      aria-labelledby={labelledBy}
+    >
       <svg className="forge__defs" aria-hidden="true" focusable="false">
         <filter id="forge-live-a" x="-5%" y="-5%" width="110%" height="110%">
           <feTurbulence type="fractalNoise" baseFrequency="0.011 0.019" numOctaves="2" seed="3" result="noise">
@@ -120,26 +138,39 @@ function ForgeScene({ stack, labelA, labelB, sceneLabel, children }) {
               <span key={`b${i}`} className="forge__ember forge__ember--light" style={style} aria-hidden="true" />
             ))}
             <span className="forge__tip" aria-hidden="true" style={{ left: STAFF.x, top: STAFF.y }} />
+            {easterEgg && (
+              <>
+                <span className="forge__egg-zone" aria-hidden="true" />
+                <span className="forge__egg-flash" aria-hidden="true" style={{ left: STAFF.x, top: STAFF.y }} />
+                <span className="forge__egg" aria-hidden="true">
+                  {easterEgg}
+                </span>
+              </>
+            )}
           </div>
         </figure>
       </div>
 
-      <div className="forge__content">
-        <div className="forge__head">{children}</div>
-        <div className="forge__orbits">
-          <ul className="forge__orbit forge__orbit--left" aria-label={labelA}>
-            {left.map((item) => (
-              <Stone key={item.name} item={item} />
-            ))}
-          </ul>
-          <div className="forge__gap" aria-hidden="true" />
-          <ul className="forge__orbit forge__orbit--right" aria-label={labelB}>
-            {right.map((item) => (
-              <Stone key={item.name} item={item} />
-            ))}
-          </ul>
+      {finale ? (
+        <div className="forge__content">{children}</div>
+      ) : (
+        <div className="forge__content">
+          <div className="forge__head">{children}</div>
+          <div className="forge__orbits">
+            <ul className="forge__orbit forge__orbit--left" aria-label={labelA}>
+              {left.map((item) => (
+                <Stone key={item.name} item={item} />
+              ))}
+            </ul>
+            <div className="forge__gap" aria-hidden="true" />
+            <ul className="forge__orbit forge__orbit--right" aria-label={labelB}>
+              {right.map((item) => (
+                <Stone key={item.name} item={item} />
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

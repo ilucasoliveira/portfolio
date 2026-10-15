@@ -319,6 +319,149 @@
   animation-play-state: paused;
 }
 
+/*
+ * fim da Oficina: a cena ocupa toda a altura que sobra acima do rodapé (--footer-h
+ * vem da página), inclusive por baixo do menu, e as bordas se dissolvem no preto
+ * pelos quatro lados (sem a moldura oval). A frase e os botões sobem sobre a borda
+ * de baixo, que já é escura. Ao terminar de rolar, a cena aparece inteira junto
+ * com o rodapé. Os seletores com .forge.forge--finale valem também nas telas
+ * menores (vencem as regras do celular logo abaixo).
+ */
+.forge.forge--finale {
+  height: calc(100vh - var(--footer-h, 220px));
+  height: calc(100svh - var(--footer-h, 220px));
+  min-height: 460px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0;
+  background: none;
+}
+
+.forge.forge--finale .forge__backdrop {
+  position: relative;
+  inset: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0;
+  align-items: stretch;
+}
+
+/* na proporção da imagem (1920 x 1200), sem cortar; em telas estreitas ocupa a
+   largura toda e corta só as laterais, mantendo a criatura e o mago inteiros */
+.forge.forge--finale .forge__scene {
+  width: auto;
+  height: 100%;
+  aspect-ratio: 1920 / 1200;
+  max-width: 100vw;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 16%, #000 72%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 16%, #000 72%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.forge.forge--finale .forge__scene::after {
+  background: linear-gradient(180deg, rgba(8, 8, 10, 0.3), transparent 22%, transparent 66%, rgba(8, 8, 10, 0.55));
+}
+
+.forge.forge--finale .forge__zoom,
+.forge.forge--finale .forge__base,
+.forge.forge--finale .forge__live {
+  object-position: 50% 50%;
+  background-position: 50% 50%;
+}
+
+/* easter egg: passar o mouse sobre o mago acende a frase entre ele e a criatura */
+.forge__egg-zone {
+  position: absolute;
+  z-index: 6;
+  left: 41%;
+  top: 66%;
+  width: 18%;
+  height: 34%;
+  pointer-events: auto;
+  cursor: default;
+}
+
+.forge__egg-flash {
+  position: absolute;
+  z-index: 4;
+  width: 46vw;
+  max-width: 760px;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(210, 230, 255, 0.4) 14%, rgba(160, 200, 255, 0) 60%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  scale: 0.6;
+  pointer-events: none;
+  transition:
+    opacity 0.5s var(--ease-out),
+    scale 0.7s var(--ease-out);
+}
+
+.forge__egg {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: 56%;
+  translate: -50% -50%;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(16px, 2.6vw, 34px);
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-shadow:
+    0 0 10px rgba(200, 225, 255, 0.95),
+    0 0 28px rgba(150, 195, 255, 0.8),
+    0 2px 6px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  scale: 0.9;
+  filter: blur(4px);
+  pointer-events: none;
+  transition:
+    opacity 0.45s var(--ease-out),
+    scale 0.6s var(--ease-out),
+    filter 0.45s var(--ease-out),
+    letter-spacing 0.8s var(--ease-out);
+}
+
+.forge__egg-zone:hover ~ .forge__egg {
+  opacity: 1;
+  scale: 1;
+  filter: none;
+  letter-spacing: 0.08em;
+}
+
+.forge__egg-zone:hover ~ .forge__egg-flash {
+  opacity: 1;
+  scale: 1;
+}
+
+.forge.forge--finale .forge__content {
+  position: relative;
+  z-index: 3;
+  display: block;
+  flex: none;
+  min-height: 0;
+  max-width: none;
+  margin: -72px 0 0;
+  padding: 0 6vw 26px;
+  text-align: center;
+}
+
+/* no celular o mago fica mais perto da borda de baixo: a frase sobe menos sobre a cena */
+@media (max-width: 700px) {
+  .forge.forge--finale .forge__content {
+    margin-top: -28px;
+  }
+}
+
 @media (max-width: 1100px) {
   .forge {
     --scene-h: auto;

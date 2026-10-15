@@ -2,15 +2,16 @@ export const translations = {
   en: {
     meta: { title: "Lucas de Oliveira · Full Stack Python Developer" },
     gate: {
-      eyebrow: "Before the works",
-      title: "The Gate of the Forge",
-      line: "Beyond this gate wait the works forged so far.",
+      eyebrow: "Chapter IV · The Workshop",
+      title: "The Gate of Moria",
+      line: "Inside wait the tools every work was forged with.",
+      skip: "Skip",
     },
     nav: {
       about: "About",
       projects: "Projects",
       experience: "Journey",
-      stack: "Stack",
+      stack: "Workshop",
       inspirations: "Inspirations",
       contact: "Contact",
       language: "Language",
@@ -186,15 +187,16 @@ export const translations = {
   pt: {
     meta: { title: "Lucas de Oliveira · Desenvolvedor Full Stack Python" },
     gate: {
-      eyebrow: "Antes das obras",
-      title: "O Portão da Forja",
-      line: "Além deste portão esperam as obras forjadas até aqui.",
+      eyebrow: "Capítulo IV · A Oficina",
+      title: "O Portão de Moria",
+      line: "Lá dentro esperam as ferramentas com que cada obra foi forjada.",
+      skip: "Pular",
     },
     nav: {
       about: "Sobre",
       projects: "Projetos",
       experience: "Jornada",
-      stack: "Stack",
+      stack: "Oficina",
       inspirations: "Inspirações",
       contact: "Contato",
       language: "Idioma",

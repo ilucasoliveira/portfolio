@@ -2,7 +2,7 @@
 
 > _"I build software with the precision of one who carves runes into stone: clean code, robust systems, and a journey told in every line."_
 
-My personal portfolio, told as a journey through Middle-earth. A starry night sky, a hero portal that opens over a valley, a moonlit stone gate you walk through to reach the works, a fire forge for each project, a map of my career and a wraith waiting in the epilogue. Bilingual (EN/PT), accessible, and connected to my own FastAPI backend, which the site shows working live.
+My personal portfolio, told as a journey through Middle-earth. A starry night sky, a hero portal that opens over a valley, a moonlit stone gate that opens onto a descent through the mines where the tech stack lives, a fire forge for each project, a map of my career and a wraith waiting in the epilogue. Bilingual (EN/PT), accessible, and connected to my own FastAPI backend, which the site shows working live.
 
 **Live:** https://ilucasoliveira.dev
 **Backend repository:** [ilucasoliveira/portfolio-lucas-api](https://github.com/ilucasoliveira/portfolio-lucas-api)
@@ -16,21 +16,20 @@ The home page reads like a book, one chapter per section:
 | Opening            | Intro      | A veil splits open while a ring of Elvish script draws itself (once per session)                     |
 | Prologue           | Hero       | Rune rings glow and scale past the viewer over a night valley, runes fly toward the camera in 3D      |
 | I · The Architect  | About      | Portrait, story and an animated signature                                                             |
-| The Gate           | Gate       | A stone gate drawn in moonlit silver lines; its runes light up, the doors open and you walk inside    |
 | II · The Works     | Projects   | Featured project and cards, each one opening its own project page                                     |
 | III · The Journey  | Experience | An illustrated map whose trail travels on its own through each stop of my career, then the timeline  |
-| IV · The Arsenal   | Stack      | Tech stack grouped by layer                                                                           |
 | V · Open a Channel | Contact    | Contact form and live API status                                                                      |
 | Epilogue           | Epilogue   | A wraith rises from the dark holding a glowing ring; the footer closes the scene                     |
 
-Two more pages complete the site:
+Three more pages complete the site:
 
+- **Workshop** (`/oficina`, chapter IV): a moonlit stone gate draws itself and opens on its own (with a Skip button) onto a hall of the dwarves. Below it, on the dark of the mines, the tool cards (where I use each tool, the projects that use it and its official site), a bridge over the abyss between the two halves, and a fire glow that rises as you go down. The page ends with the forge scene filling the screen together with the footer and a single short line
 - **Project pages** (`/projetos/:slug`): tabs between projects, a forge scene where the tech stack orbits a wizard facing a creature of fire, an architecture diagram, features with wax seals, technical decisions, an endpoint table and next steps
 - **Inspirations** (`/inspiracoes`): the site's appendix, laid out like the page of an old book in daylight, crediting J.R.R. Tolkien, The Hobbit and The Lord of the Rings, and explaining where each part of the site comes from
 
 ## ✦ Features
 
-- **Scroll-driven scenes**: a small `useScrollProgress` hook writes a `--p` (0 to 1) variable on pinned sections, and CSS turns it into the gate drawing, opening and walk-through, the forge zoom and the epilogue reveal. The hero portal uses native CSS scroll timelines where supported
+- **Scroll-driven scenes**: a small `useScrollProgress` hook writes a `--p` (0 to 1) variable on pinned sections, and CSS turns it into the forge zoom and the epilogue reveal. The hero portal uses native CSS scroll timelines where supported. On the Workshop page a clock writes the same `--p` to play the gate opening, and the scroll writes `--depth` to raise the fire glow (opacity only, so the GPU does the work)
 - **Page transitions**: a minimal router (`useRoute`) with a portal of runes that closes from the clicked point and opens on the new page; long in-page jumps fade out, jump and fade back in instead of scrolling through every animation
 - **Elvish-style script**: procedurally generated glyphs (invented, not real tengwar) drawn stroke by stroke, in line or ring form
 - **Rune decoding titles**: chapter titles decode from random runes into their final word, letter by letter, without changing layout
@@ -92,12 +91,14 @@ src/
 ├── pages/
 │   ├── Home.jsx               # the chapters, in order
 │   ├── ProjectPage.jsx        # one page per project
+│   ├── WorkshopPage.jsx       # the gate and the descent through the mines (tech stack)
 │   └── InspirationsPage.jsx   # appendix: credits to Tolkien and the books
 ├── components/
 │   ├── Nav, Footer            # top bar, hamburger menu and footer
-│   ├── Hero, About, Gate, Projects, Experience, Stack, Contact, Epilogue
+│   ├── Hero, About, Projects, Experience, Contact, Epilogue
+│   ├── Gate                   # the stone gate that opens the Workshop
 │   ├── JourneyMap             # map with the self-drawing career trail
-│   ├── ForgeScene             # project stack around the forge scene
+│   ├── ForgeScene             # project stack around the forge scene (or the scene alone, as the Workshop finale)
 │   ├── ArchDiagram            # architecture diagram on project pages
 │   ├── Background             # canvas star field, moon, fog and lantern
 │   ├── Veils                  # intro, page transition, anchor jump and hairline grid
@@ -111,7 +112,8 @@ src/
 │   ├── translations.js        # all interface copy, both languages
 │   ├── projects.js            # projects and their page content
 │   ├── inspirations.js        # Inspirations page copy
-│   ├── stack.js               # tech stack by category
+│   ├── workshop.js            # Workshop tools: text, projects and links, by scene
+│   ├── icons.js               # tool logos (Simple Icons, CC0)
 │   └── cv.js                  # résumé PDF path per language
 ├── hooks/                     # useRoute, useScrollProgress, useInView, useRuneDecode, ...
 ├── services/

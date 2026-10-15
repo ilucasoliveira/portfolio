@@ -5,14 +5,15 @@ import { PROJECTS } from "../data/projects";
 import "./Nav.css";
 
 // itens do menu: a mesma ordem dos capítulos da página
-// "Projetos" abre direto a página do primeiro projeto (com as abas para os outros)
+// "Projetos" abre direto a página do primeiro projeto (com as abas para os outros);
+// "Oficina" é a página própria das ferramentas, com a descida pelas minas
 const PROJECTS_HREF = `/projetos/${PROJECTS[0].slug}`;
 
 const MENU = [
   ["/#sobre", "about", "I"],
   [PROJECTS_HREF, "projects", "II"],
   ["/#jornada", "experience", "III"],
-  ["/#stack", "stack", "IV"],
+  ["/oficina", "stack", "IV"],
   ["/#contato", "contact", "V"],
   ["/inspiracoes", "inspirations", "A"],
 ];
@@ -73,7 +74,9 @@ function Nav({ page }) {
           {t.nav.projects}
         </Link>
         <Link href="/#jornada">{t.nav.experience}</Link>
-        <Link href="/#stack">{t.nav.stack}</Link>
+        <Link href="/oficina" aria-current={page === "workshop" ? "page" : undefined}>
+          {t.nav.stack}
+        </Link>
         <Link href="/inspiracoes" aria-current={page === "inspirations" ? "page" : undefined}>
           {t.nav.inspirations}
         </Link>
@@ -138,7 +141,9 @@ function Nav({ page }) {
                 href={href}
                 onClick={closeMenu}
                 aria-current={
-                  (key === "inspirations" && page === "inspirations") || (key === "projects" && page === "project")
+                  (key === "inspirations" && page === "inspirations") ||
+                  (key === "projects" && page === "project") ||
+                  (key === "stack" && page === "workshop")
                     ? "page"
                     : undefined
                 }

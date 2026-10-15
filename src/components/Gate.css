@@ -1,24 +1,28 @@
-/* ===== O Portão (seção presa, animada pela rolagem via --p) ===== */
+/* ===== O Portão: abertura da Oficina, cobre a tela e é animada por --p (escrito por um relógio) ===== */
 
 .gate {
   --p: 0;
-  position: relative;
-  z-index: 1;
-  height: 340vh;
+  position: fixed;
+  inset: 0;
+  z-index: 45; /* acima da página e dos fios dourados; o menu (50) continua por cima */
+  transition: opacity 600ms var(--ease);
 }
 
-/* depois de atravessar o portão, as obras sobem por dentro dele, ainda com o palco preso */
-.gate + .projects {
-  position: relative;
-  z-index: 2;
-  margin-top: -60vh;
+/* a luz baixa e a página aparece por trás */
+.gate--leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* enquanto o portão abre, a página por trás não rola */
+html.gate-open,
+html.gate-open body {
+  overflow: hidden;
 }
 
 .gate__stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,11 +32,10 @@
 }
 
 /*
- * Linha do tempo da seção presa:
+ * Linha do tempo da abertura (--p):
  * 0 → 0,44  as linhas de prata se desenham e as runas acendem (--dp)
  * 0,5 → 0,64  as portas se abrem (--open)
- * 0,62 → 0,8  a câmera atravessa o vão de luz (--enter)
- * 0,75 → 1  o capítulo II sobe por dentro do portão
+ * 0,62 → 0,84  a câmera atravessa o vão de luz (--enter) e o portão sai
  */
 .gate {
   --dp: calc(var(--p) * 1.35);
@@ -159,7 +162,7 @@
   bottom: -7.3%;
   pointer-events: none;
   background:
-    var(--rock) 0 0 / 100% 100% no-repeat,
+    var(--rock) 50% 50% / cover no-repeat,
     #0c0e15;
   -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 52%, #000 45%, transparent 100%);
   mask-image: radial-gradient(ellipse 50% 50% at 50% 52%, #000 45%, transparent 100%);
@@ -203,6 +206,16 @@
   stroke-width: 1;
 }
 
+/* a pedra da porta só aparece direito quando o luar acende as linhas */
+.gate__door-tex {
+  opacity: calc(0.22 + var(--lit) * 0.5);
+}
+
+/* ao abrir, a face da porta vira para o túnel e pega a luz da forja */
+.gate__door-lit {
+  opacity: var(--open);
+}
+
 .gate__door--l {
   transform-origin: 0 50%;
   transform: rotateY(calc(var(--open) * 80deg));
@@ -216,7 +229,45 @@
 /* sombra da folha girando: escurece conforme vira de lado */
 .gate__door-shade {
   fill: #040408;
-  opacity: calc(var(--open) * 0.65);
+  opacity: calc(var(--open) * 0.3);
+}
+
+/* raios de luz respirando e poeira subindo devagar no túnel */
+.gate__rays path {
+  animation: gateRay 4s ease-in-out infinite;
+}
+
+.gate__dust circle {
+  fill: #fff0cf;
+  opacity: 0;
+  animation: gateMote 5s linear infinite;
+}
+
+@keyframes gateRay {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes gateMote {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(var(--dx), -46px);
+    opacity: 0;
+  }
 }
 
 .gate__caption {
@@ -261,6 +312,36 @@
   color: var(--color-text-secondary);
 }
 
+.gate__skip {
+  position: absolute;
+  z-index: 3;
+  right: max(6vw, 20px);
+  bottom: max(32px, env(safe-area-inset-bottom));
+  padding: 10px 18px;
+  border: 1px solid rgba(216, 233, 255, 0.28);
+  background: rgba(8, 8, 10, 0.5);
+  color: var(--color-moon);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    background 0.3s;
+}
+
+.gate__skip:hover,
+.gate__skip:focus-visible {
+  border-color: var(--color-moon);
+  background: rgba(20, 24, 36, 0.7);
+}
+
+.gate__skip:focus-visible {
+  outline: 2px solid var(--color-moon);
+  outline-offset: 3px;
+}
+
 /* camadas por fase: só existe na tela o que aparece naquele trecho */
 @media (prefers-reduced-motion: no-preference) {
   .gate[data-phase="draw"] .gate__vault,
@@ -278,41 +359,9 @@
 }
 
 @media (max-width: 700px) {
-  .gate {
-    height: 320vh;
-  }
-
   .gate__frame {
     height: min(52vh, 460px);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .gate {
-    height: auto;
-    --dp: 1;
-    --open: 0;
-    --enter: 0;
-  }
-
-  .gate + .projects {
-    margin-top: 0;
-  }
-
-  .gate__flash,
-  .gate__vault,
-  .gate__vault-glow {
-    display: none;
-  }
-
-  .gate__frame {
-    opacity: 1;
-    scale: 1;
-  }
-
-  .gate__stage {
-    position: relative;
-    height: auto;
-    min-height: 100vh;
-  }
-}
+/* com movimento reduzido a Oficina não mostra a abertura (o portão nem é montado) */

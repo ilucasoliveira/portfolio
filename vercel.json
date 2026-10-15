@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/projetos/:slug", "destination": "/index.html" },
-    { "source": "/inspiracoes", "destination": "/index.html" }
+    { "source": "/inspiracoes", "destination": "/index.html" },
+    { "source": "/oficina", "destination": "/index.html" }
   ]
 }

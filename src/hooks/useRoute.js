@@ -3,12 +3,13 @@ import { prefersReducedMotion } from "../utils/motion";
 
 /*
  * Roteamento mínimo sem dependência nova: a home ("/"), a de projeto
- * ("/projetos/:slug") e a de inspirações ("/inspiracoes").
+ * ("/projetos/:slug"), a de inspirações ("/inspiracoes") e a oficina ("/oficina").
  * O vercel.json reescreve essas rotas para o index.html.
  */
 
 const PROJECT_PATH = /^\/projetos\/([^/]+)\/?$/;
 const INSPIRATIONS_PATH = /^\/inspiracoes\/?$/;
+const WORKSHOP_PATH = /^\/oficina\/?$/;
 const ROUTE_EVENT = "app:navigate";
 export const VEIL_EVENT = "app:veil";
 
@@ -16,6 +17,7 @@ function readRoute() {
   const match = window.location.pathname.match(PROJECT_PATH);
   if (match) return { page: "project", slug: decodeURIComponent(match[1]) };
   if (INSPIRATIONS_PATH.test(window.location.pathname)) return { page: "inspirations" };
+  if (WORKSHOP_PATH.test(window.location.pathname)) return { page: "workshop" };
   return { page: "home" };
 }
 
