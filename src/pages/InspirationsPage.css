@@ -544,6 +544,28 @@ html.page-shire body {
   color: var(--bk-paper);
 }
 
+/* os dois botões do fim lado a lado; o das obras vem preenchido (é o caminho principal) */
+.bend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 48px;
+}
+
+.bend .book-back--end {
+  margin: 0;
+}
+
+.book-back--ink {
+  background: var(--bk-ink);
+  color: var(--bk-paper);
+}
+
+.book-back--ink:hover {
+  background: var(--bk-red);
+  border-color: var(--bk-red);
+}
+
 /* ----- Menu, grade e rodapé nesta página ----- */
 
 html.page-shire .nav {

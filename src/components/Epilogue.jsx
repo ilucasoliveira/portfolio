@@ -4,6 +4,7 @@ import { useParallax } from "../hooks/useParallax";
 import { useScrollProgress } from "../hooks/useScrollProgress";
 import ElvishScript from "./ElvishScript";
 import Footer from "./Footer";
+import Link from "./Link";
 import RuneText from "./RuneText";
 import wraith from "../assets/wraith-night.webp";
 import "./Epilogue.css";
@@ -112,6 +113,10 @@ function Epilogue() {
             </span>
           </p>
           <ElvishScript className="epilogue__elvish" text="algumas sombras guardam o que foi forjado" lit={revealed} />
+          {/* o que foi forjado está na Oficina: o fim da Home desce para lá */}
+          <Link className="link-rune epilogue__descend" href="/oficina">
+            {t.epilogue.toWorkshop} <span aria-hidden="true">→</span>
+          </Link>
         </div>
 
         {/* o rodapé surge no fim da cena, no mesmo escuro do espectro */}

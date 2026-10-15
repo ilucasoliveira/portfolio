@@ -40,14 +40,23 @@ function App() {
       title = m.workshop;
       description = m.workshopDescription;
     }
+    // cada idioma tem o seu endereço: inglês sem nada, português com ?lang=pt.
+    // o canônico aponta para a versão que está na tela, e os alternates ligam as duas
     const path = window.location.pathname.replace(/\/+$/, "") || "/";
-    const url = `${window.location.origin}${path}`;
+    const en = `${window.location.origin}${path}`;
+    const pt = `${en}?lang=pt`;
+    const url = lang === "pt" ? pt : en;
     document.title = title;
     setMeta('meta[name="description"]', "content", description);
     setMeta('meta[property="og:title"]', "content", title);
     setMeta('meta[property="og:description"]', "content", description);
     setMeta('meta[property="og:url"]', "content", url);
+    setMeta('meta[property="og:locale"]', "content", lang === "pt" ? "pt_BR" : "en_US");
+    setMeta('meta[property="og:locale:alternate"]', "content", lang === "pt" ? "en_US" : "pt_BR");
     setMeta('link[rel="canonical"]', "href", url);
+    setMeta('link[hreflang="en"]', "href", en);
+    setMeta('link[hreflang="pt-BR"]', "href", pt);
+    setMeta('link[hreflang="x-default"]', "href", en);
 
     // endereço de obra que não existe: a página avisa e pede para não ser indexada
     let robots = document.head.querySelector('meta[name="robots"]');

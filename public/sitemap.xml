@@ -1,12 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ilucasoliveira.dev/</loc></url>
-  <url><loc>https://ilucasoliveira.dev/?lang=pt</loc></url>
-  <url><loc>https://ilucasoliveira.dev/projetos</loc></url>
-  <url><loc>https://ilucasoliveira.dev/oficina</loc></url>
-  <url><loc>https://ilucasoliveira.dev/inspiracoes</loc></url>
-  <url><loc>https://ilucasoliveira.dev/projetos/personal-library</loc></url>
-  <url><loc>https://ilucasoliveira.dev/projetos/portfolio-tracker-api</loc></url>
-  <url><loc>https://ilucasoliveira.dev/projetos/movies-api</loc></url>
-  <url><loc>https://ilucasoliveira.dev/projetos/portfolio</loc></url>
+<!-- cada página aparece duas vezes (inglês e português, ?lang=pt), e as duas se apontam -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://ilucasoliveira.dev/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/personal-library</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/personal-library" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/personal-library?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/personal-library" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/personal-library?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/personal-library" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/personal-library?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/personal-library" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/portfolio-tracker-api</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/portfolio-tracker-api" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/portfolio-tracker-api?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/portfolio-tracker-api" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/portfolio-tracker-api?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/portfolio-tracker-api" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/portfolio-tracker-api?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/portfolio-tracker-api" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/movies-api</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/movies-api" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/movies-api?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/movies-api" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/movies-api?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/movies-api" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/movies-api?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/movies-api" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/portfolio</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/portfolio" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/portfolio?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/portfolio" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/portfolio?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/portfolio" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/portfolio?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/portfolio" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/oficina</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/oficina" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/oficina?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/oficina" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/oficina?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/oficina" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/oficina?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/oficina" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/inspiracoes</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/inspiracoes" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/inspiracoes?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/inspiracoes" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/inspiracoes?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/inspiracoes" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/inspiracoes?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/inspiracoes" />
+  </url>
 </urlset>

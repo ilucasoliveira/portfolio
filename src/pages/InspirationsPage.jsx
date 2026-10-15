@@ -221,9 +221,15 @@ function InspirationsPage() {
             <p key={text}>{text}</p>
           ))}
         </div>
-        <Link className="book-back book-back--end" href="/#hero">
-          {c.closing}
-        </Link>
+        {/* o fim do livro leva adiante: para as obras, ou de volta ao começo da jornada */}
+        <div className="bend">
+          <Link className="book-back book-back--end book-back--ink" href="/projetos">
+            {c.toWorks}
+          </Link>
+          <Link className="book-back book-back--end" href="/#hero">
+            {c.closing}
+          </Link>
+        </div>
       </section>
     </article>
   );

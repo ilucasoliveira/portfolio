@@ -86,7 +86,8 @@
   color: var(--color-gold);
 }
 
-@media (max-width: 768px) {
+/* abaixo disso os cinco links não cabem numa linha ao lado da frase: empilha tudo no centro */
+@media (max-width: 1180px) {
   .footer__links {
     gap: 10px 20px;
   }

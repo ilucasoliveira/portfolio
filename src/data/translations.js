@@ -172,6 +172,7 @@ export const translations = {
     epilogue: {
       chapter: "Epilogue",
       line: "Some shadows guard what was forged with care.",
+      toWorkshop: "See where it was forged",
     },
     projectPage: {
       back: "← All projects",
@@ -371,6 +372,7 @@ export const translations = {
     epilogue: {
       chapter: "Epílogo",
       line: "Algumas sombras guardam o que foi forjado com cuidado.",
+      toWorkshop: "Ver onde foi forjado",
     },
     projectPage: {
       back: "← Todos os projetos",

@@ -95,6 +95,7 @@ export const INSPIRATIONS = {
     },
 
     closing: "Back to the journey",
+    toWorks: "See the works",
   },
 
   pt: {
@@ -191,5 +192,6 @@ export const INSPIRATIONS = {
     },
 
     closing: "Voltar à jornada",
+    toWorks: "Ver as obras",
   },
 };

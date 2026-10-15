@@ -26,6 +26,9 @@ function Footer({ className = "" }) {
             <Link href="/projetos">{t.nav.projects}</Link>
           </li>
           <li>
+            <Link href="/oficina">{t.nav.stack}</Link>
+          </li>
+          <li>
             <Link href="/inspiracoes">{t.nav.inspirations}</Link>
           </li>
           <li>

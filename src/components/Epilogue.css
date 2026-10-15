@@ -197,6 +197,40 @@
   opacity: 0.85;
 }
 
+/* o convite para a Oficina surge depois da frase (e só recebe clique quando aparece) */
+.epilogue__descend {
+  margin-top: 22px;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 6px;
+  transition:
+    opacity 0.9s ease,
+    translate 0.9s var(--ease-out),
+    visibility 0s linear 0.9s,
+    color 0.3s ease,
+    text-shadow 0.3s ease,
+    gap 0.3s ease;
+}
+
+.epilogue--revealed .epilogue__descend {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition:
+    opacity 0.9s ease 1.6s,
+    translate 0.9s var(--ease-out) 1.6s,
+    visibility 0s linear 1.6s,
+    color 0.3s ease,
+    text-shadow 0.3s ease,
+    gap 0.3s ease;
+}
+
+html:not(.js) .epilogue__descend {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+}
+
 /* ===== Rodapé dentro da cena ===== */
 
 .footer--epilogue {
@@ -214,7 +248,8 @@
   visibility: hidden;
 }
 
-@media (max-width: 768px) {
+/* até 1180px o rodapé fica empilhado (mais alto): a cena reserva espaço para ele */
+@media (max-width: 1180px) {
   .epilogue__stage {
     padding-bottom: 210px;
   }
@@ -222,7 +257,9 @@
   .epilogue__parallax {
     width: min(470px, 86vw, calc((100svh - 400px) * 0.82));
   }
+}
 
+@media (max-width: 768px) {
   .footer--epilogue {
     padding: 24px 6vw 20px;
   }
@@ -268,10 +305,12 @@ html:not(.js) .epilogue__word {
     --foot: 1;
   }
 
-  .epilogue__word {
+  .epilogue__word,
+  .epilogue__descend {
     opacity: 1;
     filter: none;
     translate: 0 0;
+    visibility: visible;
   }
 
   /* a figura e a névoa ficam no lugar; o brilho e o anel continuam vivos */
