@@ -4,23 +4,31 @@
     <meta charset="UTF-8" />
     <script>
       document.documentElement.classList.add("js");
+      // tema (dia ou noite) antes de pintar: a escolha salva, ou o modo claro/escuro do aparelho
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch (e) {}
+        if (theme !== "light" && theme !== "dark") {
+          theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.dataset.theme = theme;
+        window.__theme = theme;
+      })();
       // página de inspirações (clima claro do Condado): aplica antes de pintar, sem piscar escuro
       if (/^\/inspiracoes\/?$/.test(location.pathname)) document.documentElement.classList.add("page-shire");
     </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#07070a" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@400&family=Noto+Sans+Runic&display=swap"
-    />
-    <!-- a fonte da assinatura só aparece em "Lucas de Oliveira": baixa apenas essas letras (~6 KB em vez de ~42 KB) -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&text=Lucas%20de%20Oliveira&display=swap"
-    />
+    <script>
+      if (window.__theme === "light") document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f1ead8");
+    </script>
+    <!-- fontes do próprio site (src/styles/fonts.css): as três do topo da página já começam a baixar aqui -->
+    <link rel="preload" href="/src/assets/fonts/cinzel-decorative-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/cormorant-garamond-italic.woff2" as="font" type="font/woff2" crossorigin />
     <meta
       property="og:image"
       content="https://ilucasoliveira.dev/og-image.png?v=2"

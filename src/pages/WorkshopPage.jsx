@@ -13,6 +13,11 @@ import hall960 from "../assets/mines/hall-960.webp";
 import hall1672 from "../assets/mines/hall-1672.webp";
 import bridge960 from "../assets/mines/bridge-960.webp";
 import bridge1920 from "../assets/mines/bridge-1920.webp";
+import hallDay960 from "../assets/mines/hall-day-960.webp";
+import hallDay1672 from "../assets/mines/hall-day-1672.webp";
+import bridgeDay960 from "../assets/mines/bridge-day-960.webp";
+import bridgeDay1920 from "../assets/mines/bridge-day-1920.webp";
+import ThemedImg from "../components/ThemedImg";
 import "./WorkshopPage.css";
 
 /*
@@ -39,16 +44,33 @@ function usePageVars(rootRef) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+    // --depth e --night só interessam ao fundo (a camada fixa da atmosfera): escritos nele,
+    // a rolagem não obriga o navegador a recalcular o estilo da página inteira a cada quadro
+    const sky = root.querySelector(".workshop__atmosphere");
     let frame = 0;
     let last = "";
+
+    // --night (0 a 1): de dia, a mina escurece enquanto a ponte passa pelo meio da tela;
+    // depois dela é sempre noite (a parte de baixo é night-zone)
+    const bridge = root.querySelector(".workshop-bridge");
+    let lastNight = "";
 
     function update() {
       frame = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const depth = max > 0 ? clamp(window.scrollY / max).toFixed(3) : "0";
-      if (depth === last) return;
-      last = depth;
-      root.style.setProperty("--depth", depth);
+      if (depth !== last) {
+        last = depth;
+        sky.style.setProperty("--depth", depth);
+      }
+      if (bridge) {
+        const r = bridge.getBoundingClientRect();
+        const night = clamp((window.innerHeight * 0.75 - r.top) / (r.height * 0.8)).toFixed(3);
+        if (night !== lastNight) {
+          lastNight = night;
+          sky.style.setProperty("--night", night);
+        }
+      }
     }
 
     function onScroll() {
@@ -176,10 +198,11 @@ function WorkshopPage() {
       <div className="workshop__content">
         {/* abertura: o salão dos anões ocupa a primeira tela */}
         <header className="workshop-hero">
-          <img
+          {/* o salão à noite ou com a luz do dia entrando pelas frestas */}
+          <ThemedImg
             className="workshop-hero__image"
-            src={hall1672}
-            srcSet={`${hall960} 960w, ${hall1672} 1672w`}
+            night={{ src: hall1672, srcSet: `${hall960} 960w, ${hall1672} 1672w` }}
+            day={{ src: hallDay1672, srcSet: `${hallDay960} 960w, ${hallDay1672} 1672w` }}
             sizes="100vw"
             alt=""
             fetchPriority="high"
@@ -209,9 +232,9 @@ function WorkshopPage() {
 
         {/* a ponte sobre o abismo: uma faixa entre as duas partes, que rola com a página */}
         <div className="workshop-bridge" aria-hidden="true">
-          <img
-            src={bridge1920}
-            srcSet={`${bridge960} 960w, ${bridge1920} 1920w`}
+          <ThemedImg
+            night={{ src: bridge1920, srcSet: `${bridge960} 960w, ${bridge1920} 1920w` }}
+            day={{ src: bridgeDay1920, srcSet: `${bridgeDay960} 960w, ${bridgeDay1920} 1920w` }}
             sizes="100vw"
             alt=""
             loading="lazy"
@@ -219,7 +242,8 @@ function WorkshopPage() {
           />
         </div>
 
-        <div className="workshop__part">
+        {/* depois da ponte é noite também de dia: a luz não chega tão fundo */}
+        <div className="workshop__part night-zone">
           {lower.categories.map((category) => (
             <Category key={category.title.en} category={category} lang={lang} text={text} />
           ))}
@@ -231,7 +255,7 @@ function WorkshopPage() {
             {text.finale}
           </p>
           <div className="workshop-finale__actions">
-            <Link href={`/projetos/${PROJECTS[0].slug}`} className="cta cta--gold">
+            <Link href="/projetos" className="cta cta--gold">
               {text.toProjects}
             </Link>
             <Link href="/#contato" className="cta cta--ghost">

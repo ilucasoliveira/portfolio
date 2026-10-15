@@ -6,6 +6,11 @@
   border-top: 1px solid rgba(201, 168, 76, 0.14);
 }
 
+/* as runas vêm do data-runes: são enfeite, não texto */
+.footer__rune-border::before {
+  content: attr(data-runes);
+}
+
 .footer__rune-border {
   position: absolute;
   top: 0;

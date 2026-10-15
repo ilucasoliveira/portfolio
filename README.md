@@ -2,7 +2,7 @@
 
 > _"I build software with the precision of one who carves runes into stone: clean code, robust systems, and a journey told in every line."_
 
-My personal portfolio, told as a journey through Middle-earth. A starry night sky, a hero portal that opens over a valley, a moonlit stone gate that opens onto a descent through the mines where the tech stack lives, a fire forge for each project, a map of my career and a wraith waiting in the epilogue. Bilingual (EN/PT), accessible, and connected to my own FastAPI backend, which the site shows working live.
+My personal portfolio, told as a journey through Middle-earth. A starry night sky, a hero portal that opens over a valley, a moonlit stone gate that opens onto a descent through the mines where the tech stack lives, a white stone city at night for the works, a map of my career and a wraith waiting in the epilogue. Bilingual (EN/PT), accessible, and connected to my own FastAPI backend, which the site shows working live.
 
 **Live:** https://ilucasoliveira.dev
 **Backend repository:** [ilucasoliveira/portfolio-lucas-api](https://github.com/ilucasoliveira/portfolio-lucas-api)
@@ -16,7 +16,7 @@ The home page reads like a book, one chapter per section:
 | Opening            | Intro      | A veil splits open while a ring of Elvish script draws itself (once per session)                     |
 | Prologue           | Hero       | Rune rings glow and scale past the viewer over a night valley, runes fly toward the camera in 3D      |
 | I · The Architect  | About      | Portrait, story and an animated signature                                                             |
-| II · The Works     | Projects   | Featured project and cards, each one opening its own project page                                     |
+| II · The Works     | Projects   | The four works as a row of stone arches, each opening its own page, and the way to all the works      |
 | III · The Journey  | Experience | An illustrated map whose trail travels on its own through each stop of my career, then the timeline  |
 | V · Open a Channel | Contact    | Contact form and live API status                                                                      |
 | Epilogue           | Epilogue   | A wraith rises from the dark holding a glowing ring; the footer closes the scene                     |
@@ -24,7 +24,8 @@ The home page reads like a book, one chapter per section:
 Three more pages complete the site:
 
 - **Workshop** (`/oficina`, chapter IV): a moonlit stone gate draws itself and opens on its own (with a Skip button) onto a hall of the dwarves. Below it, on the dark of the mines, the tool cards (where I use each tool, the projects that use it and its official site), a bridge over the abyss between the two halves, and a fire glow that rises as you go down. The page ends with the forge scene filling the screen together with the footer and a single short line
-- **Project pages** (`/projetos/:slug`): tabs between projects, a forge scene where the tech stack orbits a wizard facing a creature of fire, an architecture diagram, features with wax seals, technical decisions, an endpoint table and next steps
+- **Works** (`/projetos`, chapter II): a white stone city at night fills the first screen and wakes up, its windows lighting one by one from the tower outward. Below it, each project is a stone arch: the main one shows the app standing inside the gate, the others look out over different parts of the city. It ends with the way to the Workshop and to contact
+- **Project pages** (`/projetos/:slug`): the city behind the header, tabs between projects, the tech stack carved into a stone wall whose runes light up one by one, an architecture diagram, features with wax seals, technical decisions, an endpoint table and next steps
 - **Inspirations** (`/inspiracoes`): the site's appendix, laid out like the page of an old book in daylight, crediting J.R.R. Tolkien, The Hobbit and The Lord of the Rings, and explaining where each part of the site comes from
 
 ## ✦ Features
@@ -37,8 +38,9 @@ Three more pages complete the site:
 - **Responsive navigation**: full menu on desktop, a full-screen chapter menu (hamburger) on tablets and phones
 - **Live API status**: the contact section pings the backend and shows whether it is online, its latency and a link to the interactive docs, with Render cold starts explained to the visitor
 - **Contact form**: client-side validation with per-field errors, a spam honeypot, request timeout and specific messages for rate limiting and slow servers
+- **Day and night themes**: the first visit follows the device's light or dark mode, and a sun/moon button in the menu switches and remembers the choice (set before the first paint, so there is no flash). Night is the starry sky; day is parchment, with every scene swapping to the same view in daylight (Valinor, the white city, the dwarf hall, the bridge) through a dawn crossfade, and the Inspirations page turning into the Shire by moonlight with blinking fireflies. Only the active theme's images are downloaded. Some places stay in the night on purpose (`.night-zone`): the Moria gate, which only shows by moonlight, the depths of the Workshop past the bridge, the Balrog and the wraith of the epilogue
 - **Bilingual (EN/PT)**: language chosen from the `?lang=` URL parameter, then the visitor's saved choice, then the browser language
-- **Accessibility**: WCAG AA text contrast, visible keyboard focus, focus moved to the title on page changes, full `prefers-reduced-motion` support (every scene has a static version), decorative runes hidden from screen readers and animated text exposed in its final form
+- **Accessibility**: WCAG AA text contrast in both themes, visible keyboard focus, focus moved to the title on page changes, `prefers-reduced-motion` support (big movement, parallax, zoom and spinning are removed while light, glows, drawing lines and fades remain), decorative runes hidden from screen readers and animated text exposed in its final form
 - **Performance**: glows built from layered strokes instead of live blur filters, layers removed from rendering when their scene is off screen, the star field throttled when idle, images served as WebP with `srcset` (the Inspirations hero ships 1920px and 3840px versions)
 
 ## ✦ Tech Stack
@@ -82,7 +84,7 @@ On Vercel, set `VITE_API_URL` to the production API before building.
 
 ### Deploy notes
 
-`vercel.json` rewrites `/projetos/:slug` and `/inspiracoes` to `index.html`, so those pages also work when opened directly or reloaded.
+`vercel.json` rewrites `/projetos`, `/projetos/:slug`, `/oficina` and `/inspiracoes` to `index.html`, so those pages also work when opened directly or reloaded.
 
 ## ✦ Project Structure
 
@@ -90,6 +92,7 @@ On Vercel, set `VITE_API_URL` to the production API before building.
 src/
 ├── pages/
 │   ├── Home.jsx               # the chapters, in order
+│   ├── ProjectsPage.jsx       # the works: the city at night and one arch per project
 │   ├── ProjectPage.jsx        # one page per project
 │   ├── WorkshopPage.jsx       # the gate and the descent through the mines (tech stack)
 │   └── InspirationsPage.jsx   # appendix: credits to Tolkien and the books
@@ -98,7 +101,9 @@ src/
 │   ├── Hero, About, Projects, Experience, Contact, Epilogue
 │   ├── Gate                   # the stone gate that opens the Workshop
 │   ├── JourneyMap             # map with the self-drawing career trail
-│   ├── ForgeScene             # project stack around the forge scene (or the scene alone, as the Workshop finale)
+│   ├── ForgeScene             # the forge scene (the Workshop finale)
+│   ├── StoneStack             # a project's stack carved into a stone wall
+│   ├── ThemedImg              # an image with a day and a night version (crossfade on theme switch)
 │   ├── ArchDiagram            # architecture diagram on project pages
 │   ├── Background             # canvas star field, moon, fog and lantern
 │   ├── Veils                  # intro, page transition, anchor jump and hairline grid
@@ -111,16 +116,18 @@ src/
 ├── data/
 │   ├── translations.js        # all interface copy, both languages
 │   ├── projects.js            # projects and their page content
+│   ├── hall.js                # Works page copy and the lit windows of the city
 │   ├── inspirations.js        # Inspirations page copy
 │   ├── workshop.js            # Workshop tools: text, projects and links, by scene
 │   ├── icons.js               # tool logos (Simple Icons, CC0)
 │   └── cv.js                  # résumé PDF path per language
-├── hooks/                     # useRoute, useScrollProgress, useInView, useRuneDecode, ...
+├── hooks/                     # useRoute, useTheme, useScrollProgress, useInView, useRuneDecode, ...
 ├── services/
 │   └── api.js                 # API URLs derived from VITE_API_URL
 ├── utils/                     # motion checks, runes
 └── styles/
-    └── global.css             # design tokens, shared utilities and accessibility rules
+    ├── global.css             # design tokens (night and day), shared utilities and accessibility rules
+    └── day.css                # the day (parchment) adjustments of each component
 ```
 
 ## ✦ Credits

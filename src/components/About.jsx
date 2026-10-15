@@ -3,6 +3,7 @@ import { useReveal } from "../hooks/useReveal";
 import Signature from "./Signature";
 import RuneText from "./RuneText";
 import portrait from "../assets/portrait.webp";
+import portrait600 from "../assets/portrait-600.webp";
 import "./About.css";
 
 function About() {
@@ -34,6 +35,8 @@ function About() {
           <div className="about__portrait">
             <img
               src={portrait}
+              srcSet={`${portrait600} 600w, ${portrait} 900w`}
+              sizes="(max-width: 900px) 86vw, 460px"
               alt="Lucas de Oliveira"
               width="900"
               height="1200"
@@ -65,7 +68,7 @@ function About() {
 
           <div className="about__divider" aria-hidden="true">
             <span className="about__divider-line" />
-            <span className="about__divider-rune">ᚠ ᛁ ᚾ</span>
+            <span className="about__divider-rune" data-runes="ᚠ ᛁ ᚾ" />
             <span className="about__divider-line" />
           </div>
 

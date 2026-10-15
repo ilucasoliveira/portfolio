@@ -97,3 +97,52 @@
     animation: none;
   }
 }
+
+/* ===== dia: pergaminho com a luz do sol entrando pelo alto ===== */
+
+.bg-day {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  background:
+    radial-gradient(ellipse 60% 45% at 80% -6%, rgba(255, 236, 190, 0.85), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 6% 8%, rgba(255, 248, 228, 0.7), transparent 65%),
+    radial-gradient(ellipse 90% 60% at 50% 115%, rgba(196, 168, 110, 0.18), transparent 70%),
+    linear-gradient(180deg, #f6f0e0 0%, #f1ead8 45%, #ece3cc 100%);
+}
+
+/* raios de sol bem leves, parados (não é preciso movimento para ser dia) */
+.bg-day::after {
+  content: "";
+  position: absolute;
+  inset: -20% -10% 30% 30%;
+  background: repeating-linear-gradient(
+    115deg,
+    rgba(255, 244, 214, 0) 0 70px,
+    rgba(255, 244, 214, 0.32) 70px 120px,
+    rgba(255, 244, 214, 0) 120px 220px
+  );
+  -webkit-mask-image: radial-gradient(ellipse 60% 60% at 70% 0%, #000, transparent 75%);
+  mask-image: radial-gradient(ellipse 60% 60% at 70% 0%, #000, transparent 75%);
+}
+
+:root[data-theme="light"] .bg-day {
+  opacity: 1;
+}
+
+/* as camadas da noite somem de dia (o canvas de estrelas também para de desenhar) */
+.bg-glow,
+.bg-moon,
+.bg-stars-canvas,
+.bg-fog,
+.bg-vignette {
+  transition: opacity 1.2s ease;
+}
+
+:root[data-theme="light"] .bg-glow,
+:root[data-theme="light"] .bg-moon,
+:root[data-theme="light"] .bg-stars-canvas,
+:root[data-theme="light"] .bg-fog,
+:root[data-theme="light"] .bg-vignette,
+:root[data-theme="light"] .bg-lantern {
+  opacity: 0;
+}

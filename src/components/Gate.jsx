@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { preload } from "react-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { toRunes } from "../utils/runes";
 import ElvishScript from "./ElvishScript";
@@ -322,6 +323,9 @@ function Door({ side }) {
 // gentle: versão para quem pediu menos movimento no sistema (ver TIMELINE_GENTLE_*)
 function Gate({ onReveal, onDone, gentle = false }) {
   const { t } = useLanguage();
+  // as duas pedras do portão são a primeira coisa na tela: pede logo, antes do CSS chegar nelas
+  preload(wallStone, { as: "image", fetchPriority: "high" });
+  preload(doorStone, { as: "image", fetchPriority: "high" });
   const ref = useRef(null);
   const [leaving, setLeaving] = useState(false);
   const finish = useRef(null);
@@ -399,7 +403,7 @@ function Gate({ onReveal, onDone, gentle = false }) {
 
   return (
     <section
-      className={`gate ${gentle ? "gate--gentle" : ""} ${leaving ? "gate--leaving" : ""}`}
+      className={`gate night-zone ${gentle ? "gate--gentle" : ""} ${leaving ? "gate--leaving" : ""}`}
       ref={ref}
       data-phase="draw"
       aria-labelledby="gate-title"

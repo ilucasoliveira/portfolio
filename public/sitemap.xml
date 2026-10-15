@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ilucasoliveira.dev/</loc></url>
   <url><loc>https://ilucasoliveira.dev/?lang=pt</loc></url>
+  <url><loc>https://ilucasoliveira.dev/projetos</loc></url>
+  <url><loc>https://ilucasoliveira.dev/oficina</loc></url>
   <url><loc>https://ilucasoliveira.dev/inspiracoes</loc></url>
   <url><loc>https://ilucasoliveira.dev/projetos/personal-library</loc></url>
   <url><loc>https://ilucasoliveira.dev/projetos/portfolio-tracker-api</loc></url>

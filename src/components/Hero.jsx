@@ -4,6 +4,8 @@ import { useParallax } from "../hooks/useParallax";
 import { useIntroDone } from "../hooks/useIntroDone";
 import ElvishScript from "./ElvishScript";
 import valley from "../assets/hero-valley.webp";
+import valleyDay from "../assets/hero-valley-day.webp";
+import ThemedImg from "./ThemedImg";
 import "./Hero.css";
 
 const RUNES = "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ";
@@ -140,7 +142,16 @@ function Hero() {
 
         {/* vale noturno ao fundo: some no céu em cima e no preto embaixo */}
         <div className="hero__valley" aria-hidden="true">
-          <img src={valley} alt="" width="1920" height="1013" decoding="async" fetchPriority="high" />
+          {/* Valinor, a terra dos Valar, à noite ou de dia conforme o tema (o mesmo enquadramento nas duas) */}
+          <ThemedImg
+            night={{ src: valley }}
+            day={{ src: valleyDay }}
+            alt=""
+            width="1671"
+            height="941"
+            decoding="async"
+            fetchPriority="high"
+          />
         </div>
 
         <div className="hero__runes" aria-hidden="true">

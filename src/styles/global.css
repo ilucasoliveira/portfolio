@@ -1,4 +1,14 @@
-:root {
+/*
+ * Temas: o html recebe data-theme="dark" (noite) ou "light" (dia, pergaminho) antes
+ * de pintar (script no index.html). As cores abaixo são a noite; o dia sobrescreve
+ * só as cores logo depois. .night-zone devolve as cores da noite a um trecho da
+ * página mesmo no tema claro (o portão de Moria, o Balrog, o espectro do fim); o menu
+ * também fica na noite enquanto o portão está aberto na tela.
+ */
+:root,
+.night-zone,
+html.gate-open .nav {
+  color-scheme: dark;
   /* cores */
   --color-bg: #08080a; /* mesmo preto do fundo das cenas da forja e do espectro */
   --color-night: #0b0e18; /* céu noturno, azul profundo */
@@ -20,7 +30,95 @@
   --color-moon: #d8e9ff; /* prata lunar das runas do portão */
   --color-success: #8fc48f;
   --color-danger: #e8836f;
+}
 
+/* dia: papel de pergaminho, tinta quase preta e um dourado mais escuro (bronze) para ler bem no claro */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #f1ead8;
+  --color-night: #e7ddc4;
+  --color-surface: #f8f2e3;
+  --color-surface-hover: #efe5cd;
+  --color-gold: #7a5718;
+  --color-gold-light: #93691c;
+  --color-gold-dim: #c2a564;
+  --color-gold-muted: #7a6131;
+  --color-text-primary: #1e1d18;
+  --color-text-secondary: #4a463b;
+  --color-text-faint: #665f50;
+  --color-mono-green: #556049;
+  --color-border: rgba(30, 29, 24, 0.14);
+  --color-border-strong: rgba(122, 87, 24, 0.42);
+  --color-gold-pale: #fbf3dc;
+  --color-ember: #b8461d;
+  --color-fire: #9c2f17;
+  --color-moon: #3e5f86;
+  --color-success: #2f6b35;
+  --color-danger: #a3402a;
+}
+
+/* um trecho que fica na noite também no tema claro: as cores voltam e o texto acompanha */
+.night-zone {
+  color: var(--color-text-primary);
+}
+
+/* trocando de tema: cores e fundos mudam devagar, como o dia nascendo ou caindo */
+html.theme-switching,
+html.theme-switching body,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition:
+    background-color 0.9s ease,
+    color 0.9s ease,
+    border-color 0.9s ease,
+    fill 0.9s ease,
+    stroke 0.9s ease,
+    box-shadow 0.9s ease,
+    opacity 1.2s ease !important;
+}
+
+/* imagem com versão de dia e de noite (ThemedImg): a da noite fica embaixo e a do dia
+   por cima; de dia a do dia nasce com um fade, de noite ela some e revela a noite */
+.theme-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.theme-img--night.is-loaded {
+  opacity: 1;
+}
+
+.theme-img--day {
+  transition: opacity 1.2s ease;
+}
+
+:root[data-theme="light"] .theme-img--day.is-loaded {
+  opacity: 1;
+  animation: themeImgIn 1.2s ease;
+}
+
+@keyframes themeImgIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/* com menos movimento a troca de imagem é só mais rápida (continua um fade) */
+@media (prefers-reduced-motion: reduce) {
+  .theme-img--day {
+    transition-duration: 0.4s;
+  }
+
+  :root[data-theme="light"] .theme-img--day.is-loaded {
+    animation-duration: 0.4s;
+  }
+}
+
+:root {
   /* movimento */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -309,18 +407,6 @@ html:not(.js) .words .w {
   color: var(--color-gold-light);
   text-shadow: 0 0 12px rgba(232, 201, 122, 0.6);
   gap: 12px;
-}
-
-.icon,
-.icon--sm {
-  width: 16px;
-  height: 16px;
-  flex: none;
-}
-
-.icon--sm {
-  width: 13px;
-  height: 13px;
 }
 
 /* enquanto o código de uma página chega (páginas carregadas sob demanda) */

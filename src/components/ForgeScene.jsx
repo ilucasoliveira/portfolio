@@ -1,18 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "../hooks/useInView";
 import { useScrollProgress } from "../hooks/useScrollProgress";
-import { FUTHARK } from "../utils/runes";
 import forge from "../assets/forge-balrog.webp";
 import "./ForgeScene.css";
 
 /*
- * A forja: o mago diante da criatura de fogo ocupa o fundo inteiro da seção.
+ * A forja: o mago diante da criatura de fogo, o fim da descida da Oficina.
  * As bordas da imagem se dissolvem no preto da página; o fogo ondula, as
- * fagulhas sobem e a luz branca pulsa na ponta do cajado. As tecnologias
- * ficam nos lados, como runas presas em pedra.
+ * fagulhas sobem e a luz branca pulsa na ponta do cajado.
  *
- * finale: só a cena, maior, com o conteúdo (children) embaixo dela. É o fim
- * da descida da Oficina.
+ * finale: a cena cobre a tela junto com o rodapé, com o conteúdo (children)
+ * embaixo dela.
  * easterEgg: frase escondida que aparece entre o mago e a criatura quando o
  * mouse passa sobre o mago (no celular, ao tocar nele); a luz do cajado estoura junto.
  */
@@ -53,49 +51,11 @@ const BEAM_DOTS = Array.from({ length: 12 }, (_, i) => ({
   "--dl": `${(-((i * 0.41) % 2.4)).toFixed(2)}s`,
 }));
 
-// as stacks descem em arco pelos lados da cena (o meio da lista fica mais afastado)
-function orbit(list, side) {
-  return list.map(([name, role], i) => ({
-    name,
-    role,
-    rune: FUTHARK[(i * 7 + (side === "right" ? 3 : 0)) % FUTHARK.length],
-    style: {
-      "--off": `${Math.round(Math.sin((Math.PI * (i + 0.5)) / list.length) * 48)}px`,
-      "--dl": `${(-((i * 0.9) % 6)).toFixed(1)}s`,
-      "--i": i,
-    },
-  }));
-}
-
-function Stone({ item }) {
-  return (
-    <li style={item.style}>
-      <span className="forge__rune" aria-hidden="true">
-        {item.rune}
-      </span>
-      <span className="forge__name">{item.name}</span>
-      <span className="forge__role">{item.role}</span>
-    </li>
-  );
-}
-
-function ForgeScene({
-  stack = [],
-  labelA,
-  labelB,
-  sceneLabel,
-  finale = false,
-  easterEgg,
-  labelledBy = "forge-title",
-  children,
-}) {
+function ForgeScene({ sceneLabel, finale = false, easterEgg, labelledBy = "forge-title", children }) {
   const [playing, setPlaying] = useState(false);
   const watchRef = useRef(null);
   const ref = useScrollProgress("pass");
   const [nearRef, near] = useInView(NEAR);
-  const half = Math.ceil(stack.length / 2);
-  const left = orbit(stack.slice(0, half), "left");
-  const right = orbit(stack.slice(half), "right");
 
   useEffect(() => {
     const el = watchRef.current;
@@ -109,7 +69,7 @@ function ForgeScene({
 
   return (
     <section
-      className={`forge ${finale ? "forge--finale" : ""} ${playing ? "" : "forge--paused"}`}
+      className={`forge night-zone ${finale ? "forge--finale" : ""} ${playing ? "" : "forge--paused"}`}
       ref={ref}
       aria-labelledby={labelledBy}
     >
@@ -161,26 +121,7 @@ function ForgeScene({
         </figure>
       </div>
 
-      {finale ? (
-        <div className="forge__content">{children}</div>
-      ) : (
-        <div className="forge__content">
-          <div className="forge__head">{children}</div>
-          <div className="forge__orbits">
-            <ul className="forge__orbit forge__orbit--left" aria-label={labelA}>
-              {left.map((item) => (
-                <Stone key={item.name} item={item} />
-              ))}
-            </ul>
-            <div className="forge__gap" aria-hidden="true" />
-            <ul className="forge__orbit forge__orbit--right" aria-label={labelB}>
-              {right.map((item) => (
-                <Stone key={item.name} item={item} />
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
+      <div className="forge__content">{children}</div>
     </section>
   );
 }

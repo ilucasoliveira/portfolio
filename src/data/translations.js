@@ -2,6 +2,15 @@ export const translations = {
   en: {
     meta: {
       title: "Lucas de Oliveira · Full Stack Python Developer",
+      description:
+        "Full Stack Python developer building REST APIs with FastAPI, PostgreSQL and Redis, and modern web interfaces with React. Projects running in production.",
+      projects: "Works · Lucas de Oliveira",
+      projectsDescription:
+        "The works of Lucas de Oliveira: REST APIs with FastAPI and interfaces with React, each with its architecture, decisions and code.",
+      workshopDescription:
+        "Every tool Lucas de Oliveira works with, from Python, FastAPI and PostgreSQL to React and Docker, and the projects where each one went in.",
+      inspirationsDescription:
+        "Where this portfolio comes from: J.R.R. Tolkien, The Hobbit and The Lord of the Rings, and the echoes of Middle-earth across the site.",
       inspirations: "Inspirations · Lucas de Oliveira",
       workshop: "Workshop · Lucas de Oliveira",
     },
@@ -19,6 +28,8 @@ export const translations = {
       inspirations: "Inspirations",
       contact: "Contact",
       language: "Language",
+      toDay: "Switch to the day theme",
+      toNight: "Switch to the night theme",
       menu: "Menu",
       close: "Close menu",
     },
@@ -50,8 +61,14 @@ export const translations = {
       signatureCaption: "ᛚ · forged in Minas · MMXXVI",
     },
     projects: {
-      details: "Enter the work →",
       enter: "Enter the work",
+      enterShort: "Enter",
+      intro:
+        "Four works, from the API to the browser. Each one has its own page with the architecture, the decisions and the code.",
+      seeAll: "See all the works",
+      liveDemo: "See My Own BookShelf live",
+      live: "Running",
+      codeOnly: "Code only",
       illumination: "Illumination",
       newTab: "(opens in a new tab)",
       links: {
@@ -65,15 +82,9 @@ export const translations = {
       chapter: "Chapter II",
       titlePre: "The",
       titleEm: "Works",
-      featured: {
-        badge: "Featured",
-        cta: "View Code →",
-        demo: "Live Demo →",
-        imageAlt: "My Own BookShelf application interface",
-      },
-      viewMore: "See more →",
     },
     experience: {
+      mapRegion: "Journey map (scrolls sideways)",
       mapLabel: "Hand-drawn map of the journey: a dotted trail from the first data work in 2021 to back-end Python in 2026",
       mapStops: [
         { when: "Oct 2021", name: "Lett Digital" },
@@ -166,13 +177,14 @@ export const translations = {
       back: "← All projects",
       tabs: "Projects",
       project: "Project",
-      forge: { chapter: "ᚲ · The Forge", pre: "Project", em: "Stack", hint: "Every tool this project was forged with" },
+      stone: { chapter: "ᚲ · The Stone", pre: "Project", em: "Stack", hint: "Every tool this work was raised with, carved in stone" },
       arch: { chapter: "ᛁ · Illumination", pre: "The", em: "Architecture" },
       flowTitle: "How a request moves through the system.",
       features: { chapter: "ᛃ · What it does", pre: "Features and", em: "Proof" },
       seals: "Proof seals · numbers taken from the code and the README",
       decisions: { chapter: "ᛇ · Why", pre: "Technical", em: "Decisions" },
       endpoints: { chapter: "ᛈ · Contract", pre: "The", em: "Endpoints" },
+      endpointsTable: "Table of the API routes",
       method: "Method",
       route: "Route",
       does: "What it does",
@@ -180,9 +192,6 @@ export const translations = {
       prev: "← Previous",
       nextProject: "Next →",
       others: "Other projects",
-      stackA: "Technologies, part 1",
-      stackB: "Technologies, part 2",
-      sceneLabel: "A wizard with a blue-tipped staff before a horned creature made of red fire, with a white beam rising from the staff",
       notFound: "This project doesn't exist.",
       notFoundBack: "Back to the projects",
     },
@@ -191,6 +200,15 @@ export const translations = {
   pt: {
     meta: {
       title: "Lucas de Oliveira · Desenvolvedor Full Stack Python",
+      description:
+        "Desenvolvedor Full Stack Python que constrói APIs REST com FastAPI, PostgreSQL e Redis e interfaces web modernas com React. Projetos rodando em produção.",
+      projects: "Obras · Lucas de Oliveira",
+      projectsDescription:
+        "As obras de Lucas de Oliveira: APIs REST com FastAPI e interfaces com React, cada uma com sua arquitetura, decisões e código.",
+      workshopDescription:
+        "Todas as ferramentas com que Lucas de Oliveira trabalha, de Python, FastAPI e PostgreSQL a React e Docker, e os projetos em que cada uma entrou.",
+      inspirationsDescription:
+        "De onde vem este portfólio: J.R.R. Tolkien, O Hobbit e O Senhor dos Anéis, e os ecos da Terra-média espalhados pelo site.",
       inspirations: "Inspirações · Lucas de Oliveira",
       workshop: "Oficina · Lucas de Oliveira",
     },
@@ -208,6 +226,8 @@ export const translations = {
       inspirations: "Inspirações",
       contact: "Contato",
       language: "Idioma",
+      toDay: "Mudar para o tema de dia",
+      toNight: "Mudar para o tema de noite",
       menu: "Menu",
       close: "Fechar menu",
     },
@@ -239,8 +259,14 @@ export const translations = {
       signatureCaption: "ᛚ · forjado em Minas · MMXXVI",
     },
     projects: {
-      details: "Entrar na obra →",
       enter: "Entrar na obra",
+      enterShort: "Entrar",
+      intro:
+        "Quatro obras, da API ao navegador. Cada uma tem sua página, com a arquitetura, as decisões e o código.",
+      seeAll: "Ver todas as obras",
+      liveDemo: "Ver o My Own BookShelf ao vivo",
+      live: "No ar",
+      codeOnly: "Só o código",
       illumination: "Iluminura",
       newTab: "(abre em nova aba)",
       links: {
@@ -254,15 +280,9 @@ export const translations = {
       chapter: "Capítulo II",
       titlePre: "As",
       titleEm: "Obras",
-      featured: {
-        badge: "Destaque",
-        cta: "Ver Código →",
-        demo: "Ver ao Vivo →",
-        imageAlt: "Interface do aplicativo My Own BookShelf",
-      },
-      viewMore: "Ver mais →",
     },
     experience: {
+      mapRegion: "Mapa da jornada (rola para o lado)",
       mapLabel: "Mapa da jornada desenhado à mão: uma trilha pontilhada do primeiro trabalho com dados, em 2021, ao back-end Python, em 2026",
       mapStops: [
         { when: "out/2021", name: "Lett Digital" },
@@ -356,13 +376,14 @@ export const translations = {
       back: "← Todos os projetos",
       tabs: "Projetos",
       project: "Projeto",
-      forge: { chapter: "ᚲ · A Forja", pre: "Stack do", em: "Projeto", hint: "Cada ferramenta com que este projeto foi forjado" },
+      stone: { chapter: "ᚲ · A Pedra", pre: "Stack do", em: "Projeto", hint: "Cada ferramenta com que esta obra foi erguida, gravada na pedra" },
       arch: { chapter: "ᛁ · Iluminura", pre: "A", em: "Arquitetura" },
       flowTitle: "Como uma requisição percorre o sistema.",
       features: { chapter: "ᛃ · O que faz", pre: "Funcionalidades e", em: "Provas" },
       seals: "Selos de prova · números tirados do código e do README",
       decisions: { chapter: "ᛇ · Por quê", pre: "Decisões", em: "Técnicas" },
       endpoints: { chapter: "ᛈ · Contrato", pre: "Os", em: "Endpoints" },
+      endpointsTable: "Tabela das rotas da API",
       method: "Método",
       route: "Rota",
       does: "O que faz",
@@ -370,9 +391,6 @@ export const translations = {
       prev: "← Anterior",
       nextProject: "Próximo →",
       others: "Outros projetos",
-      stackA: "Tecnologias, parte 1",
-      stackB: "Tecnologias, parte 2",
-      sceneLabel: "Mago com cajado de ponta azul diante de uma criatura de chifres feita de fogo vermelho, com um feixe branco subindo do cajado",
       notFound: "Este projeto não existe.",
       notFoundBack: "Voltar aos projetos",
     },

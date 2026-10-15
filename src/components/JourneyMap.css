@@ -135,3 +135,8 @@
     width: 760px;
   }
 }
+
+/* mapa fora da tela: as animações ficam paradas até ele voltar */
+.map--away * {
+  animation-play-state: paused !important;
+}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { useInView } from "../hooks/useInView";
 import { prefersReducedMotion } from "../utils/motion";
@@ -35,6 +35,26 @@ function JourneyMap() {
   const { t } = useLanguage();
   const [ref, inView] = useInView({ threshold: 0.6, rootMargin: "0px" });
   const [nearRef, near] = useInView(NEAR);
+  // no celular o mapa rola para o lado: aí ele vira uma região que o teclado alcança (setas)
+  const [scrolls, setScrolls] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => setScrolls(el.scrollWidth > el.clientWidth + 4);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    // fora da tela, os anéis das paradas param de pulsar (são SVG: cada quadro custaria CPU à toa)
+    const watcher = new IntersectionObserver(([entry]) => el.classList.toggle("map--away", !entry.isIntersecting), {
+      rootMargin: "100px 0px",
+    });
+    watcher.observe(el);
+    return () => {
+      observer.disconnect();
+      watcher.disconnect();
+    };
+  }, [ref]);
   const stops = t.experience.mapStops;
 
   // percorre a trilha uma vez, no próprio ritmo, assim que o mapa está na tela
@@ -63,8 +83,13 @@ function JourneyMap() {
     return () => cancelAnimationFrame(frame);
   }, [inView, ref]);
 
+  // o mapa é uma ilustração noturna: os rótulos ficam com as cores da noite também de dia
   return (
-    <figure className="map" ref={ref}>
+    <figure
+      className="map night-zone"
+      ref={ref}
+      {...(scrolls ? { tabIndex: 0, role: "region", "aria-label": t.experience.mapRegion } : {})}
+    >
       <svg className="map__svg" ref={nearRef} viewBox={`0 0 ${W} ${H}`} role="img" aria-label={t.experience.mapLabel}>
         <defs>
           <radialGradient id="mapGlow">

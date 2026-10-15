@@ -2,7 +2,7 @@
 
 .forge {
   --p: 0;
-  /* a cena fica no centro, como um quadro sem moldura; as stacks ficam dos lados */
+  /* a cena fica no centro, como um quadro sem moldura */
   --scene-w: min(60vw, 980px, calc((100vh - 150px) * 1.25));
   --scene-h: calc(var(--scene-w) / 1.25);
   position: relative;
@@ -178,7 +178,7 @@
 
 /* ===== Conteúdo por cima ===== */
 
-/* mesma largura das outras seções: título e placas ficam dentro da grade */
+/* o conteúdo embaixo da cena (a frase e os botões do fim da Oficina) */
 .forge__content {
   position: relative;
   z-index: 2;
@@ -188,130 +188,6 @@
   padding: 110px 6vw 40px;
   max-width: 1340px;
   margin: 0 auto;
-}
-
-.forge__head {
-  max-width: 460px;
-}
-
-/* as placas ficam sobre as bordas já apagadas da cena; o centro fica livre */
-.forge__orbits {
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) calc(var(--scene-w) * 0.58) minmax(0, 1fr);
-  align-items: center;
-  margin-top: 24px;
-}
-
-.forge__orbit {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* as placas encostam nas bordas da página, longe da criatura e do mago */
-.forge__orbit--left {
-  align-items: flex-start;
-  text-align: right;
-}
-
-.forge__orbit--right {
-  align-items: flex-end;
-}
-
-/* cada tecnologia: uma placa de pedra com runa que acende em brasa */
-.forge__orbit li {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto;
-  column-gap: 12px;
-  align-items: center;
-  min-width: 180px;
-  padding: 10px 16px;
-  background: linear-gradient(180deg, rgba(20, 16, 18, 0.88), rgba(10, 8, 10, 0.88));
-  border: 1px solid rgba(201, 120, 60, 0.25);
-  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.6);
-  opacity: calc(0.25 + clamp(0, calc((var(--p) - 0.12 - var(--i) * 0.025) / 0.12), 1) * 0.75);
-  translate: 0 calc((1 - clamp(0, calc((var(--p) - 0.12 - var(--i) * 0.025) / 0.12), 1)) * 16px);
-  animation: forgeFloat 6s ease-in-out infinite;
-  animation-delay: var(--dl);
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.forge__orbit li:hover {
-  border-color: var(--color-ember);
-  box-shadow:
-    inset 0 0 18px rgba(0, 0, 0, 0.6),
-    0 0 22px rgba(255, 106, 43, 0.35);
-}
-
-.forge__orbit--left li {
-  margin-left: calc(var(--off) * 0.5);
-  grid-template-columns: auto auto;
-}
-
-.forge__orbit--right li {
-  margin-right: calc(var(--off) * 0.5);
-}
-
-/* fio de brasa ligando a placa à cena */
-.forge__orbit li::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 26px;
-  height: 1px;
-  pointer-events: none;
-}
-
-.forge__orbit--left li::after {
-  left: 100%;
-  background: linear-gradient(90deg, rgba(255, 120, 50, 0.6), transparent);
-}
-
-.forge__orbit--right li::after {
-  right: 100%;
-  background: linear-gradient(270deg, rgba(255, 120, 50, 0.6), transparent);
-}
-
-.forge__rune {
-  grid-row: 1 / 3;
-  font-family: var(--font-runic);
-  font-size: 22px;
-  color: #ffb066;
-  text-shadow:
-    0 0 6px rgba(255, 140, 60, 0.9),
-    0 0 14px rgba(255, 90, 30, 0.5);
-  animation: forgeRuneFlicker 2.6s ease-in-out infinite;
-  animation-delay: var(--dl);
-}
-
-.forge__orbit--left .forge__rune {
-  grid-column: 2;
-}
-
-.forge__orbit--left .forge__name,
-.forge__orbit--left .forge__role {
-  grid-column: 1;
-}
-
-.forge__name {
-  font-family: var(--font-heading);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  color: var(--color-text-primary);
-}
-
-.forge__role {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  color: var(--color-text-faint);
 }
 
 .forge--paused *,
@@ -490,77 +366,11 @@
   .forge__content {
     display: contents;
   }
-
-  .forge__head {
-    order: -1;
-    max-width: none;
-    position: relative;
-    z-index: 2;
-    padding: 80px 5vw 0;
-  }
-
-  .forge__orbits {
-    order: 1;
-    position: relative;
-    z-index: 2;
-    padding: 0 5vw 64px;
-    margin-top: -2vw;
-  }
-
-  .forge__orbits {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .forge__gap {
-    display: none;
-  }
-
-  .forge__orbit,
-  .forge__orbit--left,
-  .forge__orbit--right {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
-    gap: 8px;
-  }
-
-  .forge__orbit li,
-  .forge__orbit--left li,
-  .forge__orbit--right li {
-    min-width: 0;
-    margin: 0;
-    text-align: left;
-    opacity: 1;
-    translate: none;
-    animation: none;
-  }
-
-  .forge__orbit--left .forge__rune {
-    grid-column: 1;
-  }
-
-  .forge__orbit--left .forge__name,
-  .forge__orbit--left .forge__role {
-    grid-column: 2;
-  }
-
-  .forge__orbit li::after {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* o fogo ondulando, as fagulhas e a luz do cajado continuam;
-     só os raios param de girar e as runas param de flutuar */
+  /* o fogo ondulando, as fagulhas e a luz do cajado continuam; só os raios param de girar */
   .forge__rays {
-    animation: none;
-  }
-
-  .forge__orbit li {
-    opacity: 1;
-    translate: none;
     animation: none;
   }
 }
@@ -645,32 +455,6 @@
   }
   50% {
     transform: translate(-50%, -50%) scale(1.15);
-  }
-}
-
-@keyframes forgeFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-4px);
-  }
-}
-
-@keyframes forgeRuneFlicker {
-  0%,
-  100% {
-    opacity: 0.85;
-  }
-  30% {
-    opacity: 1;
-  }
-  55% {
-    opacity: 0.7;
-  }
-  80% {
-    opacity: 1;
   }
 }
 

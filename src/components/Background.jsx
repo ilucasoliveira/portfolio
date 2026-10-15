@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import { canHover, prefersReducedMotion } from "../utils/motion";
+import { useTheme } from "../hooks/useTheme";
 import "./Background.css";
 
 // céu noturno: estrelas em canvas (cintilam, se movem em paralaxe e às vezes uma cadente),
 // lua atrás da névoa, faixas de neblina e uma lanterna que segue o cursor
 function makeStars(width, height) {
   const count = Math.round((width * height) / 5200);
-  return Array.from({ length: count }, (_, i) => {
+  const stars = Array.from({ length: count }, (_, i) => {
     const r = Math.random();
     return {
       x: Math.random() * width,
@@ -18,13 +19,19 @@ function makeStars(width, height) {
       gold: i % 9 === 0,
     };
   });
+  // brancas primeiro, douradas depois: a cor do pincel só muda uma vez por quadro
+  return stars.sort((a, b) => a.gold - b.gold);
 }
 
 function Background() {
   const canvasRef = useRef(null);
   const lanternRef = useRef(null);
+  const theme = useTheme();
+  const night = theme !== "light";
 
   useEffect(() => {
+    // de dia o céu de estrelas fica escondido: nem desenha (economiza bateria)
+    if (!night) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     // com menos movimento as estrelas continuam cintilando; só a estrela cadente fica de fora
@@ -55,8 +62,8 @@ function Background() {
 
     function draw(time) {
       const scroll = window.scrollY;
-      // parado (sem rolar e sem estrela cadente), o cintilar não precisa de 60 quadros: ~20 por segundo bastam
-      if (!shooting && scroll === lastScroll && time - lastDraw < 50 && time < nextShot) {
+      // parado (sem rolar e sem estrela cadente), o cintilar é lento: ~12 quadros por segundo bastam
+      if (!shooting && scroll === lastScroll && time - lastDraw < 80 && time < nextShot) {
         if (running) frame = requestAnimationFrame(draw);
         return;
       }
@@ -65,13 +72,18 @@ function Background() {
       ctx.clearRect(0, 0, width, height);
       const t = time / 1000;
 
+      let color = "";
       for (const s of stars) {
         const span = height * 1.6;
         const y = (((s.y - scroll * s.depth * 0.12) % span) + span) % span;
         if (y > height) continue;
         const twinkle = 0.45 + 0.55 * Math.sin(t * s.speed + s.phase) ** 2;
         ctx.globalAlpha = twinkle * (0.35 + s.depth * 0.65);
-        ctx.fillStyle = s.gold ? "#f3d488" : "#e9eeff";
+        const next = s.gold ? "#f3d488" : "#e9eeff";
+        if (next !== color) {
+          color = next;
+          ctx.fillStyle = color;
+        }
         if (s.size < 1.3) {
           // estrela miúda: um quadradinho é igual ao olho e muito mais barato que um círculo
           ctx.fillRect(s.x - s.size, y - s.size, s.size * 2, s.size * 2);
@@ -159,10 +171,11 @@ function Background() {
       document.removeEventListener("visibilitychange", onVisibility);
       if (hover) window.removeEventListener("pointermove", onMove);
     };
-  }, []);
+  }, [night]);
 
   return (
     <div className="bg" aria-hidden="true">
+      <div className="bg-day" />
       <div className="bg-glow" />
       <div className="bg-moon" />
       <canvas className="bg-stars-canvas" ref={canvasRef} />

@@ -5,12 +5,17 @@ import { useInView } from "../hooks/useInView";
 import ArchDiagram from "../components/ArchDiagram";
 import Corners from "../components/Corners";
 import ElvishScript from "../components/ElvishScript";
-import ForgeScene from "../components/ForgeScene";
 import Link from "../components/Link";
 import RuneText from "../components/RuneText";
+import StoneStack from "../components/StoneStack";
 import Words from "../components/Words";
 import { ExternalLinks } from "../components/Projects";
 import { FUTHARK } from "../utils/runes";
+import ThemedImg from "../components/ThemedImg";
+import city960 from "../assets/city/gondolin-960.webp";
+import city1672 from "../assets/city/gondolin-1672.webp";
+import cityDay960 from "../assets/city/gondolin-day-960.webp";
+import cityDay1672 from "../assets/city/gondolin-day-1672.webp";
 import "./ProjectPage.css";
 
 const NUMERAL_RUNES = { I: "ᚠ", II: "ᚢ", III: "ᚦ", IV: "ᚨ" };
@@ -74,7 +79,7 @@ function NotFound() {
       <h1 className="phero__title" ref={titleRef} tabIndex={-1}>
         {t.projectPage.notFound}
       </h1>
-      <Link className="cta cta--ghost" href="/#projetos">
+      <Link className="cta cta--ghost" href="/projetos">
         {t.projectPage.notFoundBack}
       </Link>
     </section>
@@ -106,8 +111,20 @@ function ProjectPage({ slug }) {
     <article className="project-page" aria-labelledby="project-title">
       {/* cabeçalho da obra */}
       <header className="phero" ref={heroRef}>
+        {/* a cidade ao fundo do cabeçalho, apagada para o texto ficar legível */}
+        <div className="phero__city" aria-hidden="true">
+          <ThemedImg
+            night={{ src: city1672, srcSet: `${city960} 960w, ${city1672} 1672w` }}
+            day={{ src: cityDay1672, srcSet: `${cityDay960} 960w, ${cityDay1672} 1672w` }}
+            sizes="100vw"
+            alt=""
+            width="1672"
+            height="940"
+            decoding="async"
+          />
+        </div>
         <div className="phero__inner">
-          <Link className="link-rune phero__back" href="/#projetos">
+          <Link className="link-rune phero__back" href="/projetos">
             {p.back}
           </Link>
           <Tabs current={project.slug} />
@@ -138,14 +155,14 @@ function ProjectPage({ slug }) {
         </div>
       </header>
 
-      {/* a forja: a cena inteira de fundo e a stack em volta */}
-      <ForgeScene stack={stack} labelA={p.stackA} labelB={p.stackB} sceneLabel={p.sceneLabel}>
-        <p className="chapter-label">{p.forge.chapter}</p>
-        <h2 className="chapter-title" id="forge-title">
-          {p.forge.pre} <em>{p.forge.em}</em>
+      {/* a muralha: a stack da obra gravada em pedra */}
+      <StoneStack stack={stack} labelledBy="stone-title">
+        <p className="chapter-label">{p.stone.chapter}</p>
+        <h2 className="chapter-title" id="stone-title">
+          {p.stone.pre} <em>{p.stone.em}</em>
         </h2>
-        <p className="forge__hint">{p.forge.hint}</p>
-      </ForgeScene>
+        <p className="stone__hint">{p.stone.hint}</p>
+      </StoneStack>
 
       {/* iluminura: arquitetura */}
       <section className="psec" aria-labelledby="arch-title">
@@ -215,7 +232,7 @@ function ProjectPage({ slug }) {
       {/* contrato da API */}
       <section className="psec" aria-labelledby="endpoints-title">
         <Chapter id="endpoints-title" chapter={p.endpoints.chapter} pre={p.endpoints.pre} em={p.endpoints.em} />
-        <div className="etable__box" tabIndex={0} role="region" aria-labelledby="endpoints-title">
+        <div className="etable__box" tabIndex={0} role="region" aria-label={p.endpointsTable}>
           <table className="etable">
             <thead>
               <tr>

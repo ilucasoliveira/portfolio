@@ -1,0 +1,424 @@
+/*
+ * Tema de dia (pergaminho). As cores-base já mudam em global.css; aqui ficam os
+ * ajustes dos componentes que têm cor própria de noite (fundos escuros, brilhos
+ * claros). Tudo começa com :root[data-theme="light"] e não vale dentro de .night-zone
+ * (o portão, o Balrog e o espectro continuam na noite).
+ */
+
+/* ----- base ----- */
+
+:root[data-theme="light"] .cta--gold,
+:root[data-theme="light"] .hero__cta--primary {
+  color: #1e1d18;
+  background: linear-gradient(135deg, #e3c27a, #c9a14a);
+  box-shadow: 0 8px 24px rgba(122, 87, 24, 0.22);
+}
+
+:root[data-theme="light"] .cta--ghost,
+:root[data-theme="light"] .hero__cta--secondary {
+  color: var(--color-text-primary);
+  border-color: rgba(30, 29, 24, 0.35);
+  background: rgba(248, 242, 227, 0.55);
+}
+
+:root[data-theme="light"] .cta--ghost:hover,
+:root[data-theme="light"] .hero__cta--secondary:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* ----- menu ----- */
+
+:root[data-theme="light"] .nav--scrolled,
+:root[data-theme="light"] .nav--open {
+  background: rgba(241, 234, 216, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom-color: var(--color-border);
+}
+
+:root[data-theme="light"] .nav__lang-toggle,
+:root[data-theme="light"] .nav__theme {
+  border-color: var(--color-border-strong);
+}
+
+:root[data-theme="light"] .nav__lang-toggle button.active {
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+}
+
+:root[data-theme="light"] .nav__contact-btn {
+  border-color: var(--color-border-strong);
+}
+
+:root[data-theme="light"] .nav__drawer {
+  background: rgba(241, 234, 216, 0.98);
+}
+
+/* ----- grade fina, véus e abertura ----- */
+
+:root[data-theme="light"] .hairlines__v,
+:root[data-theme="light"] .hairlines__h {
+  background: linear-gradient(var(--dir, 180deg), transparent, rgba(30, 29, 24, 0.16) 12%, rgba(30, 29, 24, 0.16) 88%, transparent);
+}
+
+:root[data-theme="light"] .hairlines__star,
+:root[data-theme="light"] .hairlines__mark {
+  fill: var(--color-gold);
+  filter: none;
+}
+
+:root[data-theme="light"] .intro__half--top {
+  background: radial-gradient(ellipse 80% 120% at 50% 100%, #fbf6e8, var(--color-bg) 70%);
+}
+
+:root[data-theme="light"] .intro__half--bottom {
+  background: radial-gradient(ellipse 80% 120% at 50% 0%, #fbf6e8, var(--color-bg) 70%);
+}
+
+:root[data-theme="light"] .intro__v,
+:root[data-theme="light"] .intro__h {
+  background: rgba(122, 87, 24, 0.3);
+}
+
+:root[data-theme="light"] .intro__name {
+  text-shadow: none;
+}
+
+:root[data-theme="light"] .route-veil__iris {
+  background:
+    radial-gradient(circle at var(--vx) var(--vy), rgba(201, 161, 74, 0.2), transparent 30%),
+    var(--color-bg);
+}
+
+:root[data-theme="light"] .anchor-veil {
+  background: radial-gradient(ellipse at 50% 50%, #f8f2e3, var(--color-bg) 70%);
+}
+
+/* ----- abertura da Home: Valinor de dia ----- */
+
+:root[data-theme="light"] .hero__valley img {
+  filter: brightness(1.02) saturate(0.95);
+}
+
+/* um véu de pergaminho no meio, para o nome e o texto lerem sobre a imagem clara */
+:root[data-theme="light"] .hero__valley::after {
+  background:
+    radial-gradient(ellipse 48% 44% at 50% 46%, rgba(246, 240, 224, 0.82), rgba(246, 240, 224, 0.35) 60%, transparent 78%),
+    linear-gradient(to bottom, rgba(246, 240, 224, 0.4), transparent 40%);
+}
+
+:root[data-theme="light"] .hero__title {
+  text-shadow: none;
+  filter: drop-shadow(0 2px 18px rgba(255, 250, 235, 0.85));
+}
+
+:root[data-theme="light"] .hero__title-line {
+  background-image: linear-gradient(180deg, #17140e 0%, #2b2316 50%, #5e4313 100%);
+}
+
+:root[data-theme="light"] .hero__tagline {
+  color: #2f2b22;
+}
+
+/* ----- obras na Home ----- */
+
+:root[data-theme="light"] .wstrip__card {
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 0%, rgba(255, 252, 240, 0.8), transparent 70%),
+    rgba(250, 245, 232, 0.88);
+}
+
+:root[data-theme="light"] .wstrip__card:hover,
+:root[data-theme="light"] .wstrip__card:focus-within {
+  border-color: rgba(122, 87, 24, 0.6);
+  box-shadow: 0 18px 44px rgba(90, 70, 30, 0.14);
+}
+
+:root[data-theme="light"] .wstrip__card::before {
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(227, 189, 106, 0.22), transparent 70%);
+}
+
+:root[data-theme="light"] .wstrip__card:hover .wstrip__key,
+:root[data-theme="light"] .wstrip__card:focus-within .wstrip__key {
+  text-shadow: none;
+}
+
+/* ----- páginas de obra ----- */
+
+:root[data-theme="light"] .arch__node {
+  background: #fbf6e8;
+  border-color: var(--color-border-strong);
+}
+
+:root[data-theme="light"] .phero__city img {
+  filter: brightness(1) saturate(0.95);
+}
+
+:root[data-theme="light"] .phero__city::after {
+  background: linear-gradient(90deg, rgba(241, 234, 216, 0.94) 0%, rgba(241, 234, 216, 0.75) 45%, rgba(241, 234, 216, 0.3) 100%);
+}
+
+/* ----- fim da Home: o dia cai devagar até a noite do espectro ----- */
+
+:root[data-theme="light"] .epilogue {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(120, 100, 70, 0.25) 6%,
+    rgba(52, 44, 34, 0.85) 13%,
+    #14120f 19%,
+    #08080c 27%,
+    #08080c 100%
+  );
+}
+
+/* superfícies das páginas de obra: papel mais claro, com fio de bronze */
+:root[data-theme="light"] .phero__meta,
+:root[data-theme="light"] .pshot,
+:root[data-theme="light"] .decision,
+:root[data-theme="light"] .etable__box,
+:root[data-theme="light"] .pnav__link {
+  background: rgba(250, 245, 232, 0.9);
+  border-color: var(--color-border-strong);
+}
+
+:root[data-theme="light"] .decision:hover,
+:root[data-theme="light"] .pnav__link:hover {
+  background: #fbf7ec;
+}
+
+:root[data-theme="light"] .verb--post,
+:root[data-theme="light"] .verb--put,
+:root[data-theme="light"] .verb--patch {
+  color: var(--color-gold);
+}
+
+:root[data-theme="light"] .decision:hover .decision__n {
+  text-shadow: none;
+}
+
+:root[data-theme="light"] .arch {
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 40%, rgba(201, 161, 74, 0.1), transparent 75%),
+    rgba(250, 245, 232, 0.9);
+  border-color: var(--color-border-strong);
+}
+
+:root[data-theme="light"] .seal__wax {
+  box-shadow:
+    inset 0 -6px 12px rgba(0, 0, 0, 0.35),
+    inset 0 4px 8px rgba(255, 160, 130, 0.35),
+    0 6px 14px rgba(90, 40, 20, 0.25);
+}
+
+/* a muralha da stack em pedra clara, runas em bronze */
+:root[data-theme="light"] .stone {
+  --stone: #1e1d18;
+  --lamp: #7a5718;
+}
+
+:root[data-theme="light"] .stone__wall {
+  --joint: rgba(30, 29, 24, 0.16);
+}
+
+:root[data-theme="light"] .stone__block {
+  background:
+    radial-gradient(ellipse 120% 90% at 0% 0%, rgba(255, 255, 255, 0.55), transparent 60%),
+    linear-gradient(180deg, #f7f1e1, #ece3cc);
+}
+
+:root[data-theme="light"] .stone__rune {
+  color: rgba(30, 29, 24, 0.25);
+  border-color: rgba(30, 29, 24, 0.16);
+}
+
+:root[data-theme="light"] .stone.is-lit .stone__rune {
+  color: var(--lamp);
+  text-shadow: none;
+  border-color: rgba(122, 87, 24, 0.45);
+}
+
+:root[data-theme="light"] .stone__block:hover .stone__rune {
+  color: #5e4313;
+  text-shadow: 0 0 10px rgba(201, 161, 74, 0.5);
+}
+
+/* ----- as obras (a cidade de dia) ----- */
+
+:root[data-theme="light"] .hall {
+  --stone: #1e1d18;
+  --stone-line: rgba(30, 29, 24, 0.3);
+  --lamp: #7a5718;
+  --lapis: #e7ddc4;
+  --fount: #3e5f86;
+}
+
+/* de dia o lado do texto ganha um véu de pergaminho em vez de escuro */
+:root[data-theme="light"] .hall-hero::after {
+  background:
+    linear-gradient(90deg, rgba(241, 234, 216, 0.95) 0%, rgba(241, 234, 216, 0.7) 32%, rgba(241, 234, 216, 0) 58%),
+    linear-gradient(180deg, rgba(241, 234, 216, 0.5) 0%, rgba(241, 234, 216, 0) 22%);
+}
+
+:root[data-theme="light"] .hall-hero__inner {
+  text-shadow: 0 1px 16px rgba(255, 250, 235, 0.9);
+}
+
+:root[data-theme="light"] .hall-hero__intro {
+  color: #2f2b22;
+}
+
+:root[data-theme="light"] .hall-arch::before {
+  border-color: rgba(30, 29, 24, 0.14);
+}
+
+:root[data-theme="light"] .hall-works__row .hall-arch__window img {
+  filter: brightness(0.92) saturate(0.9);
+}
+
+:root[data-theme="light"] .hall-works__row .work:hover .hall-arch__window img,
+:root[data-theme="light"] .hall-works__row .work:focus-within .hall-arch__window img {
+  filter: brightness(1) saturate(1);
+}
+
+/* a runa grande vira inscrição escura sobre a pedra clara */
+:root[data-theme="light"] .hall-arch__rune {
+  color: rgba(30, 29, 24, 0.75);
+  text-shadow: 0 0 22px rgba(255, 250, 235, 0.9);
+}
+
+:root[data-theme="light"] .work:hover .hall-arch__rune,
+:root[data-theme="light"] .work:focus-within .hall-arch__rune {
+  color: #1e1d18;
+  text-shadow: 0 0 26px rgba(255, 250, 235, 1);
+}
+
+:root[data-theme="light"] .work--featured .hall-arch__city {
+  filter: brightness(0.95) saturate(0.9);
+}
+
+:root[data-theme="light"] .hall-arch__window::after {
+  background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255, 236, 190, 0.45), transparent 70%);
+}
+
+:root[data-theme="light"] .work__tags li {
+  border-color: rgba(62, 95, 134, 0.3);
+}
+
+:root[data-theme="light"] .hall-close__mark {
+  text-shadow: none;
+}
+
+@media (max-width: 700px) {
+  :root[data-theme="light"] .hall-hero::after {
+    background:
+      linear-gradient(180deg, rgba(241, 234, 216, 0.4) 0%, rgba(241, 234, 216, 0.1) 30%, rgba(241, 234, 216, 0.88) 68%),
+      linear-gradient(90deg, rgba(241, 234, 216, 0.4), rgba(241, 234, 216, 0.05));
+  }
+}
+
+/* ----- a Oficina de dia: pedra cinza com luz entrando pelo alto; depois da ponte, noite ----- */
+
+:root[data-theme="light"] .workshop__atmosphere {
+  --night: 0;
+}
+
+:root[data-theme="light"] .workshop__atmosphere {
+  background:
+    radial-gradient(ellipse 55% 50% at 18% -12%, rgba(255, 250, 235, 0.7), transparent 70%),
+    radial-gradient(ellipse 45% 40% at 85% -8%, rgba(255, 244, 214, 0.45), transparent 70%),
+    linear-gradient(180deg, #dcd8cf 0%, #cdc8be 60%, #bfb9ae 100%);
+}
+
+/* a escuridão do fundo da mina chega conforme a ponte passa (--night) */
+:root[data-theme="light"] .workshop__atmosphere::after {
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 85% 80% at 50% 50%, transparent 45%, rgba(0, 0, 0, 0.7) 100%),
+    #08080a;
+  opacity: var(--night);
+}
+
+/* o fogo só aparece quando já é noite lá embaixo */
+:root[data-theme="light"] .workshop__atmosphere::before {
+  z-index: 1;
+  opacity: calc(var(--night) * (0.12 + var(--depth) * 0.88));
+}
+
+:root[data-theme="light"] .workshop-hero::after {
+  background:
+    linear-gradient(90deg, rgba(214, 209, 199, 0.9), rgba(214, 209, 199, 0) 62%),
+    linear-gradient(
+      180deg,
+      rgba(214, 209, 199, 0.55) 0%,
+      rgba(214, 209, 199, 0) 24%,
+      rgba(214, 209, 199, 0.15) 55%,
+      rgba(214, 209, 199, 0.85) 86%,
+      #d6d1c7 100%
+    );
+}
+
+:root[data-theme="light"] .workshop-hero__inner {
+  text-shadow: 0 1px 16px rgba(240, 236, 228, 0.9);
+}
+
+:root[data-theme="light"] .workshop-hero__intro {
+  color: #2f2b22;
+}
+
+/* a parte de cima (antes da ponte): placas de pedra clara, acento azul de luz fria */
+:root[data-theme="light"] .workshop__part:not(.night-zone) {
+  --accent: #3e5f86;
+  --accent-soft: rgba(62, 95, 134, 0.22);
+}
+
+:root[data-theme="light"] .workshop__part:not(.night-zone) .tool article {
+  background: linear-gradient(180deg, rgba(246, 243, 236, 0.94), rgba(232, 228, 219, 0.96));
+  border-color: rgba(30, 29, 24, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 14px 32px rgba(40, 36, 30, 0.14);
+}
+
+:root[data-theme="light"] .workshop__part:not(.night-zone) .tool article:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 18px 40px rgba(40, 36, 30, 0.2),
+    0 0 24px var(--accent-soft);
+}
+
+:root[data-theme="light"] .workshop__part:not(.night-zone) .tool__icon {
+  border-color: rgba(30, 29, 24, 0.16);
+  background: rgba(255, 255, 255, 0.5);
+  color: #5e4313;
+}
+
+:root[data-theme="light"] .workshop__part:not(.night-zone) .tool article:hover .tool__icon {
+  color: #3d2c0c;
+  box-shadow: 0 0 14px rgba(201, 161, 74, 0.3);
+}
+
+/* botões dentro de um trecho noturno (o fim da Oficina, o espectro) continuam com o visual da noite */
+:root[data-theme="light"] .night-zone .cta--gold {
+  color: var(--color-bg);
+  background: linear-gradient(135deg, #e8c97a, var(--color-gold));
+  box-shadow: 0 8px 28px rgba(201, 168, 76, 0.18);
+}
+
+:root[data-theme="light"] .night-zone .cta--ghost {
+  color: var(--color-text-primary);
+  border-color: rgba(232, 226, 212, 0.3);
+  background: rgba(8, 8, 10, 0.4);
+}
+
+:root[data-theme="light"] .night-zone .cta--ghost:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* o portão de Moria só aparece à luz da lua: de dia ele traz o próprio céu da noite */
+:root[data-theme="light"] .gate {
+  background:
+    radial-gradient(ellipse 70% 55% at 78% -8%, rgba(70, 92, 160, 0.22), transparent 70%),
+    linear-gradient(180deg, #0d1120 0%, #0a0c15 40%, #08080b 100%);
+}

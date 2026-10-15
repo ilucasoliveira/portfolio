@@ -95,13 +95,6 @@
   width: 60px;
 }
 
-.hero__rune-text {
-  font-size: 16px;
-  color: var(--color-gold-dim);
-  letter-spacing: 4px;
-  animation: runeGlow 4s ease-in-out infinite;
-}
-
 .hero__tagline {
   font-family: var(--font-body);
   font-style: italic;

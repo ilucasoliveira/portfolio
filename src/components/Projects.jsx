@@ -1,15 +1,20 @@
 import { useLanguage } from "../context/LanguageContext";
 import { PROJECTS, tx } from "../data/projects";
 import { useReveal } from "../hooks/useReveal";
-import { useTilt } from "../hooks/useTilt";
 import RuneText from "./RuneText";
-import Corners from "./Corners";
 import Link from "./Link";
 import "./Projects.css";
 
+/*
+ * As Obras na Home: só um convite. As quatro obras numa faixa de arcos (nome,
+ * uma frase, a stack e se está no ar), cada uma levando à sua página, e o
+ * caminho para a página de todas as obras (/projetos), onde fica o resto.
+ */
+
 const NUMERAL_RUNES = { I: "ᚠ", II: "ᚢ", III: "ᚦ", IV: "ᚨ" };
 
-export function ExternalLinks({ project, className = "projects__card-link" }) {
+// links para fora (demo, docs, código), usados nas páginas das obras
+export function ExternalLinks({ project, className = "" }) {
   const { t } = useLanguage();
   return project.links.map((link) => (
     <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className={className}>
@@ -18,46 +23,46 @@ export function ExternalLinks({ project, className = "projects__card-link" }) {
   ));
 }
 
-function ProjectCard({ project }) {
-  const { t, lang } = useLanguage();
-  const tiltRef = useTilt();
-  const text = project.text[lang];
-  const href = `/projetos/${project.slug}`;
+function isLive(project) {
+  return project.links.some((link) => link.type === "demo");
+}
 
+function WorkArch({ project, index }) {
+  const { t, lang } = useLanguage();
+  const text = project.text[lang];
+  const live = isLive(project);
   return (
-    <article ref={tiltRef} className="projects__card">
-      <div className="projects__card-hover-bar" />
-      <span className="projects__card-rune" aria-hidden="true">
-        {NUMERAL_RUNES[project.numeral]}
-      </span>
-      <div className="projects__card-tags">{project.tags.join(" · ")}</div>
-      <h3 className="projects__card-title">
-        <Link href={href} className="projects__card-title-link">
-          {tx(project.name, lang)}
-        </Link>
-      </h3>
-      <p className="projects__card-desc">{text.summary}</p>
-      <ul className="projects__card-list">
-        {text.bullets.slice(0, 3).map((b) => (
-          <li key={b}>{b}</li>
-        ))}
-      </ul>
-      <div className="projects__card-actions">
-        <Link href={href} className="link-rune projects__details">
-          {t.projects.details}
-        </Link>
-        <ExternalLinks project={project} />
-      </div>
-    </article>
+    <li className="wstrip__item" style={{ "--i": index }}>
+      <article className="wstrip__card">
+        <span className="wstrip__key" aria-hidden="true">
+          {NUMERAL_RUNES[project.numeral]}
+        </span>
+        <h3 className="wstrip__name">
+          {/* o link cobre o arco inteiro (::after), mas o nome dele é só o título */}
+          <Link href={`/projetos/${project.slug}`} className="wstrip__link">
+            {tx(project.name, lang)}
+          </Link>
+        </h3>
+        <p className="wstrip__summary">{text.summary}</p>
+        <p className="wstrip__tags">{project.tags.join(" · ")}</p>
+        <p className="wstrip__foot">
+          <span className={`wstrip__status ${live ? "is-live" : ""}`}>
+            {live ? t.projects.live : t.projects.codeOnly}
+          </span>
+          <span className="wstrip__enter" aria-hidden="true">
+            {t.projects.enterShort}
+          </span>
+        </p>
+      </article>
+    </li>
   );
 }
 
 function Projects() {
-  const { t, lang } = useLanguage();
-  const [featured, ...others] = PROJECTS;
+  const { t } = useLanguage();
   const [ref, isVisible] = useReveal();
-  const text = featured.text[lang];
-  const href = `/projetos/${featured.slug}`;
+  const demo = PROJECTS.find(isLive);
+  const demoUrl = demo?.links.find((link) => link.type === "demo")?.url;
 
   return (
     <section id="projetos" className={`projects reveal ${isVisible ? "visible" : ""}`} ref={ref}>
@@ -72,60 +77,25 @@ function Projects() {
             <RuneText text={t.projects.titleEm} active={isVisible} />
           </em>
         </h2>
+        <p className="projects__intro">{t.projects.intro}</p>
       </div>
 
-      <article className="projects__featured" data-serpent="featured">
-        <Corners />
-        <div className="projects__featured-glow" />
-
-        <Link href={href} className="projects__featured-image" tabIndex={-1} aria-hidden="true">
-          <picture>
-            <source media="(max-width: 700px)" srcSet={featured.imageMobile} />
-            <img
-              src={featured.image}
-              alt=""
-              width="1198"
-              height="748"
-              loading="lazy"
-              decoding="async"
-              className="projects__featured-img"
-            />
-          </picture>
-          <span className="projects__featured-veil">{t.projects.enter}</span>
-        </Link>
-
-        <div className="projects__featured-meta">
-          <span className="projects__featured-badge">{t.projects.featured.badge}</span>
-          <span className="projects__featured-year">
-            {featured.year} · {text.kind}
-          </span>
-        </div>
-
-        <h3 className="projects__featured-title">
-          <Link href={href} className="projects__card-title-link">
-            {tx(featured.name, lang)}
-          </Link>
-        </h3>
-        <p className="projects__featured-desc">{text.lead}</p>
-
-        <div className="projects__featured-tags">
-          {featured.tags.map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </div>
-
-        <div className="projects__featured-actions">
-          <Link href={href} className="cta cta--gold">
-            {t.projects.details}
-          </Link>
-          <ExternalLinks project={featured} className="projects__featured-cta" />
-        </div>
-      </article>
-
-      <div className="projects__grid" data-serpent="projects">
-        {others.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
+      <ol className="wstrip">
+        {PROJECTS.map((project, i) => (
+          <WorkArch key={project.slug} project={project} index={i} />
         ))}
+      </ol>
+
+      <div className="projects__actions">
+        <Link href="/projetos" className="cta cta--gold">
+          {t.projects.seeAll}
+        </Link>
+        {demoUrl && (
+          <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="cta cta--ghost">
+            {/* espaço que não quebra: a seta nunca fica sozinha na linha de baixo */}
+            {t.projects.liveDemo}&nbsp;↗<span className="sr-only"> {t.projects.newTab}</span>
+          </a>
+        )}
       </div>
     </section>
   );

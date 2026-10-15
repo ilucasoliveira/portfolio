@@ -2,17 +2,19 @@ import { lazy } from "react";
 
 /*
  * As páginas fora da home ficam em arquivos separados: quem abre só a home não
- * baixa o código da Oficina, das Inspirações nem da página de projeto.
+ * baixa o código da Oficina, das Inspirações nem das obras.
  * preloadPage começa o download antes da troca (ao passar o mouse, focar ou
  * clicar num link), então a página costuma estar pronta quando o véu se abre.
  */
 
 const LOADERS = {
+  projects: () => import("./ProjectsPage"),
   project: () => import("./ProjectPage"),
   inspirations: () => import("./InspirationsPage"),
   workshop: () => import("./WorkshopPage"),
 };
 
+export const ProjectsPage = lazy(LOADERS.projects);
 export const ProjectPage = lazy(LOADERS.project);
 export const InspirationsPage = lazy(LOADERS.inspirations);
 export const WorkshopPage = lazy(LOADERS.workshop);

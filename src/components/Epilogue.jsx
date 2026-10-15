@@ -46,7 +46,8 @@ function Epilogue() {
     return () => observer.disconnect();
   }, []);
 
-  const classes = ["epilogue", revealed ? "epilogue--revealed" : "", playing ? "" : "epilogue--paused"].join(" ");
+  // night-zone: o espectro fica na noite mesmo no tema de dia (o rodapé daqui também)
+  const classes = ["epilogue", "night-zone", revealed ? "epilogue--revealed" : "", playing ? "" : "epilogue--paused"].join(" ");
 
   return (
     <section className={classes} ref={scrollRef} aria-labelledby="epilogue-title">

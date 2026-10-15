@@ -1,0 +1,592 @@
+/* ===== As Obras: a cidade de pedra branca, à noite ===== */
+
+.hall {
+  --stone: #e9e4d6; /* pedra branca das muralhas */
+  --stone-line: rgba(233, 228, 214, 0.32);
+  --lamp: #e3bd6a; /* luz das janelas */
+  --lapis: #0a1120; /* céu da cidade */
+  --fount: #9fb8d6; /* prata das fontes */
+  position: relative;
+  z-index: 1;
+}
+
+/* ----- abertura: a cidade ocupa a primeira tela ----- */
+
+.hall-hero {
+  --h: max(100svh, 600px);
+  position: relative;
+  height: var(--h);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* a imagem num quadro com a mesma proporção dela, cobrindo a tela (como object-fit: cover),
+   para as janelas acesas ficarem sempre em cima das janelas da ilustração */
+.hall-hero__art {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100%, calc(var(--h) * 1672 / 940));
+  aspect-ratio: 1672 / 940;
+  translate: -50% -50%;
+  /* a cidade se dissolve no céu do site, sem linha de corte */
+  -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 98%);
+  mask-image: linear-gradient(180deg, #000 62%, transparent 98%);
+}
+
+.hall-hero__art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* à noite a cidade abre apagada e ganha luz junto com as janelas */
+:root:not([data-theme="light"]) .hall-hero__art img {
+  animation: hallCityWake 3.8s ease 0.2s both;
+}
+
+@keyframes hallCityWake {
+  from {
+    filter: brightness(0.35) saturate(0.6);
+  }
+  to {
+    filter: brightness(1) saturate(1);
+  }
+}
+
+/* escurece o lado do texto (a encosta à esquerda já é escura) */
+.hall-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(5, 8, 15, 0.82) 0%, rgba(5, 8, 15, 0.45) 34%, rgba(5, 8, 15, 0) 58%),
+    linear-gradient(180deg, rgba(5, 8, 15, 0.55) 0%, rgba(5, 8, 15, 0) 22%);
+}
+
+/* janelas: acendem uma a uma a partir da torre e depois tremeluzem como chama */
+.hall-hero__lamps i {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: #fff1c8;
+  box-shadow:
+    0 0 8px 3px rgba(255, 214, 130, 0.9),
+    0 0 26px 10px rgba(227, 189, 106, 0.32);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation:
+    hallLampOn 1.1s ease var(--d) forwards,
+    hallLampFlicker var(--f) ease-in-out calc(var(--d) + 1.1s) infinite alternate;
+}
+
+@keyframes hallLampOn {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes hallLampFlicker {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 0.45;
+  }
+}
+
+.hall-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 60px 6vw 0;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.9);
+}
+
+.hall-hero__title {
+  font-size: clamp(46px, 7vw, 86px);
+  line-height: 1.05;
+  color: var(--stone);
+}
+
+.hall-hero__intro {
+  margin-top: 22px;
+  max-width: 36ch;
+  font-size: 22px;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.hall-hero__descend {
+  margin-top: 46px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-gold-muted);
+  transition: color 0.3s ease;
+}
+
+.hall-hero__descend:hover {
+  color: var(--lamp);
+}
+
+.hall-hero__line {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(180deg, var(--lamp), transparent);
+}
+
+/* ----- os arcos ----- */
+
+/* o arco: uma janela com topo em arco, contorno de pedra e um segundo contorno por fora */
+.hall-arch {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  --r: 50% 50% 0 0 / 34% 34% 0 0;
+}
+
+.hall-arch--wide {
+  --r: 50% 50% 0 0 / 22% 22% 0 0;
+}
+
+.hall-arch__window {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--r);
+  border: 1px solid var(--stone-line);
+  background: var(--lapis);
+  transition: border-color 0.5s ease;
+}
+
+/* o segundo contorno, afastado, como a moldura talhada na muralha */
+.hall-arch::before {
+  content: "";
+  position: absolute;
+  inset: -9px -9px 0;
+  border-radius: var(--r);
+  border: 1px solid rgba(233, 228, 214, 0.12);
+  border-bottom: 0;
+  pointer-events: none;
+  transition: border-color 0.5s ease;
+}
+
+/* luz que acende dentro do arco quando o mouse chega */
+.hall-arch__window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(227, 189, 106, 0.32), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.hall-arch__window img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.5s ease;
+}
+
+/* a pedra-chave no alto do arco, com a runa da obra (o losango é o ::before, a runa fica reta) */
+.hall-arch__key {
+  position: absolute;
+  z-index: 1;
+  top: -9px;
+  left: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  font-family: var(--font-runic);
+  font-size: 15px;
+  color: var(--lamp);
+  transition: color 0.5s ease;
+}
+
+.hall-arch__key::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  z-index: -1;
+  background: var(--lapis);
+  border: 1px solid var(--stone-line);
+  rotate: 45deg;
+  transition: box-shadow 0.5s ease;
+}
+
+.work:hover .hall-arch__window,
+.work--featured:hover .hall-arch__window,
+.work:focus-within .hall-arch__window {
+  border-color: rgba(227, 189, 106, 0.6);
+}
+
+.work:hover .hall-arch::before,
+.work:focus-within .hall-arch::before {
+  border-color: rgba(227, 189, 106, 0.3);
+}
+
+.work:hover .hall-arch__window::after,
+.work:focus-within .hall-arch__window::after {
+  opacity: 1;
+}
+
+.work:hover .hall-arch__key,
+.work:focus-within .hall-arch__key {
+  color: #fff1c8;
+}
+
+.work:hover .hall-arch__key::before,
+.work:focus-within .hall-arch__key::before {
+  box-shadow: 0 0 18px rgba(227, 189, 106, 0.45);
+}
+
+/* ----- as obras ----- */
+
+.hall-works {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 6vw 0;
+}
+
+.work__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: var(--color-text-faint);
+}
+
+.work__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.work__status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-text-faint);
+}
+
+.work__status.is-live {
+  color: var(--color-success);
+}
+
+.work__status.is-live::before {
+  background: var(--color-success);
+  box-shadow: 0 0 8px var(--color-success);
+}
+
+.work__title {
+  margin-top: 12px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--stone);
+}
+
+.work__title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.work__title a:hover {
+  color: var(--lamp);
+}
+
+/* a obra principal: arco largo com a tela do app, texto ao lado */
+.work--featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.work--featured .hall-arch__window {
+  aspect-ratio: 1198 / 900;
+}
+
+.work--featured .hall-arch__city {
+  object-position: 58% 38%;
+  filter: brightness(0.45) saturate(0.85);
+}
+
+/* a tela do app, de pé dentro do arco, com uma moldura fina de pedra */
+.hall-arch__screen {
+  position: absolute;
+  z-index: 1;
+  left: 7%;
+  right: 7%;
+  bottom: 0;
+  height: 76%;
+  border: 1px solid var(--stone-line);
+  border-bottom: 0;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.hall-arch__screen img {
+  object-position: 50% 0;
+  filter: brightness(0.9);
+}
+
+.work--featured:hover .hall-arch__screen img,
+.work--featured:focus-within .hall-arch__screen img {
+  filter: brightness(1);
+}
+
+.work--featured:hover .hall-arch__city,
+.work--featured:focus-within .hall-arch__city {
+  filter: brightness(0.6) saturate(1);
+}
+
+.work--featured .work__title {
+  font-size: clamp(30px, 3.6vw, 44px);
+}
+
+.work__lead {
+  margin-top: 18px;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.work__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+  list-style: none;
+}
+
+.work__tags li {
+  padding: 5px 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--fount);
+  border: 1px solid rgba(159, 184, 214, 0.25);
+}
+
+.work__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+  margin-top: 30px;
+}
+
+.work__ext {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.work__ext:hover {
+  color: var(--lamp);
+}
+
+/* as outras três: arcos estreitos lado a lado, cada um olhando para uma parte da cidade */
+.hall-works__row {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 48px;
+  margin-top: 130px;
+}
+
+.hall-works__row .work {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  transition-delay: calc(var(--i) * 0.15s);
+}
+
+.hall-works__row.is-in .work {
+  opacity: 1;
+}
+
+.hall-works__row .hall-arch__window {
+  aspect-ratio: 3 / 4;
+}
+
+.hall-works__row .hall-arch__window img {
+  filter: brightness(0.55) saturate(0.85);
+}
+
+.hall-works__row .work:hover .hall-arch__window img,
+.hall-works__row .work:focus-within .hall-arch__window img {
+  filter: brightness(0.75) saturate(1);
+}
+
+/* a runa grande, como inscrição na pedra sobre a cidade */
+.hall-arch__rune {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-bottom: 18%;
+  font-family: var(--font-runic);
+  font-size: clamp(64px, 7vw, 96px);
+  color: rgba(233, 228, 214, 0.82);
+  text-shadow: 0 0 24px rgba(227, 189, 106, 0.35);
+  transition:
+    color 0.5s ease,
+    text-shadow 0.5s ease;
+}
+
+.work:hover .hall-arch__rune,
+.work:focus-within .hall-arch__rune {
+  color: #fff6dc;
+  text-shadow: 0 0 34px rgba(227, 189, 106, 0.75);
+}
+
+.hall-works__row .work__meta {
+  margin-top: 28px;
+}
+
+.hall-works__row .work__title {
+  font-size: 24px;
+}
+
+.work__summary {
+  margin-top: 12px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.work__enter {
+  margin-top: 18px;
+}
+
+/* ----- fim ----- */
+
+.hall-close {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 150px 6vw 70px;
+  text-align: center;
+}
+
+.hall-close__mark {
+  display: block;
+  font-size: 16px;
+  color: var(--lamp);
+  text-shadow: 0 0 14px rgba(227, 189, 106, 0.6);
+}
+
+.hall-close__text {
+  margin-top: 22px;
+  font-size: 22px;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.hall-close__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+/* ----- telas menores ----- */
+
+@media (max-width: 1000px) {
+  .work--featured {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .hall-works__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 70px 36px;
+  }
+}
+
+@media (max-width: 700px) {
+  /* no celular a torre fica no meio da tela */
+  .hall-hero__art {
+    translate: -59% -50%;
+  }
+
+  .hall-hero::after {
+    background:
+      linear-gradient(180deg, rgba(5, 8, 15, 0.55) 0%, rgba(5, 8, 15, 0.15) 30%, rgba(5, 8, 15, 0.7) 70%),
+      linear-gradient(90deg, rgba(5, 8, 15, 0.5), rgba(5, 8, 15, 0.1));
+  }
+
+  .hall-hero {
+    align-items: flex-end;
+  }
+
+  .hall-hero__inner {
+    padding: 0 5vw 70px;
+  }
+
+  .hall-hero__intro {
+    font-size: 19px;
+  }
+
+  .hall-works {
+    padding: 30px 5vw 0;
+  }
+
+  .hall-works__row {
+    grid-template-columns: 1fr;
+    gap: 80px;
+    margin-top: 100px;
+  }
+
+  .hall-works__row .hall-arch__window {
+    aspect-ratio: 4 / 3;
+  }
+
+  .hall-works__row .hall-arch {
+    --r: 50% 50% 0 0 / 26% 26% 0 0;
+  }
+
+  .work__lead {
+    font-size: 18px;
+  }
+}
+
+/* menos movimento: as janelas só acendem, sem tremeluzir */
+@media (prefers-reduced-motion: reduce) {
+  .hall-hero__lamps i {
+    animation: hallLampOn 1.1s ease var(--d) forwards;
+  }
+}

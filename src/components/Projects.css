@@ -1,3 +1,5 @@
+/* ===== As Obras na Home: um convite para a página das obras ===== */
+
 .projects {
   position: relative;
   z-index: 1;
@@ -7,7 +9,7 @@
 }
 
 .projects__header {
-  margin-bottom: 48px;
+  margin-bottom: 64px;
 }
 
 .projects__chapter {
@@ -43,385 +45,228 @@
   font-weight: 400;
 }
 
-/* ===== Featured project ===== */
-
-.projects__featured {
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  padding: 40px;
-  position: relative;
-  margin-bottom: 2px;
-  overflow: hidden;
-  transition: background 0.3s ease;
-}
-
-.projects__featured:hover {
-  background: var(--color-surface-hover);
-}
-
-.projects__featured-glow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--color-gold),
-    transparent
-  );
-  opacity: 0.7;
-}
-
-.projects__featured-image {
-  width: 100%;
-  height: 320px;
-  border: 1px solid var(--color-border);
-  overflow: hidden;
-  margin-bottom: 32px;
-}
-
-.projects__featured-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  filter: saturate(0.85) brightness(0.9);
-  transition:
-    filter 0.4s ease,
-    object-position 5s ease-in-out;
-}
-
-.projects__featured:hover .projects__featured-img {
-  filter: saturate(1) brightness(1);
-  object-position: bottom;
-}
-
-.projects__featured-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.projects__featured-badge {
-  font-family: var(--font-heading);
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--color-gold);
-  border: 1px solid var(--color-gold-dim);
-  padding: 5px 12px;
-}
-
-.projects__featured-year {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--color-text-faint);
-}
-
-.projects__featured-title {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 26px;
-  color: var(--color-text-primary);
-  margin: 0 0 14px;
-  letter-spacing: 0.5px;
-}
-
-.projects__featured-desc {
-  font-family: var(--font-body);
-  font-size: 18px;
-  line-height: 1.7;
+.projects__intro {
+  margin-top: 16px;
+  max-width: 52ch;
+  font-size: 20px;
+  line-height: 1.55;
+  font-style: italic;
   color: var(--color-text-secondary);
-  margin: 0 0 22px;
-  max-width: 760px;
 }
 
-.projects__featured-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 26px;
-}
+/* ----- a faixa: quatro arcos lado a lado ----- */
 
-.projects__featured-tags span {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--color-mono-green);
-  background: #17161c;
-  border: 1px solid var(--color-border);
-  padding: 5px 12px;
-}
-
-.projects__featured-cta {
-  font-family: var(--font-heading);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--color-gold);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.projects__featured-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 28px;
-}
-
-/* ===== Grid ===== */
-
-.projects__grid {
+.wstrip {
+  list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2px;
-  background: var(--color-border);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
 }
 
-.projects__card {
-  background: var(--color-bg);
-  padding: 36px;
+/* cada obra é um arco com contorno fino e a pedra-chave com a runa no alto,
+   como os arcos da página das obras */
+.wstrip__card {
+  --arch: 50% 50% 4px 4px / 52px 52px 4px 4px;
+  position: relative;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  position: relative;
-  overflow: hidden;
-  transform: perspective(900px) rotateX(var(--tilt-x, 0deg))
-    rotateY(var(--tilt-y, 0deg));
+  padding: 52px 24px 22px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--arch);
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 0%, rgba(201, 168, 76, 0.07), transparent 70%),
+    rgba(10, 10, 14, 0.72);
   transition:
-    background 0.3s ease,
-    transform 0.5s ease;
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
 }
 
-.projects__card.is-tilting {
-  z-index: 2;
-  transition:
-    background 0.3s ease,
-    transform 0.1s linear;
-}
-
-.projects__card::after {
+/* a luz que acende dentro do arco quando o mouse ou o foco chegam */
+.wstrip__card::before {
   content: "";
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    circle at var(--glare-x, 50%) var(--glare-y, 50%),
-    rgba(232, 201, 122, 0.12),
-    transparent 55%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.projects__card.is-tilting::after {
-  opacity: 1;
-}
-
-.projects__card:hover {
-  background: var(--color-surface-hover);
-}
-
-.projects__card-hover-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 2px;
-  height: 0%;
-  background: var(--color-gold);
-  transition: height 0.5s ease;
-}
-
-.projects__card:hover .projects__card-hover-bar {
-  height: 100%;
-}
-
-.projects__card-tags {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--color-gold-muted);
-}
-
-.projects__card-title {
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 19px;
-  color: var(--color-text-primary);
-  letter-spacing: 0.3px;
-}
-
-.projects__card-desc {
-  font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  flex: 1;
-}
-
-.projects__card-link {
-  font-family: var(--font-heading);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-gold);
-  text-decoration: none;
-  align-self: flex-start;
-}
-
-/* tablet: duas colunas; um card sozinho na última linha ocupa a largura toda (sem célula vazia) */
-@media (max-width: 1080px) {
-  .projects__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .projects__card:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 700px) {
-  .projects__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .projects__featured-image {
-    height: 300px;
-  }
-
-  .projects__featured-img {
-    object-position: center top;
-  }
-}
-
-/* ===== Obras: links para as páginas, runas e luz de forja ===== */
-
-.projects__featured {
-  background: rgba(10, 10, 14, 0.82);
-  backdrop-filter: blur(2px);
-}
-
-.projects__featured .corner {
-  color: var(--color-gold);
-  opacity: 0.7;
-}
-
-.projects__featured-image {
-  position: relative;
-  display: block;
-  cursor: pointer;
-}
-
-.projects__featured-veil {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-heading);
-  font-size: 13px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--color-gold-light);
-  background: radial-gradient(ellipse at center, rgba(8, 8, 10, 0.55), rgba(8, 8, 10, 0.85));
+  border-radius: inherit;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(227, 189, 106, 0.16), transparent 70%);
   opacity: 0;
   transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
-.projects__featured-image:hover .projects__featured-veil {
+.wstrip__card:hover,
+.wstrip__card:focus-within {
+  border-color: rgba(227, 189, 106, 0.6);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+.wstrip__card:hover::before,
+.wstrip__card:focus-within::before {
   opacity: 1;
 }
 
-.projects__card-title-link {
-  color: inherit;
-  text-decoration: none;
-  background: linear-gradient(var(--color-gold), var(--color-gold)) 0 100% / 0 1px no-repeat;
-  transition:
-    background-size 0.4s var(--ease-out),
-    color 0.3s ease;
-}
-
-.projects__card-title-link:hover {
-  color: var(--color-gold-light);
-  background-size: 100% 1px;
-}
-
-.projects__featured-actions {
-  align-items: center;
-}
-
-.projects__featured-actions .cta {
-  padding: 13px 26px;
-}
-
-.projects__card {
-  background: rgba(10, 10, 14, 0.88);
-}
-
-.projects__card-rune {
+/* a pedra-chave (losango no ::before, runa reta por cima) */
+.wstrip__key {
   position: absolute;
-  top: 18px;
-  right: 22px;
+  z-index: 1;
+  top: 0;
+  left: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
   font-family: var(--font-runic);
-  font-size: 34px;
-  line-height: 1;
-  color: var(--color-gold-dim);
-  opacity: 0.45;
+  font-size: 15px;
+  color: var(--color-gold);
   transition:
     color 0.4s ease,
-    opacity 0.4s ease,
     text-shadow 0.4s ease;
 }
 
-.projects__card:hover .projects__card-rune {
+.wstrip__key::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  z-index: -1;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  rotate: 45deg;
+}
+
+.wstrip__card:hover .wstrip__key,
+.wstrip__card:focus-within .wstrip__key {
   color: var(--color-gold-light);
-  opacity: 1;
-  text-shadow:
-    0 0 10px rgba(255, 170, 80, 0.8),
-    0 0 24px rgba(255, 110, 40, 0.5);
+  text-shadow: 0 0 12px rgba(227, 189, 106, 0.7);
 }
 
-.projects__card-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.wstrip__name {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--color-text-primary);
 }
 
-.projects__card-list li {
-  position: relative;
-  padding-left: 18px;
-  font-family: var(--font-body);
-  font-size: 16px;
+/* o link do título cobre o arco inteiro */
+.wstrip__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wstrip__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: var(--arch);
+}
+
+.wstrip__link:focus-visible {
+  outline: none;
+}
+
+.wstrip__card:has(.wstrip__link:focus-visible) {
+  outline: 1px solid var(--color-gold-light);
+  outline-offset: 4px;
+}
+
+.wstrip__summary {
+  margin-top: 12px;
+  font-size: 17px;
   line-height: 1.5;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.wstrip__tags {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--color-gold-muted);
+}
+
+/* rodapé do arco: no ar ou só o código, e o convite para entrar */
+.wstrip__foot {
+  margin-top: auto;
+  padding-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-heading);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.wstrip__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   color: var(--color-text-faint);
 }
 
-.projects__card-list li::before {
-  content: "ᛜ";
-  position: absolute;
-  left: 0;
-  top: 0.15em;
-  font-family: var(--font-runic);
-  font-size: 11px;
-  color: var(--color-gold-dim);
+.wstrip__status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
-.projects__card-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 20px;
-  margin-top: auto;
-  padding-top: 8px;
+.wstrip__status.is-live {
+  color: var(--color-success);
 }
 
-.projects__details {
+.wstrip__status.is-live::before {
+  box-shadow: 0 0 8px currentColor;
+}
+
+.wstrip__enter {
+  color: var(--color-gold);
+  transition: color 0.3s ease;
+}
+
+.wstrip__card:hover .wstrip__enter {
   color: var(--color-gold-light);
 }
-.projects__card-desc { flex: none; }
+
+/* ----- botões embaixo ----- */
+
+.projects__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 54px;
+}
+
+/* ----- telas menores ----- */
+
+@media (max-width: 1100px) {
+  .wstrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 46px 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .projects {
+    padding: 30px 5vw 90px;
+  }
+
+  .wstrip {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .projects__intro {
+    font-size: 18px;
+  }
+}

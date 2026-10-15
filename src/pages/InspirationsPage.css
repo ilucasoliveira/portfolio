@@ -7,7 +7,7 @@ html.page-shire {
   --bk-paper-2: #e8dfc7;
   --bk-ink: #1e1d18;
   --bk-ink-2: #4a463b;
-  --bk-ink-3: #6f6959;
+  --bk-ink-3: #605a4b;
   --bk-green: #2f4a2a;
   --bk-red: #8c2a1c;
   --bk-rule: rgba(30, 29, 24, 0.18);
@@ -757,4 +757,74 @@ html.page-shire .nav__drawer-n {
 
 html.page-shire .nav__drawer-runes {
   color: rgba(30, 29, 24, 0.25);
+}
+
+/* ===== De noite: o mesmo livro à luz de vela, com o Condado sob a lua ===== */
+
+html.page-shire:not([data-theme="light"]) {
+  --bk-paper: #13140f;
+  --bk-paper-2: #1b1c16;
+  --bk-ink: #ece3cc;
+  --bk-ink-2: #cbc2aa;
+  --bk-ink-3: #9d957f;
+  --bk-green: #93b383;
+  --bk-red: #e08b6c;
+  --bk-rule: rgba(236, 227, 204, 0.16);
+}
+
+html.page-shire:not([data-theme="light"]) body {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 190, 110, 0.06), transparent 70%),
+    var(--bk-paper);
+}
+
+html.page-shire:not([data-theme="light"]) .book ::selection {
+  background: rgba(224, 139, 108, 0.3);
+}
+
+html.page-shire:not([data-theme="light"]) .nav,
+html.page-shire:not([data-theme="light"]) .nav__drawer {
+  background: rgba(19, 20, 15, 0.94);
+}
+
+html.page-shire:not([data-theme="light"]) .nav--open {
+  background: transparent;
+}
+
+html.page-shire:not([data-theme="light"]) .footer__rune-border,
+html.page-shire:not([data-theme="light"]) .nav__drawer-runes {
+  color: rgba(236, 227, 204, 0.2);
+}
+
+/* vaga-lumes: piscam no gramado, cada um no seu ritmo */
+.bhero__fireflies {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.bhero__fireflies i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: #ffe9a8;
+  box-shadow:
+    0 0 6px 2px rgba(255, 214, 110, 0.9),
+    0 0 16px 6px rgba(255, 190, 80, 0.35);
+  opacity: 0;
+  animation: bheroFirefly var(--d) ease-in-out var(--dl) infinite;
+}
+
+@keyframes bheroFirefly {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  40%,
+  60% {
+    opacity: 1;
+  }
 }

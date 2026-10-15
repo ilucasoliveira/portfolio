@@ -10,7 +10,37 @@
   padding: 120px 6vw 90px;
 }
 
+/* a cidade de pedra branca atrás do cabeçalho: apagada, escura do lado do texto
+   e dissolvida no céu do site embaixo, sem linha de corte */
+.phero__city {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: min(720px, 100%);
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 45%, transparent 100%);
+}
+
+.phero__city img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% 40%;
+  filter: brightness(0.5) saturate(0.85);
+}
+
+.phero__city::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(5, 8, 15, 0.9) 0%, rgba(5, 8, 15, 0.6) 45%, rgba(5, 8, 15, 0.2) 100%);
+}
+
 .phero__inner {
+  position: relative;
   max-width: 1240px;
   margin: 0 auto;
 }
@@ -173,20 +203,13 @@
   color: var(--color-text-faint);
 }
 
-.forge__hint {
-  margin-top: 12px;
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 18px;
-  color: var(--color-text-secondary);
-}
-
 /* ===== Seções ===== */
 
 .psec {
   position: relative;
   padding: 100px 6vw;
-  max-width: 1340px;
+  /* mesma régua do cabeçalho: até 1240px de conteúdo com 6vw de respiro */
+  max-width: calc(1240px + 12vw);
   margin: 0 auto;
 }
 
@@ -365,6 +388,11 @@
 
 .decision:hover {
   background: var(--color-surface-hover);
+}
+
+/* com um número ímpar de decisões, a última ocupa a linha inteira (sem bloco vazio ao lado) */
+.decision:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .decision__n {

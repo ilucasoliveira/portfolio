@@ -143,6 +143,11 @@
   background: var(--color-border);
 }
 
+/* as runas vêm do data-runes: são enfeite, não texto */
+.about__divider-rune::before {
+  content: attr(data-runes);
+}
+
 .about__divider-rune {
   font-size: 14px;
   color: var(--color-gold-dim);

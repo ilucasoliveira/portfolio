@@ -5,6 +5,10 @@ import { useInView } from "../hooks/useInView";
 import Link from "../components/Link";
 import RuneText from "../components/RuneText";
 import Words from "../components/Words";
+import ThemedImg from "../components/ThemedImg";
+import { useTheme } from "../hooks/useTheme";
+import shireNight960 from "../assets/shire/night-960.webp";
+import shireNight1671 from "../assets/shire/night-1671.webp";
 import tolkien from "../assets/tolkien.webp";
 import coverHobbit from "../assets/cover-hobbit.webp";
 import coverFellowship from "../assets/cover-fellowship.webp";
@@ -14,7 +18,8 @@ import "./InspirationsPage.css";
 
 /*
  * Inspirações: o "apêndice" do site, diagramado como a página de um livro antigo
- * (papel, tinta, fios finos, capitulares). É a única página clara do site.
+ * (papel, tinta, fios finos, capitulares). De dia é o papel claro com o Condado ao sol;
+ * de noite, o mesmo livro à luz de vela, com o Condado sob a lua e vaga-lumes piscando.
  *
  * Imagem do topo: coloque os arquivos em src/assets/shire/ com a largura no nome,
  * por exemplo hero-1920.webp e hero-3840.webp. Eles entram sozinhos aqui, e o
@@ -30,6 +35,28 @@ const HERO = Object.entries(HERO_FILES)
   .filter((f) => f.w > 0)
   .sort((a, b) => a.w - b.w);
 const HERO_SRCSET = HERO.map((f) => `${f.url} ${f.w}w`).join(", ");
+const SHIRE_NIGHT = { src: shireNight1671, srcSet: `${shireNight960} 960w, ${shireNight1671} 1671w` };
+
+// vaga-lumes no gramado do Condado à noite (posição em % do topo e tempo de cada piscada)
+const FIREFLIES = [
+  [15, 48.6],
+  [79.5, 52],
+  [66.5, 54.9],
+  [71.4, 58.7],
+  [93.5, 61.4],
+  [80.1, 62.4],
+  [3.7, 64.4],
+  [88.3, 66.6],
+  [9.3, 70.1],
+  [31.2, 72.6],
+  [24.1, 74.5],
+  [42.1, 74.6],
+  [60.9, 80],
+  [90.4, 83.2],
+  [75.3, 86],
+  [67.9, 86.1],
+  [36.2, 90.5],
+].map(([x, y], i) => ({ x, y, d: (2.4 + ((i * 0.83) % 2.8)).toFixed(2), dl: (-((i * 1.37) % 4.5)).toFixed(2) }));
 
 const COVERS = {
   hobbit: coverHobbit,
@@ -73,6 +100,7 @@ function InspirationsPage() {
   const c = INSPIRATIONS[lang];
   const titleRef = useRef(null);
   const [heroRef, heroIn] = useInView({ threshold: 0.1 });
+  const theme = useTheme();
 
   // foco no título ao chegar (leitores de tela anunciam a página nova)
   useEffect(() => {
@@ -83,15 +111,25 @@ function InspirationsPage() {
     <article className={`book ${HERO.length ? "book--image" : ""}`} aria-labelledby="inspirations-title">
       <header className="bhero" ref={heroRef}>
         {HERO.length > 0 && (
-          <img
+          <ThemedImg
             className="bhero__image"
-            src={HERO[HERO.length - 1].url}
-            srcSet={HERO_SRCSET}
+            day={{ src: HERO[HERO.length - 1].url, srcSet: HERO_SRCSET }}
+            night={SHIRE_NIGHT}
             sizes="100vw"
             alt=""
             decoding="async"
             fetchPriority="high"
           />
+        )}
+        {HERO.length > 0 && theme !== "light" && (
+          <span className="bhero__fireflies" aria-hidden="true">
+            {FIREFLIES.map((f) => (
+              <i
+                key={`${f.x}-${f.y}`}
+                style={{ left: `${f.x}%`, top: `${f.y}%`, "--d": `${f.d}s`, "--dl": `${f.dl}s` }}
+              />
+            ))}
+          </span>
         )}
         <div className="bhero__inner">
           <Link className="book-back" href="/#hero">

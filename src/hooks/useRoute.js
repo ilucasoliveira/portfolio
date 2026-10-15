@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 
 /*
- * Roteamento mínimo sem dependência nova: a home ("/"), a de projeto
- * ("/projetos/:slug"), a de inspirações ("/inspiracoes") e a oficina ("/oficina").
+ * Roteamento mínimo sem dependência nova: a home ("/"), a das obras ("/projetos"),
+ * a de cada obra ("/projetos/:slug"), a de inspirações ("/inspiracoes") e a oficina ("/oficina").
  * O vercel.json reescreve essas rotas para o index.html.
  */
 
+const PROJECTS_PATH = /^\/projetos\/?$/;
 const PROJECT_PATH = /^\/projetos\/([^/]+)\/?$/;
 const INSPIRATIONS_PATH = /^\/inspiracoes\/?$/;
 const WORKSHOP_PATH = /^\/oficina\/?$/;
@@ -14,6 +15,7 @@ export const VEIL_EVENT = "app:veil";
 
 // qual página um caminho abre (também usado pelos links para baixar a página antes)
 export function routeFor(pathname) {
+  if (PROJECTS_PATH.test(pathname)) return { page: "projects" };
   const match = pathname.match(PROJECT_PATH);
   if (match) return { page: "project", slug: decodeURIComponent(match[1]) };
   if (INSPIRATIONS_PATH.test(pathname)) return { page: "inspirations" };

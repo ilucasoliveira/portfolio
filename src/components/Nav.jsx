@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import Link from "./Link";
-import { PROJECTS } from "../data/projects";
+import { setTheme, useFollowSystemTheme, useTheme } from "../hooks/useTheme";
 import "./Nav.css";
 
 // itens do menu: a mesma ordem dos capítulos da página
-// "Projetos" abre direto a página do primeiro projeto (com as abas para os outros);
+// "Projetos" abre a página das obras (a cidade), de onde se entra em cada uma;
 // "Oficina" é a página própria das ferramentas, com a descida pelas minas
-const PROJECTS_HREF = `/projetos/${PROJECTS[0].slug}`;
+const PROJECTS_HREF = "/projetos";
 
 const MENU = [
   ["/#sobre", "about", "I"],
@@ -17,6 +17,35 @@ const MENU = [
   ["/#contato", "contact", "V"],
   ["/inspiracoes", "inspirations", "A"],
 ];
+
+// sol e lua: mostra para onde a troca leva (de noite, o sol; de dia, a lua)
+function ThemeToggle() {
+  const { t } = useLanguage();
+  const theme = useTheme();
+  const toDay = theme !== "light";
+  const label = toDay ? t.nav.toDay : t.nav.toNight;
+  useFollowSystemTheme();
+  return (
+    <button
+      type="button"
+      className="nav__theme"
+      aria-label={label}
+      title={label}
+      onClick={() => setTheme(toDay ? "light" : "dark")}
+    >
+      {toDay ? (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M19.5 14.6A8 8 0 0 1 9.4 4.5a8 8 0 1 0 10.1 10.1z" />
+        </svg>
+      )}
+    </button>
+  );
+}
 
 function Nav({ page }) {
   const { t, lang, setLang } = useLanguage();
@@ -70,7 +99,7 @@ function Nav({ page }) {
       </Link>
       <div className="nav__links">
         <Link href="/#sobre">{t.nav.about}</Link>
-        <Link href={PROJECTS_HREF} aria-current={page === "project" ? "page" : undefined}>
+        <Link href={PROJECTS_HREF} aria-current={page === "projects" || page === "project" ? "page" : undefined}>
           {t.nav.projects}
         </Link>
         <Link href="/#jornada">{t.nav.experience}</Link>
@@ -83,6 +112,7 @@ function Nav({ page }) {
         <Link href="/#contato" className="nav__contact-btn">
           {t.nav.contact}
         </Link>
+        <ThemeToggle />
         <div
           className="nav__lang-toggle"
           role="group"
@@ -91,7 +121,7 @@ function Nav({ page }) {
           <button
             type="button"
             lang="en"
-            aria-label="English"
+            aria-label="EN, English"
             aria-pressed={lang === "en"}
             className={lang === "en" ? "active" : ""}
             onClick={() => setLang("en")}
@@ -101,7 +131,7 @@ function Nav({ page }) {
           <button
             type="button"
             lang="pt-BR"
-            aria-label="Português"
+            aria-label="PT, Português"
             aria-pressed={lang === "pt"}
             className={lang === "pt" ? "active" : ""}
             onClick={() => setLang("pt")}
@@ -142,7 +172,7 @@ function Nav({ page }) {
                 onClick={closeMenu}
                 aria-current={
                   (key === "inspirations" && page === "inspirations") ||
-                  (key === "projects" && page === "project") ||
+                  (key === "projects" && (page === "projects" || page === "project")) ||
                   (key === "stack" && page === "workshop")
                     ? "page"
                     : undefined
