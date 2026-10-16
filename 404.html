@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07070a" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>404 · Lucas de Oliveira</title>
+    <link rel="stylesheet" href="/src/styles/fonts.css" />
+    <link rel="stylesheet" href="/src/styles/not-found.css" />
+  </head>
+  <body>
+    <main class="lost">
+      <div class="lost__aura" aria-hidden="true"></div>
+
+      <div class="lost__figure" aria-hidden="true">
+        <img src="/wraith.webp" alt="" width="828" height="855" />
+        <div class="lost__ring">
+          <span class="lost__ring-glow"></span>
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f6dc8e" />
+                <stop offset="45%" stop-color="#c9a84c" />
+                <stop offset="70%" stop-color="#7a5a1c" />
+                <stop offset="100%" stop-color="#e8c97a" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="38" fill="none" stroke="url(#gold)" stroke-width="11" />
+            <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,240,200,0.55)" stroke-width="1.2" />
+          </svg>
+        </div>
+      </div>
+
+      <p class="lost__code">404</p>
+      <h1 class="lost__title" data-i18n="title">You have wandered into the shadows</h1>
+      <p class="lost__text" data-i18n="text">
+        This path leads nowhere. Even the wraith could not find what you were looking for.
+      </p>
+      <nav class="lost__paths">
+        <a class="lost__back" href="/" data-i18n="back">Return to the light</a>
+        <a class="lost__back lost__back--ghost" href="/projetos" data-i18n="works">See the works</a>
+      </nav>
+    </main>
+
+    <script>
+      // mesma lógica de idioma do site: ?lang=, localStorage, depois navegador
+      (function () {
+        var TEXTS = {
+          pt: {
+            title: "Você se perdeu nas sombras",
+            text: "Este caminho não leva a lugar algum. Nem a sombra encontrou o que você procurava.",
+            back: "Voltar para a luz",
+            works: "Ver as obras",
+          },
+        };
+
+        var lang = new URLSearchParams(location.search).get("lang");
+        if (!lang) {
+          try {
+            lang = localStorage.getItem("lang");
+          } catch (e) {
+            lang = null;
+          }
+        }
+        if (!lang) lang = (navigator.language || "").slice(0, 2).toLowerCase();
+
+        if (lang !== "pt") return;
+
+        // quem chegou com ?lang=pt continua em português ao sair daqui
+        if (new URLSearchParams(location.search).get("lang") === "pt") {
+          document.querySelectorAll(".lost__back").forEach(function (a) {
+            a.setAttribute("href", a.getAttribute("href") + "?lang=pt");
+          });
+        }
+
+        document.documentElement.lang = "pt-BR";
+        document.title = "404 · Lucas de Oliveira";
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+          el.textContent = TEXTS.pt[el.getAttribute("data-i18n")];
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -4,7 +4,7 @@ import "./styles/global.css";
 import "./styles/day.css";
 import { useLanguage } from "./context/LanguageContext";
 import { useRoute } from "./hooks/useRoute";
-import { findProject, tx } from "./data/projects";
+import { ogImageUrl, pageMeta } from "./data/seo";
 import Background from "./components/Background";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
@@ -18,39 +18,25 @@ function setMeta(selector, attr, value) {
 
 function App() {
   const route = useRoute();
-  const { t, lang } = useLanguage();
-  const project = route.page === "project" ? findProject(route.slug) : null;
+  const { lang } = useLanguage();
 
-  // título, descrição e endereço canônico acompanham a página e o idioma (o Google lê
-  // depois de rodar o JavaScript: cada página aparece na busca como ela mesma, não como a Home)
+  // título, descrição, prévia e endereço canônico acompanham a página e o idioma (o Google lê
+  // depois de rodar o JavaScript; para quem não roda, o build gera um HTML por página)
   useEffect(() => {
-    const m = t.meta;
-    let title = m.title;
-    let description = m.description;
-    if (project) {
-      title = `${tx(project.name, lang)} · Lucas de Oliveira`;
-      description = project.text[lang].summary;
-    } else if (route.page === "projects") {
-      title = m.projects;
-      description = m.projectsDescription;
-    } else if (route.page === "inspirations") {
-      title = m.inspirations;
-      description = m.inspirationsDescription;
-    } else if (route.page === "workshop") {
-      title = m.workshop;
-      description = m.workshopDescription;
-    }
+    const meta = pageMeta({ page: route.page, slug: route.slug }, lang);
     // cada idioma tem o seu endereço: inglês sem nada, português com ?lang=pt.
     // o canônico aponta para a versão que está na tela, e os alternates ligam as duas
     const path = window.location.pathname.replace(/\/+$/, "") || "/";
     const en = `${window.location.origin}${path}`;
     const pt = `${en}?lang=pt`;
     const url = lang === "pt" ? pt : en;
-    document.title = title;
-    setMeta('meta[name="description"]', "content", description);
-    setMeta('meta[property="og:title"]', "content", title);
-    setMeta('meta[property="og:description"]', "content", description);
+    document.title = meta.title;
+    setMeta('meta[name="description"]', "content", meta.description);
+    setMeta('meta[property="og:title"]', "content", meta.title);
+    setMeta('meta[property="og:description"]', "content", meta.description);
     setMeta('meta[property="og:url"]', "content", url);
+    setMeta('meta[property="og:image"]', "content", ogImageUrl(meta.image));
+    setMeta('meta[property="og:image:alt"]', "content", meta.imageAlt);
     setMeta('meta[property="og:locale"]', "content", lang === "pt" ? "pt_BR" : "en_US");
     setMeta('meta[property="og:locale:alternate"]', "content", lang === "pt" ? "en_US" : "pt_BR");
     setMeta('link[rel="canonical"]', "href", url);
@@ -60,18 +46,17 @@ function App() {
 
     // endereço de obra que não existe: a página avisa e pede para não ser indexada
     let robots = document.head.querySelector('meta[name="robots"]');
-    if (route.page === "project" && !project) {
+    if (meta.notFound) {
       if (!robots) {
         robots = document.createElement("meta");
         robots.name = "robots";
         document.head.append(robots);
       }
       robots.content = "noindex";
-      document.title = `${t.projectPage.notFound} · Lucas de Oliveira`;
     } else {
       robots?.remove();
     }
-  }, [project, route.page, t, lang]);
+  }, [route.page, route.slug, lang]);
 
   // a página de inspirações tem o clima claro do Condado (sem céu noturno)
   const shire = route.page === "inspirations";

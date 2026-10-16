@@ -84,7 +84,12 @@ On Vercel, set `VITE_API_URL` to the production API before building.
 
 ### Deploy notes
 
-`vercel.json` rewrites `/projetos`, `/projetos/:slug`, `/oficina` and `/inspiracoes` to `index.html`, so those pages also work when opened directly or reloaded.
+`npm run build` runs `vite build` and then `scripts/prerender.mjs`, which:
+
+- writes one HTML per page (`projetos.html`, `oficina.html`, `inspiracoes.html`, `projetos/<slug>.html`) with its own title, description and link preview image (`public/og/*.jpg`, 1200×630). WhatsApp, LinkedIn and the like don't run JavaScript, so without this every link would show the Home preview;
+- adds a Content Security Policy to every HTML, with the hashes of the inline scripts computed at build time and the API origin taken from `VITE_API_URL`.
+
+`vercel.json` turns on `cleanUrls` (so `/projetos` serves `projetos.html`), keeps the SPA rewrites as a fallback (an unknown `/projetos/:slug` still opens the app's "work not found" page) and sets long cache and security headers. Any other unknown path gets `404.html`, which Vite builds as a second entry with the site's own fonts.
 
 ## ✦ Project Structure
 
@@ -119,6 +124,7 @@ src/
 │   ├── hall.js                # Works page copy and the lit windows of the city
 │   ├── inspirations.js        # Inspirations page copy
 │   ├── workshop.js            # Workshop tools: text, projects and links, by scene
+│   ├── seo.js                 # title, description and preview image of each page (app and prerender)
 │   ├── icons.js               # tool logos (Simple Icons, CC0)
 │   └── cv.js                  # résumé PDF path per language
 ├── hooks/                     # useRoute, useTheme, useScrollProgress, useInView, useRuneDecode, ...
@@ -127,7 +133,13 @@ src/
 ├── utils/                     # motion checks, runes
 └── styles/
     ├── global.css             # design tokens (night and day), shared utilities and accessibility rules
-    └── day.css                # the day (parchment) adjustments of each component
+    ├── day.css                # the day (parchment) adjustments of each component
+    ├── fonts.css              # self-hosted fonts (subset woff2 in src/assets/fonts)
+    └── not-found.css          # the 404 page
+scripts/
+├── prerender.mjs              # per-page HTML for link previews + CSP (runs after vite build)
+└── asset-stub.mjs             # lets Node import src/data without the image files
+404.html                       # the wraith page for unknown paths (always night)
 ```
 
 ## ✦ Credits

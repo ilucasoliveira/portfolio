@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { go, VEIL_EVENT } from "../hooks/useRoute";
+import { go, routeFor, VEIL_EVENT } from "../hooks/useRoute";
 import { prefersReducedMotion } from "../utils/motion";
 import { FUTHARK } from "../utils/runes";
 import ElvishScript from "./ElvishScript";
@@ -80,9 +80,12 @@ export function Hairlines() {
  * Abertura (uma vez por sessão): linhas se desenham, ✦ surgem nos cruzamentos,
  * o anel de runas acende e o véu se abre ao meio como um portão.
  * Com menos movimento, o mesmo desenho, mas a cortina se dissolve em vez de se partir (CSS).
+ * Só toca na entrada pela Home: quem chega por um link direto (uma obra, a Oficina)
+ * já cai no conteúdo, e a abertura conta como vista nesta sessão.
  */
 export function Intro() {
   const [phase, setPhase] = useState(() => {
+    if (routeFor(window.location.pathname).page !== "home") return "done";
     try {
       if (sessionStorage.getItem(INTRO_KEY)) return "done";
     } catch {
