@@ -50,10 +50,11 @@ export const WORKSHOP_TEXT = {
   },
 };
 
+const SOUNDPRINT = "mysoundprint";
+const ROTA = "rota151";
 const BOOKSHELF = "personal-library";
 const TRACKER = "portfolio-tracker-api";
 const MOVIES = "movies-api";
-const PORTFOLIO = "portfolio";
 
 export const SCENES = [
   {
@@ -70,7 +71,7 @@ export const SCENES = [
               "My main language. Every API I have published is written in Python, from the routes to the tests.",
               "Minha linguagem principal. Todas as APIs que publiquei são escritas em Python, das rotas aos testes.",
             ),
-            used: [BOOKSHELF, TRACKER, MOVIES, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, TRACKER, MOVIES],
           },
           {
             name: "SQL",
@@ -79,7 +80,7 @@ export const SCENES = [
               "To query and to check what the ORM actually sends to the database, and in the migrations of the PostgreSQL projects.",
               "Para consultar e conferir o que o ORM manda de fato para o banco, e nas migrações dos projetos com PostgreSQL.",
             ),
-            used: [BOOKSHELF, TRACKER, MOVIES],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, TRACKER, MOVIES],
           },
           {
             name: "JavaScript",
@@ -89,7 +90,17 @@ export const SCENES = [
               "The browser side: the React interfaces of this portfolio and of My Own BookShelf.",
               "O lado do navegador: as interfaces em React deste portfólio e do My Own BookShelf.",
             ),
-            used: [BOOKSHELF, PORTFOLIO],
+            used: [BOOKSHELF],
+          },
+          {
+            name: "TypeScript",
+            rune: "ᛏ",
+            url: "https://www.typescriptlang.org",
+            text: both(
+              "Typed front ends: API responses described as types, and dictionaries typed against each other so a missing translation fails the build.",
+              "Fronts tipados: as respostas da API descritas como tipos, e dicionários tipados um contra o outro para uma tradução esquecida quebrar o build.",
+            ),
+            used: [SOUNDPRINT, ROTA],
           },
         ],
       },
@@ -104,7 +115,7 @@ export const SCENES = [
               "My framework for APIs: typed, validated and documented on its own. Every API of mine runs on it.",
               "Meu framework de APIs: tipado, validado e documentado sozinho. Todas as minhas APIs rodam nele.",
             ),
-            used: [BOOKSHELF, TRACKER, MOVIES, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, TRACKER, MOVIES],
           },
           {
             name: "SQLAlchemy 2.0",
@@ -114,7 +125,7 @@ export const SCENES = [
               "The ORM of my APIs with a database, including async mode with asyncpg.",
               "O ORM das minhas APIs com banco, inclusive no modo assíncrono com asyncpg.",
             ),
-            used: [BOOKSHELF, TRACKER, MOVIES],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, TRACKER, MOVIES],
           },
           {
             name: "Pydantic v2",
@@ -124,17 +135,17 @@ export const SCENES = [
               "Checks everything that goes in and out of the APIs: if the data does not match the model, the request never reaches the business rules.",
               "Confere tudo o que entra e sai das APIs: se o dado não bate com o modelo, a requisição nem chega na regra de negócio.",
             ),
-            used: [BOOKSHELF, MOVIES, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, MOVIES],
           },
           {
             name: "Alembic",
             rune: "ᚨ",
             url: "https://alembic.sqlalchemy.org",
             text: both(
-              "Database migrations versioned with the code. The rating column of My Own BookShelf changed type this way, without losing a single rating.",
-              "Migrações do banco versionadas com o código. A coluna de nota do My Own BookShelf mudou de tipo assim, sem perder nenhuma nota.",
+              "Database migrations versioned with the code. The rating column of My Own BookShelf changed type this way, without losing a single rating; in Rota151 a test fails if models and migrations drift.",
+              "Migrações do banco versionadas com o código. A coluna de nota do My Own BookShelf mudou de tipo assim, sem perder nenhuma nota; na Rota151 um teste falha se modelos e migrações divergirem.",
             ),
-            used: [BOOKSHELF],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF],
           },
           {
             name: "JWT",
@@ -144,17 +155,17 @@ export const SCENES = [
               "Token login: accounts, sessions that expire and a password change that invalidates the old tokens.",
               "Login com token: contas, sessões que expiram e troca de senha que invalida os tokens antigos.",
             ),
-            used: [BOOKSHELF, TRACKER],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, TRACKER],
           },
           {
             name: "pytest",
             icon: "pytest",
             url: "https://docs.pytest.org",
             text: both(
-              "Automated tests for the APIs. In My Own BookShelf they run on every push.",
-              "Testes automáticos das APIs. No My Own BookShelf eles rodam a cada push.",
+              "Automated tests for the APIs, run on every push. Rota151 alone has 126 of them.",
+              "Testes automáticos das APIs, rodando a cada push. Só a Rota151 tem 126.",
             ),
-            used: [BOOKSHELF, TRACKER, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, TRACKER],
           },
         ],
       },
@@ -171,20 +182,20 @@ export const SCENES = [
             icon: "react",
             url: "https://react.dev",
             text: both(
-              "The interfaces of this portfolio and of My Own BookShelf, with my own components and no UI library.",
-              "As interfaces deste portfólio e do My Own BookShelf, com componentes próprios e sem biblioteca de UI.",
+              "Every interface I have published, with my own components and no UI library.",
+              "Todas as interfaces que publiquei, com componentes próprios e sem biblioteca de UI.",
             ),
-            used: [BOOKSHELF, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF],
           },
           {
             name: "Vite",
             icon: "vite",
             url: "https://vite.dev",
             text: both(
-              "Build and dev server of the front ends. In My Own BookShelf it also builds the installable app (PWA).",
-              "Build e servidor de desenvolvimento dos fronts. No My Own BookShelf também gera o app instalável (PWA).",
+              "Build and dev server of the front ends. In MySoundPrint, Rota151 and My Own BookShelf it also builds the installable app (PWA).",
+              "Build e servidor de desenvolvimento dos fronts. No MySoundPrint, na Rota151 e no My Own BookShelf também gera o app instalável (PWA).",
             ),
-            used: [BOOKSHELF, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF],
           },
           {
             name: "HTML & CSS",
@@ -194,17 +205,17 @@ export const SCENES = [
               "Layouts, animations and themes written by hand, like the scenes on this page.",
               "Layouts, animações e temas escritos à mão, como as cenas desta página.",
             ),
-            used: [BOOKSHELF, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF],
           },
           {
             name: "Vitest + Playwright",
             icon: "vitest",
             url: "https://vitest.dev",
             text: both(
-              "Front-end tests: unit tests with Vitest and the full flow in a real browser with Playwright, accessibility checks included.",
-              "Testes do front: unidade com Vitest e o fluxo completo num navegador de verdade com Playwright, com checagem de acessibilidade.",
+              "Front-end tests: unit tests with Vitest and, in My Own BookShelf, the full flow in a real browser with Playwright, accessibility checks included.",
+              "Testes do front: unidade com Vitest e, no My Own BookShelf, o fluxo completo num navegador de verdade com Playwright, com checagem de acessibilidade.",
             ),
-            used: [BOOKSHELF],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF],
           },
         ],
       },
@@ -219,17 +230,17 @@ export const SCENES = [
               "The database of every API whose data has to last.",
               "O banco de todas as APIs cujos dados precisam durar.",
             ),
-            used: [BOOKSHELF, TRACKER, MOVIES],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, TRACKER, MOVIES],
           },
           {
             name: "Redis",
             icon: "redis",
             url: "https://redis.io",
             text: both(
-              "Cache in front of the database and of external APIs, like the market quotes of Portfolio Tracker.",
-              "Cache na frente do banco e de APIs externas, como as cotações do Portfolio Tracker.",
+              "Cache in front of the database and of external APIs, like the market quotes of Portfolio Tracker, and the OAuth state of MySoundPrint, consumed once with GETDEL.",
+              "Cache na frente do banco e de APIs externas, como as cotações do Portfolio Tracker, e o state do OAuth do MySoundPrint, consumido uma vez com GETDEL.",
             ),
-            used: [TRACKER, MOVIES],
+            used: [SOUNDPRINT, ROTA, TRACKER, MOVIES],
           },
           {
             name: "Supabase",
@@ -239,7 +250,7 @@ export const SCENES = [
               "Managed PostgreSQL in production, and Storage for profile photos.",
               "PostgreSQL gerenciado em produção, e Storage para as fotos de perfil.",
             ),
-            used: [BOOKSHELF, TRACKER],
+            used: [SOUNDPRINT, BOOKSHELF, TRACKER],
           },
         ],
       },
@@ -254,7 +265,7 @@ export const SCENES = [
               "Starts the API, the database and the cache together with one command, the same on any machine.",
               "Sobe a API, o banco e o cache juntos com um comando, igual em qualquer máquina.",
             ),
-            used: [TRACKER, MOVIES],
+            used: [SOUNDPRINT, ROTA, TRACKER, MOVIES],
           },
           {
             name: "Git",
@@ -271,10 +282,10 @@ export const SCENES = [
             icon: "githubactions",
             url: "https://github.com/features/actions",
             text: both(
-              "Continuous integration: lint, tests and build run on their own on every push.",
-              "Integração contínua: lint, testes e build rodam sozinhos a cada push.",
+              "Continuous integration: lint, tests and build run on their own on every push, and the deploy only happens when they pass. In MySoundPrint it is also the hourly cron.",
+              "Integração contínua: lint, testes e build rodam sozinhos a cada push, e o deploy só acontece se passarem. No MySoundPrint ainda é o cron de hora em hora.",
             ),
-            used: [BOOKSHELF],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF],
           },
           {
             name: "Poetry",
@@ -284,14 +295,14 @@ export const SCENES = [
               "Dependencies and virtual environment of the Python APIs.",
               "Dependências e ambiente virtual das APIs em Python.",
             ),
-            used: [BOOKSHELF, MOVIES, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, MOVIES],
           },
           {
             name: "Render",
             icon: "render",
             url: "https://render.com",
             text: both("Where the APIs run in production.", "Onde as APIs rodam em produção."),
-            used: [BOOKSHELF, TRACKER, PORTFOLIO],
+            used: [SOUNDPRINT, ROTA, BOOKSHELF, TRACKER],
           },
           {
             name: "Vercel",
@@ -301,7 +312,7 @@ export const SCENES = [
               "Deploy of the front ends, with security headers and caching set up.",
               "Deploy dos fronts, com cabeçalhos de segurança e cache configurados.",
             ),
-            used: [BOOKSHELF, PORTFOLIO],
+            used: [SOUNDPRINT, BOOKSHELF],
           },
         ],
       },
