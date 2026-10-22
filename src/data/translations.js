@@ -64,9 +64,9 @@ export const translations = {
       enter: "Enter the work",
       enterShort: "Enter",
       intro:
-        "Four works, from the API to the browser. Each one has its own page with the architecture, the decisions and the code.",
+        "Five works, from the API to the browser. Each one has its own page with the architecture, the decisions and the code.",
       seeAll: "See all the works",
-      liveDemo: "See My Own BookShelf live",
+      liveDemo: "See {name} live",
       live: "Running",
       codeOnly: "Code only",
       illumination: "Illumination",
@@ -263,9 +263,9 @@ export const translations = {
       enter: "Entrar na obra",
       enterShort: "Entrar",
       intro:
-        "Quatro obras, da API ao navegador. Cada uma tem sua página, com a arquitetura, as decisões e o código.",
+        "Cinco obras, da API ao navegador. Cada uma tem sua página, com a arquitetura, as decisões e o código.",
       seeAll: "Ver todas as obras",
-      liveDemo: "Ver o My Own BookShelf ao vivo",
+      liveDemo: "Ver o {name} ao vivo",
       live: "No ar",
       codeOnly: "Só o código",
       illumination: "Iluminura",

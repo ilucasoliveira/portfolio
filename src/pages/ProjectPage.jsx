@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLanguage } from "../context/LanguageContext";
-import { PROJECTS, findProject, tx } from "../data/projects";
+import { NUMERAL_RUNES, PROJECTS, findProject, tx } from "../data/projects";
 import { useInView } from "../hooks/useInView";
 import ArchDiagram from "../components/ArchDiagram";
 import Corners from "../components/Corners";
@@ -17,8 +17,6 @@ import city1672 from "../assets/city/gondolin-1672.webp";
 import cityDay960 from "../assets/city/gondolin-day-960.webp";
 import cityDay1672 from "../assets/city/gondolin-day-1672.webp";
 import "./ProjectPage.css";
-
-const NUMERAL_RUNES = { I: "ᚠ", II: "ᚢ", III: "ᚦ", IV: "ᚨ" };
 
 // abertura de capítulo dentro da página: rótulo + título com palavra em itálico
 function Chapter({ id, chapter, pre, em, kicker }) {

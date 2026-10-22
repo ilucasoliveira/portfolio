@@ -14,7 +14,7 @@ export const HALL_TEXT = {
     intro:
       "In the hidden city, everything raised in white stone was made to last. These are the works I built: what each one does, how it was designed and where it runs.",
     descend: "See the works",
-    worksLabel: "The four works",
+    worksLabel: "The five works",
     status: { live: "Running", code: "Code only" },
     closing: "Every work here was raised with the same tools. They are all in the Workshop.",
     toWorkshop: "Go to the Workshop",
@@ -27,7 +27,7 @@ export const HALL_TEXT = {
     intro:
       "Na cidade escondida, tudo o que se erguia em pedra branca era feito para durar. Estas são as obras que construí: o que cada uma faz, como foi pensada e onde está no ar.",
     descend: "Ver as obras",
-    worksLabel: "As quatro obras",
+    worksLabel: "As cinco obras",
     status: { live: "No ar", code: "Só o código" },
     closing: "Todas estas obras foram erguidas com as mesmas ferramentas. Elas estão na Oficina.",
     toWorkshop: "Ir à Oficina",

@@ -323,13 +323,26 @@
   color: var(--lamp);
 }
 
-/* a obra principal: arco largo com a tela do app, texto ao lado */
+/* as obras em destaque: arco largo com a tela do app, texto ao lado */
 .work--featured {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   gap: 64px;
   align-items: center;
   padding-top: 30px;
+}
+
+.work--featured + .work--featured {
+  margin-top: 110px;
+}
+
+/* a segunda espelhada: o arco do outro lado, para a página não virar uma lista */
+.work--flip {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+}
+
+.work--flip .hall-arch {
+  order: 2;
 }
 
 .work--featured .hall-arch__window {
@@ -418,7 +431,7 @@
   color: var(--lamp);
 }
 
-/* as outras três: arcos estreitos lado a lado, cada um olhando para uma parte da cidade */
+/* as outras: quadros lado a lado, cada um com a própria obra dentro */
 .hall-works__row {
   list-style: none;
   display: grid;
@@ -437,43 +450,85 @@
   opacity: 1;
 }
 
-.hall-works__row .hall-arch__window {
-  aspect-ratio: 3 / 4;
+/* o quadro: moldura afastada com cantos de voluta, a tela da obra dentro
+   e a pedra-chave com a runa no meio da borda de cima */
+.hall-frame {
+  position: relative;
+  display: block;
+  padding: 9px;
+  border: 1px solid rgba(233, 228, 214, 0.12);
+  text-decoration: none;
+  transition: border-color 0.5s ease;
 }
 
-.hall-works__row .hall-arch__window img {
-  filter: brightness(0.55) saturate(0.85);
+.hall-frame .corner {
+  transition: color 0.5s ease;
 }
 
-.hall-works__row .work:hover .hall-arch__window img,
-.hall-works__row .work:focus-within .hall-arch__window img {
-  filter: brightness(0.75) saturate(1);
+.hall-frame .hall-arch__key {
+  top: 0;
 }
 
-/* a runa grande, como inscrição na pedra sobre a cidade */
-.hall-arch__rune {
+.hall-frame__window {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--stone-line);
+  background: var(--lapis);
+  transition: border-color 0.5s ease;
+}
+
+/* a mesma luz dos arcos, subindo de baixo quando o mouse chega */
+.hall-frame__window::after {
+  content: "";
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  padding-bottom: 18%;
-  font-family: var(--font-runic);
-  font-size: clamp(64px, 7vw, 96px);
-  color: rgba(233, 228, 214, 0.82);
-  text-shadow: 0 0 24px rgba(227, 189, 106, 0.35);
-  transition:
-    color 0.5s ease,
-    text-shadow 0.5s ease;
+  background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(227, 189, 106, 0.22), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
 }
 
-.work:hover .hall-arch__rune,
-.work:focus-within .hall-arch__rune {
-  color: #fff6dc;
-  text-shadow: 0 0 34px rgba(227, 189, 106, 0.75);
+/* presa pelo topo (onde ficam o nome e o começo do app), um pouco apagada
+   até o mouse ou o foco chegarem */
+.hall-frame__window img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0;
+  filter: brightness(0.82) saturate(0.9);
+  transition: filter 0.5s ease;
+}
+
+.work:hover .hall-frame,
+.work:focus-within .hall-frame {
+  border-color: rgba(227, 189, 106, 0.3);
+}
+
+.work:hover .hall-frame__window,
+.work:focus-within .hall-frame__window {
+  border-color: rgba(227, 189, 106, 0.6);
+}
+
+.work:hover .hall-frame .corner,
+.work:focus-within .hall-frame .corner {
+  color: var(--lamp);
+}
+
+.work:hover .hall-frame__window::after,
+.work:focus-within .hall-frame__window::after {
+  opacity: 1;
+}
+
+.work:hover .hall-frame__window img,
+.work:focus-within .hall-frame__window img {
+  filter: brightness(1) saturate(1);
 }
 
 .hall-works__row .work__meta {
-  margin-top: 28px;
+  margin-top: 30px;
 }
 
 .hall-works__row .work__title {
@@ -485,6 +540,14 @@
   font-size: 18px;
   line-height: 1.6;
   color: var(--color-text-secondary);
+}
+
+.work__stack {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--fount);
 }
 
 .work__enter {
@@ -531,6 +594,10 @@
     gap: 44px;
   }
 
+  .work--flip .hall-arch {
+    order: 0;
+  }
+
   .hall-works__row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 70px 36px;
@@ -569,14 +636,6 @@
     grid-template-columns: 1fr;
     gap: 80px;
     margin-top: 100px;
-  }
-
-  .hall-works__row .hall-arch__window {
-    aspect-ratio: 4 / 3;
-  }
-
-  .hall-works__row .hall-arch {
-    --r: 50% 50% 0 0 / 26% 26% 0 0;
   }
 
   .work__lead {

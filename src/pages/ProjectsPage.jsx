@@ -1,8 +1,9 @@
 import { useLanguage } from "../context/LanguageContext";
-import { PROJECTS, tx } from "../data/projects";
+import { NUMERAL_RUNES, PROJECTS, tx } from "../data/projects";
 import { HALL_TEXT, LAMPS } from "../data/hall";
 import { useInView } from "../hooks/useInView";
 import { ExternalLinks } from "../components/Projects";
+import Corners from "../components/Corners";
 import Link from "../components/Link";
 import RuneText from "../components/RuneText";
 import ThemedImg from "../components/ThemedImg";
@@ -23,12 +24,11 @@ import "./ProjectsPage.css";
 /*
  * As Obras: a cidade de pedra branca, à noite.
  * 1. A cidade ocupa a primeira tela e as janelas acendem uma a uma, a partir da torre.
- * 2. Cada obra é um arco de pedra: a primeira, grande, mostra a tela do app;
- *    as outras olham para partes diferentes da cidade, com a runa da obra no alto.
+ * 2. As obras em destaque são arcos de pedra largos, com a tela do app de pé
+ *    diante da cidade (a segunda espelhada); as outras ficam em quadros com cantos
+ *    de voluta, mostrando a própria obra (a tela do app ou o Swagger) e a runa no alto.
  * 3. No fim, o caminho para a Oficina (as ferramentas) e para o contato.
  */
-
-const NUMERAL_RUNES = { I: "ᚠ", II: "ᚢ", III: "ᚦ", IV: "ᚨ" };
 
 // a torre central: as janelas mais perto dela acendem primeiro
 const TOWER = [59, 36];
@@ -38,9 +38,6 @@ const LIT = LAMPS.map(([x, y], i) => ({
   delay: Math.round(Math.hypot(x - TOWER[0], (y - TOWER[1]) * 1.8) * 38),
   flicker: (2.6 + ((i * 0.73) % 2.4)).toFixed(2),
 }));
-
-// para onde cada arco pequeno "olha" na cidade (posição do recorte da imagem)
-const VIEWS = ["30% 62%", "62% 34%", "86% 74%"];
 
 function isLive(project) {
   return project.links.some((link) => link.type === "demo");
@@ -58,12 +55,12 @@ function Meta({ project, text, hall }) {
   );
 }
 
-function FeaturedWork({ project, hall }) {
+function FeaturedWork({ project, hall, flip }) {
   const { t, lang } = useLanguage();
   const text = project.text[lang];
   const href = `/projetos/${project.slug}`;
   return (
-    <article className="work work--featured" aria-labelledby={`work-${project.slug}`}>
+    <article className={`work work--featured ${flip ? "work--flip" : ""}`} aria-labelledby={`work-${project.slug}`}>
       <Link href={href} className="hall-arch hall-arch--wide" tabIndex={-1} aria-hidden="true">
         {/* pelo arco se vê a cidade, e a tela do app fica de pé dentro dele */}
         <span className="hall-arch__window">
@@ -113,19 +110,12 @@ function Work({ project, index, hall }) {
   return (
     <li className="work" style={{ "--i": index }}>
       <article aria-labelledby={`work-${project.slug}`}>
-        <Link href={href} className="hall-arch" tabIndex={-1} aria-hidden="true">
-          <span className="hall-arch__window">
-            <ThemedImg
-              {...CITY_SMALL}
-              alt=""
-              width="960"
-              height="540"
-              loading="lazy"
-              decoding="async"
-              style={{ objectPosition: VIEWS[index % VIEWS.length] }}
-            />
-            <span className="hall-arch__rune">{NUMERAL_RUNES[project.numeral]}</span>
+        <Link href={href} className="hall-frame" tabIndex={-1} aria-hidden="true">
+          {/* a própria obra num quadro de pedra: a tela do app, ou o Swagger nas APIs */}
+          <span className="hall-frame__window">
+            <img src={project.cover} alt="" width="1198" height="748" loading="lazy" decoding="async" />
           </span>
+          <Corners />
           <span className="hall-arch__key">{NUMERAL_RUNES[project.numeral]}</span>
         </Link>
         <Meta project={project} text={text} hall={hall} />
@@ -133,6 +123,7 @@ function Work({ project, index, hall }) {
           <Link href={href}>{tx(project.name, lang)}</Link>
         </h3>
         <p className="work__summary">{text.summary}</p>
+        <p className="work__stack">{project.tags.join(" · ")}</p>
         <Link href={href} className="link-rune work__enter">
           {t.projects.enter}
         </Link>
@@ -147,7 +138,8 @@ function ProjectsPage() {
   const theme = useTheme();
   const [heroRef, heroIn] = useInView({ threshold: 0.2 });
   const [rowRef, rowIn] = useInView({ threshold: 0.15 });
-  const [featured, ...others] = PROJECTS;
+  const featured = PROJECTS.filter((project) => project.featured);
+  const others = PROJECTS.filter((project) => !project.featured);
 
   return (
     <div className="hall">
@@ -192,12 +184,14 @@ function ProjectsPage() {
         </div>
       </header>
 
-      {/* as obras: um arco grande e três menores */}
+      {/* as obras: os arcos grandes das obras em destaque e os menores das outras */}
       <section id="obras" className="hall-works" aria-labelledby="hall-works-title">
         <h2 className="sr-only" id="hall-works-title">
           {hall.worksLabel}
         </h2>
-        <FeaturedWork project={featured} hall={hall} />
+        {featured.map((project, i) => (
+          <FeaturedWork key={project.slug} project={project} hall={hall} flip={i % 2 === 1} />
+        ))}
         <ul ref={rowRef} className={`hall-works__row ${rowIn ? "is-in" : ""}`}>
           {others.map((project, i) => (
             <Work key={project.slug} project={project} index={i} hall={hall} />

@@ -1,17 +1,15 @@
 import { useLanguage } from "../context/LanguageContext";
-import { PROJECTS, tx } from "../data/projects";
+import { NUMERAL_RUNES, PROJECTS, tx } from "../data/projects";
 import { useReveal } from "../hooks/useReveal";
 import RuneText from "./RuneText";
 import Link from "./Link";
 import "./Projects.css";
 
 /*
- * As Obras na Home: só um convite. As quatro obras numa faixa de arcos (nome,
+ * As Obras na Home: só um convite. Todas as obras numa faixa de arcos (nome,
  * uma frase, a stack e se está no ar), cada uma levando à sua página, e o
  * caminho para a página de todas as obras (/projetos), onde fica o resto.
  */
-
-const NUMERAL_RUNES = { I: "ᚠ", II: "ᚢ", III: "ᚦ", IV: "ᚨ" };
 
 // links para fora (demo, docs, código), usados nas páginas das obras
 export function ExternalLinks({ project, className = "" }) {
@@ -59,7 +57,7 @@ function WorkArch({ project, index }) {
 }
 
 function Projects() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [ref, isVisible] = useReveal();
   const demo = PROJECTS.find(isLive);
   const demoUrl = demo?.links.find((link) => link.type === "demo")?.url;
@@ -93,7 +91,7 @@ function Projects() {
         {demoUrl && (
           <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="cta cta--ghost">
             {/* espaço que não quebra: a seta nunca fica sozinha na linha de baixo */}
-            {t.projects.liveDemo}&nbsp;↗<span className="sr-only"> {t.projects.newTab}</span>
+            {t.projects.liveDemo.replace("{name}", tx(demo.name, lang))}&nbsp;↗<span className="sr-only"> {t.projects.newTab}</span>
           </a>
         )}
       </div>
