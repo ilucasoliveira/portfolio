@@ -6,6 +6,7 @@ import ElvishScript from "./ElvishScript";
 import valley from "../assets/hero-valley.webp";
 import valleyDay from "../assets/hero-valley-day.webp";
 import ThemedImg from "./ThemedImg";
+import HeroScene from "./HeroScene";
 import "./Hero.css";
 
 const RUNES = "ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ";
@@ -41,14 +42,10 @@ function Hero() {
   const ready = useIntroDone();
 
   useEffect(() => {
-    const stage = parallaxRef.current;
-    const handleScroll = () => {
-      setScrollFade(Math.max(0, 1 - window.scrollY / 300));
-      stage?.style.setProperty("--sy", Math.min(window.scrollY, 1600).toFixed(0));
-    };
+    const handleScroll = () => setScrollFade(Math.max(0, 1 - window.scrollY / 300));
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [parallaxRef]);
+  }, []);
 
   return (
     <section id="hero" className="hero" ref={parallaxRef}>
@@ -152,6 +149,9 @@ function Hero() {
             decoding="async"
             fetchPriority="high"
           />
+          {/* a cachoeira caindo, a luz das árvores e o reflexo no lago (só do tablet para cima).
+              Entra depois da abertura do site: não disputa a rede nem a GPU com o primeiro desenho */}
+          {ready && <HeroScene />}
         </div>
 
         <div className="hero__runes" aria-hidden="true">

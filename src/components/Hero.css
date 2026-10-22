@@ -420,14 +420,11 @@ html:not(.js) .hero__title-line {
   }
 }
 
-/* o vale desce e some antes de "O Arquiteto" subir por cima do palco */
+/* o vale fica parado e some antes de "O Arquiteto" subir por cima do palco */
 @keyframes portalMountains {
   50%,
   100% {
     opacity: 0;
-  }
-  100% {
-    translate: 0 30%;
   }
 }
 
@@ -537,8 +534,9 @@ html:not(.js) .hero__title-line {
   /* topo some no céu, base some no preto da página */
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 70%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 22%, #000 70%, transparent 100%);
-  translate: calc(var(--mx, 0) * -10px) calc(var(--sy, 0) * 0.18px);
-  transition: translate 0.6s ease-out;
+  /* camada própria: o vale esmaece na rolagem (portalMountains) e a cena anima por cima;
+     assim a GPU só recompõe, sem repintar a imagem com máscara a cada quadro */
+  will-change: transform, opacity;
 }
 
 .hero__valley img {

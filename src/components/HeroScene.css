@@ -1,0 +1,200 @@
+/* ===== Vida no vale de Valinor (ver HeroScene.jsx) ===== */
+
+/* o mesmo quadro da imagem do herói: cobre a área e cresce 6% a partir do centro, como a <img> */
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  scale: 1.06;
+  container-type: size;
+  pointer-events: none;
+}
+
+/* recorte do object-fit: cover (proporção 1671 x 941, posição 50% 55%) */
+.hero-scene__frame {
+  --w: max(100cqw, calc(100cqh * 1671 / 941));
+  --h: max(100cqh, calc(100cqw * 941 / 1671));
+  position: absolute;
+  width: var(--w);
+  height: var(--h);
+  left: calc((100cqw - var(--w)) * 0.5);
+  top: calc((100cqh - var(--h)) * 0.55);
+  /* os efeitos lá dentro medem em unidades do quadro (cqw e cqh) */
+  container-type: size;
+}
+
+/* fora da tela, nada anda */
+.hero-scene.is-paused,
+.hero-scene.is-paused * {
+  animation-play-state: paused !important;
+}
+
+/* ----- cachoeiras: a água cai em três camadas, recortada pela máscara tirada da pintura ----- */
+
+/* o bloco cobre só a região das quedas (x 20-69%, y 49-77% da imagem): a máscara, do tamanho do
+   quadro inteiro, é posicionada em unidades do quadro para continuar alinhada à pintura */
+.hero-scene__water {
+  position: absolute;
+  left: 20%;
+  top: 49%;
+  width: 49%;
+  height: 28%;
+  overflow: hidden;
+  mix-blend-mode: screen;
+  -webkit-mask: url("../assets/hero/agua-mascara.webp") -20cqw -49cqh / 100cqw 100cqh no-repeat;
+  mask: url("../assets/hero/agua-mascara.webp") -20cqw -49cqh / 100cqw 100cqh no-repeat;
+}
+
+/* cada camada é uma textura que se repete; descer exatamente uma vez a altura dela fecha o ciclo */
+.hero-scene__flow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(-1 * var(--tile-h));
+  height: calc(100% + var(--tile-h));
+  background: var(--texture) 0 0 / var(--tile-w) var(--tile-h) repeat;
+  animation: heroFlow var(--dur) linear infinite;
+  will-change: transform;
+}
+
+/* lâminas largas e lentas, no fundo */
+.hero-scene__flow--sheets {
+  --texture: url("../assets/hero/agua-laminas.webp");
+  --tile-w: 2.6cqw;
+  --tile-h: 13cqh;
+  --dur: 3.1s;
+  opacity: 0.6;
+}
+
+/* filetes finos e rápidos */
+.hero-scene__flow--streaks {
+  --texture: url("../assets/hero/agua-filetes.webp");
+  --tile-w: 1.3cqw;
+  --tile-h: 6.5cqh;
+  --dur: 0.9s;
+  opacity: 0.7;
+}
+
+/* gotas brilhando, ainda mais rápidas */
+.hero-scene__flow--drops {
+  --texture: url("../assets/hero/agua-gotas.webp");
+  --tile-w: 1.8cqw;
+  --tile-h: 9cqh;
+  --dur: 0.7s;
+  opacity: 0.65;
+}
+
+@keyframes heroFlow {
+  to {
+    transform: translateY(var(--tile-h));
+  }
+}
+
+/* espuma onde a água despenca da borda (já dentro do recorte da água) */
+.hero-scene__foam {
+  position: absolute;
+  background: radial-gradient(ellipse 50% 50% at 50% 40%, rgba(240, 248, 255, 0.55), transparent 75%);
+  animation: heroFoam 1.3s ease-in-out infinite alternate;
+}
+
+@keyframes heroFoam {
+  from {
+    opacity: 0.45;
+    transform: scaleX(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1.06);
+  }
+}
+
+/* névoa no pé das quedas */
+.hero-scene__mist {
+  position: absolute;
+  background: radial-gradient(ellipse 50% 50%, rgba(215, 232, 255, 0.55), transparent 72%);
+  mix-blend-mode: screen;
+  animation: heroMist 3.4s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -1.1s);
+}
+
+@keyframes heroMist {
+  from {
+    opacity: 0.4;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+
+/* ----- as Duas Árvores: um brilho fraco na copa, respirando devagar ----- */
+
+.hero-scene__tree {
+  --c: 205 225 255;
+  position: absolute;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(var(--c) / 0.2), rgb(var(--c) / 0.07) 42%, transparent 68%);
+  mix-blend-mode: screen;
+  animation: heroAura 7s ease-in-out infinite alternate;
+}
+
+.hero-scene__tree--gold {
+  --c: 255 212 128;
+  animation-duration: 8.5s;
+  animation-delay: -3s;
+}
+
+@keyframes heroAura {
+  from {
+    opacity: 0.55;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+/* ----- reflexo das árvores no lago: faixas de luz tremendo na água ----- */
+
+.hero-scene__reflection {
+  --c: 255 212 128;
+  position: absolute;
+  mix-blend-mode: screen;
+  -webkit-mask: linear-gradient(to bottom, #000 8%, transparent 100%);
+  mask: linear-gradient(to bottom, #000 8%, transparent 100%);
+}
+
+.hero-scene__reflection--silver {
+  --c: 205 225 255;
+}
+
+.hero-scene__reflection span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--i) / var(--n) * 100%);
+  height: calc(100% / var(--n) * 0.7);
+  background: radial-gradient(ellipse 50% 50%, rgb(var(--c) / 0.6), transparent 72%);
+  animation: heroShimmer calc(1.9s + var(--i) * 0.37s) ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.6s);
+}
+
+@keyframes heroShimmer {
+  from {
+    opacity: 0.4;
+    transform: translateX(-7%) scaleX(0.75);
+  }
+  to {
+    opacity: 0.95;
+    transform: translateX(7%) scaleX(1.15);
+  }
+}
+
+/* de dia, a luz das árvores e o reflexo ficam mais discretos (o sol já ilumina tudo) */
+:root[data-theme="light"] .hero-scene__tree,
+:root[data-theme="light"] .hero-scene__reflection {
+  opacity: 0.45;
+}
