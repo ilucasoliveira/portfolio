@@ -1,10 +1,21 @@
-/* ===== O Portão: abertura da Oficina, cobre a tela e é animada por --p (escrito por um relógio) ===== */
+/* ===== O Portão: as Portas de Durin, abertura da Oficina (cobre a tela) =====
+ * Aqui fica só o que é fixo. O relógio do Gate.jsx escreve transform e opacity, a cada quadro,
+ * no céu, no quadro (o zoom), nas folhas, na luz do vão, no clarão e no título; tudo começa em 0.
+ * Cada uma dessas peças tem will-change: vira uma camada própria e a GPU só recompõe, sem repintar
+ * (o título, por exemplo, leva a linha élfica com sombra, cara de repintar a cada quadro).
+ */
 
 .gate {
-  --p: 0;
   position: fixed;
   inset: 0;
   z-index: 45; /* acima da página e dos fios dourados; o menu (50) continua por cima */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 90px 6vw 40px;
+  background: radial-gradient(ellipse 60% 55% at 50% 45%, #10141f, #05060a 75%);
   transition: opacity 600ms var(--ease);
 }
 
@@ -14,265 +25,142 @@
   pointer-events: none;
 }
 
-/* menos movimento: o portão não abre, se dissolve devagar (GENTLE_FADE_MS) */
+/* menos movimento: o portão não abre, se dissolve devagar */
 .gate--gentle {
   transition-duration: 1200ms;
 }
 
-/* enquanto o portão abre, a página por trás não rola */
+/* enquanto o portão está na tela, a página por trás não rola */
 html.gate-open,
 html.gate-open body {
   overflow: hidden;
 }
 
-.gate__stage {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 90px 6vw 40px;
-}
-
-/*
- * Linha do tempo da abertura (--p):
- * 0 → 0,44  as linhas de prata se desenham e as runas acendem (--dp)
- * 0,5 → 0,64  as portas se abrem (--open)
- * 0,62 → 0,84  a câmera atravessa o vão de luz (--enter) e o portão sai
- */
-.gate {
-  --dp: calc(var(--p) * 1.35);
-  --lit: clamp(0, calc((var(--dp) - 0.05) / 0.5), 1);
-  --open: clamp(0, calc((var(--p) - 0.5) / 0.14), 1);
-  --enter: clamp(0, calc((var(--p) - 0.62) / 0.18), 1);
-}
-
-.gate__light {
+/* luar em volta do portão, acompanhando as linhas que acendem */
+.gate__sky {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(120, 160, 255, 0.1), transparent 70%);
-  /* só a opacidade muda: a GPU resolve sem repintar o gradiente a cada quadro */
-  opacity: var(--lit);
+  background: radial-gradient(ellipse 50% 60% at 50% 45%, rgba(120, 160, 255, 0.1), transparent 70%);
+  opacity: 0;
+  will-change: opacity;
 }
 
-/* a câmera avança para dentro do vão: o portão cresce a partir da luz e passa pelas bordas da tela */
-.gate__frame {
+/* o quadro: mesma proporção da arte (2:3). A perspectiva é a da projeção da arte (olho no
+   centro do vão, a 1,7 vez a largura). A câmera avança para o vão: o quadro cresce a partir
+   da luz e passa pelas bordas da tela */
+.gate__stage {
   position: relative;
   z-index: 1;
-  height: min(66vh, 640px);
-  aspect-ratio: 600 / 820;
-  scale: calc(1 + var(--open) * 0.1 + var(--enter) * var(--enter) * 9);
-  transform-origin: 50% 72%;
-  opacity: calc(1 - clamp(0, calc((var(--enter) - 0.75) / 0.25), 1));
-  will-change: scale, opacity;
+  flex: none;
+  height: min(62vh, 600px);
+  aspect-ratio: 2 / 3;
+  container-type: inline-size;
+  perspective: 170cqw;
+  perspective-origin: 50% 51%;
+  transform-origin: 50% 62%;
+  /* camada própria: o zoom só reescala o que já foi pintado */
+  will-change: transform, opacity;
 }
 
-/* clarão quente ao cruzar a soleira; assenta numa luz suave lá dentro */
+/* enquanto as imagens chegam e a luz se prepara, o portão já aparece, apagado (é a maior imagem
+   da tela: aparecer cedo é o que conta para o LCP); a luz das linhas entra por cima dele */
+.gate[data-light="wait"] .gate__layer,
+.gate[data-light="dim"] .gate__layer {
+  filter: brightness(0.35);
+}
+
+.gate__layer {
+  position: absolute;
+  display: block;
+  user-select: none;
+}
+
+/* as folhas giram para dentro na dobradiça de fora */
+.gate__layer--folha-esquerda,
+.gate__layer--folha-direita {
+  will-change: transform;
+}
+
+.gate__layer--folha-esquerda {
+  transform-origin: 0 50%;
+}
+
+.gate__layer--folha-direita {
+  transform-origin: 100% 50%;
+}
+
+/* o desenho da luz nas linhas fica por cima de tudo enquanto acontece */
+.gate__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  opacity: 0;
+}
+
+.gate[data-light="on"] .gate__lines {
+  display: block;
+}
+
+.gate__map {
+  display: none;
+}
+
+/* pelo vão aberto: a luz da forja, recortada no formato exato da abertura da arte */
+.gate__inside {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 40% 34% at 50% 68%, #fff6da, rgba(255, 217, 140, 0.95) 38%, rgba(194, 122, 50, 0.75) 72%, transparent 100%),
+    linear-gradient(180deg, #2a1a0c 0%, #5a3214 55%, #8a5222 100%);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1536' preserveAspectRatio='none'%3E%3Cpath d='M147 611C147 366 280.5 213 512.5 176C744.5 213 878 366 878 611V1393H147Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1536' preserveAspectRatio='none'%3E%3Cpath d='M147 611C147 366 280.5 213 512.5 176C744.5 213 878 366 878 611V1393H147Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* a luz saindo pelo vão e banhando a pedra em volta */
+.gate__glow {
+  position: absolute;
+  inset: -20% -40%;
+  pointer-events: none;
+  background: radial-gradient(ellipse 30% 34% at 50% 58%, rgba(255, 214, 150, 0.55), rgba(255, 180, 90, 0.18) 55%, transparent 80%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* e derramando no chão em frente à soleira */
+.gate__spill {
+  position: absolute;
+  left: -60%;
+  right: -60%;
+  top: 88%;
+  height: 42%;
+  pointer-events: none;
+  /* sem recorte: um núcleo quente junto à soleira que se abre em leque e um halo largo e fraco,
+     os dois se dissolvendo no escuro em volta */
+  background:
+    radial-gradient(ellipse 17% 52% at 50% 8%, rgba(255, 220, 160, 0.5), rgba(255, 199, 120, 0.2) 45%, transparent 100%),
+    radial-gradient(ellipse 34% 74% at 50% 6%, rgba(255, 190, 110, 0.2), rgba(255, 180, 100, 0.06) 55%, transparent 100%);
+  /* esfumado nas duas pontas: a luz nasce na soleira sem linha e some no escuro */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 9%, #000 28%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 9%, #000 28%, transparent 100%);
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* clarão quente ao cruzar a soleira */
 .gate__flash {
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
   background: radial-gradient(ellipse 80% 70% at 50% 55%, rgba(255, 242, 210, 0.95), rgba(255, 200, 120, 0.45) 45%, rgba(255, 170, 80, 0) 80%);
-  opacity: calc(clamp(0, calc((var(--enter) - 0.2) / 0.4), 1) * (1 - clamp(0, calc((var(--p) - 0.79) / 0.1), 1) * 0.92));
-}
-
-/* lá dentro: o arco visto por dentro emoldura a tela, com luz caindo do alto */
-.gate__vault {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  opacity: clamp(0, calc((var(--enter) - 0.7) / 0.3), 1);
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-}
-
-.gate__vault-glow {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse 60% 55% at 50% 8%, rgba(255, 214, 150, 0.2), rgba(255, 190, 110, 0.06) 55%, transparent 80%);
-  opacity: clamp(0, calc((var(--enter) - 0.6) / 0.4), 1);
-}
-
-.gate__vault path {
-  fill: none;
-  stroke: var(--color-moon);
-  stroke-width: 1.4;
-  vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 6px rgba(170, 210, 255, 0.6));
-}
-
-.gate__vault .gate__vault-shade {
-  fill: rgba(6, 6, 9, 0.72);
-  stroke: none;
-  filter: none;
-}
-
-
-.gate__svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.gate__stone path {
-  fill: none;
-  stroke: rgba(150, 160, 190, 0.12);
-  stroke-width: 1.2;
-}
-
-.gate__lines path {
-  fill: none;
-  stroke: var(--color-moon);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - clamp(0, calc((var(--dp) - var(--s)) / var(--len)), 1));
-}
-
-/* brilho de prata: traço largo e translúcido por baixo da linha */
-.gate__lines .gate__halo {
-  stroke: rgba(150, 195, 255, 0.22);
-  stroke-width: 6;
-}
-
-.gate__runes text {
-  font-family: var(--font-runic);
-  font-size: 17px;
-  fill: var(--color-moon);
-  opacity: calc(0.12 + clamp(0, calc((var(--dp) - var(--s)) / 0.05), 1) * 0.88);
-  /* brilho por contorno largo (sem filtro) */
-  stroke: rgba(150, 195, 255, 0.3);
-  stroke-width: 3;
-  stroke-linejoin: round;
-  paint-order: stroke;
-}
-
-/* parede de rocha: quase invisível no escuro, ganha relevo com o luar */
-.gate__wall {
-  position: absolute;
-  left: -36.7%;
-  right: -36.7%;
-  top: -7.3%;
-  bottom: -7.3%;
-  pointer-events: none;
-  background:
-    var(--rock) 50% 50% / cover no-repeat,
-    #0c0e15;
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 52%, #000 45%, transparent 100%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 52%, #000 45%, transparent 100%);
-  opacity: calc(0.35 + var(--lit) * 0.4);
-  will-change: opacity;
-}
-
-/* vão de luz: a camada inteira só muda de opacidade */
-.gate__svg--wall {
-  opacity: var(--open);
-  will-change: opacity;
-}
-
-/* folhas da porta: cada uma é a metade da gravura e gira para dentro */
-.gate__doors {
-  position: absolute;
-  left: calc((300 - 196) / 600 * 100%);
-  right: calc((300 - 196) / 600 * 100%);
-  top: calc((330 - 196) / 820 * 100%);
-  bottom: calc(40 / 820 * 100%);
-  display: flex;
-  perspective: 900px;
-}
-
-.gate__door {
-  position: relative;
-  flex: 1;
-}
-
-.gate__door svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.gate__door-stone {
-  fill: #12141c;
-  stroke: rgba(150, 160, 190, 0.1);
-  stroke-width: 1;
-}
-
-/* a pedra da porta só aparece direito quando o luar acende as linhas */
-.gate__door-tex {
-  opacity: calc(0.22 + var(--lit) * 0.5);
-}
-
-/* ao abrir, a face da porta vira para o túnel e pega a luz da forja */
-.gate__door-lit {
-  opacity: var(--open);
-}
-
-.gate__door--l {
-  transform-origin: 0 50%;
-  transform: rotateY(calc(var(--open) * 80deg));
-}
-
-.gate__door--r {
-  transform-origin: 100% 50%;
-  transform: rotateY(calc(var(--open) * -80deg));
-}
-
-/* sombra da folha girando: escurece conforme vira de lado */
-.gate__door-shade {
-  fill: #040408;
-  opacity: calc(var(--open) * 0.3);
-}
-
-/* raios de luz respirando e poeira subindo devagar no túnel */
-.gate__rays path {
-  animation: gateRay 4s ease-in-out infinite;
-}
-
-.gate__dust circle {
-  fill: #fff0cf;
   opacity: 0;
-  animation: gateMote 5s linear infinite;
-}
-
-@keyframes gateRay {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes gateMote {
-  0% {
-    transform: translate(0, 0);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.85;
-  }
-  80% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translate(var(--dx), -46px);
-    opacity: 0;
-  }
+  will-change: opacity;
 }
 
 .gate__caption {
@@ -284,8 +172,8 @@ html.gate-open body {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  opacity: calc(clamp(0, calc((var(--dp) - 0.4) / 0.15), 1) - var(--open) * 1.6);
-  translate: 0 calc((1 - clamp(0, calc((var(--dp) - 0.4) / 0.15), 1)) * 20px + var(--open) * 40px);
+  opacity: 0;
+  will-change: transform, opacity;
 }
 
 .gate__eyebrow {
@@ -347,26 +235,12 @@ html.gate-open body {
   outline-offset: 3px;
 }
 
-/* camadas por fase: só existe na tela o que aparece naquele trecho */
-@media (prefers-reduced-motion: no-preference) {
-  .gate[data-phase="draw"] .gate__vault,
-  .gate[data-phase="draw"] .gate__vault-glow,
-  .gate[data-phase="draw"] .gate__flash,
-  .gate[data-phase="open"] .gate__vault,
-  .gate[data-phase="open"] .gate__vault-glow,
-  .gate[data-phase="open"] .gate__flash,
-  .gate[data-phase="enter"] .gate__caption,
-  .gate[data-phase="inside"] .gate__caption,
-  .gate[data-phase="inside"] .gate__light,
-  .gate[data-phase="inside"] .gate__frame {
-    display: none;
-  }
-}
-
 @media (max-width: 700px) {
-  .gate__frame {
-    height: min(52vh, 460px);
+  .gate__stage {
+    height: min(50vh, 440px);
+  }
+
+  .gate__line {
+    font-size: 17px;
   }
 }
-
-/* com movimento reduzido a Oficina não mostra a abertura (o portão nem é montado) */

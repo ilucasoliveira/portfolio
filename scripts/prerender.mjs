@@ -9,9 +9,13 @@
  * 2. A CSP (Content Security Policy) em cada HTML: a lista do que a página pode carregar.
  *    Os scripts escritos direto no HTML entram pela impressão digital (hash) calculada
  *    aqui, então mudar um deles não quebra nada: o próximo build recalcula.
+ *
+ * 3. Na Oficina, o preload das três camadas do portão (src/data/gate.js). O portão é a
+ *    primeira coisa na tela: pedido no HTML, ele chega junto com o JavaScript em vez de
+ *    esperar o componente montar (no celular isso tirava quase um segundo do LCP).
  */
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { register } from "node:module";
 import { dirname, join } from "node:path";
 import { loadEnv } from "vite";
@@ -19,14 +23,33 @@ import { loadEnv } from "vite";
 register("./asset-stub.mjs", import.meta.url);
 const { SITE_URL, ogImageUrl, pageMeta } = await import("../src/data/seo.js");
 const { PROJECTS } = await import("../src/data/projects.js");
+const { GATE_DENSITIES, GATE_LAYERS } = await import("../src/data/gate.js");
 
 const DIST = join(import.meta.dirname, "..", "dist");
 const LANG = "en"; // a prévia de link sai em inglês, como o idioma padrão do site
 
+// o mesmo srcset e sizes das <img> do portão, com os nomes que o build deu aos arquivos
+const assets = await readdir(join(DIST, "assets"));
+function asset(prefix) {
+  const file = assets.find((f) => f.startsWith(`${prefix}-`) && f.endsWith(".webp"));
+  if (!file) throw new Error(`prerender: ${prefix}.webp não encontrado em dist/assets`);
+  return `/assets/${file}`;
+}
+// ao contrário da ordem de pintura: a moldura (a maior imagem da tela, o LCP) é pedida primeiro.
+// O mapa da luz nas linhas fica de fora: só é usado depois que o portão aparece, e na rede lenta
+// pedi-lo junto atrasava o JavaScript que monta o portão
+function gatePreload() {
+  return [...GATE_LAYERS].reverse().map(({ name, widths, sizes }) => {
+    const srcset = GATE_DENSITIES.map((density, i) => `${asset(`${name}-${density}`)} ${widths[i]}w`).join(", ");
+    const priority = name === "moldura" ? ` fetchpriority="high"` : "";
+    return `<link rel="preload" as="image"${priority} imagesrcset="${srcset}" imagesizes="${sizes}" />`;
+  });
+}
+
 const ROUTES = [
   { path: "/", file: "index.html", route: { page: "home" } },
   { path: "/projetos", file: "projetos.html", route: { page: "projects" } },
-  { path: "/oficina", file: "oficina.html", route: { page: "workshop" } },
+  { path: "/oficina", file: "oficina.html", route: { page: "workshop" }, head: gatePreload() },
   { path: "/inspiracoes", file: "inspiracoes.html", route: { page: "inspirations" } },
   ...PROJECTS.map((project) => ({
     path: `/projetos/${project.slug}`,
@@ -95,9 +118,12 @@ const template = await readFile(join(DIST, "index.html"), "utf8");
 const BLOCK = /<!--\s*seo:start[\s\S]*?seo:end -->/;
 if (!BLOCK.test(template)) throw new Error("prerender: bloco seo:start/seo:end não encontrado no index.html");
 
-for (const { path, file, route } of ROUTES) {
+for (const { path, file, route, head = [] } of ROUTES) {
   const meta = pageMeta(route, LANG);
-  const html = withCsp(template.replace(BLOCK, seoBlock(path, meta)));
+  let html = template.replace(BLOCK, seoBlock(path, meta));
+  // no fim do <head>: o JavaScript e as fontes, que montam a página, continuam sendo pedidos antes
+  if (head.length) html = html.replace("</head>", `  ${head.join("\n    ")}\n  </head>`);
+  html = withCsp(html);
   const out = join(DIST, file);
   await mkdir(dirname(out), { recursive: true });
   await writeFile(out, html);
