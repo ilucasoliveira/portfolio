@@ -26,6 +26,30 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos" />
   </url>
   <url>
+    <loc>https://ilucasoliveira.dev/projetos/mysoundprint</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/mysoundprint" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/mysoundprint?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/mysoundprint" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/mysoundprint?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/mysoundprint" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/mysoundprint?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/mysoundprint" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/rota151</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/rota151" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/rota151?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/rota151" />
+  </url>
+  <url>
+    <loc>https://ilucasoliveira.dev/projetos/rota151?lang=pt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/rota151" />
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/rota151?lang=pt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/rota151" />
+  </url>
+  <url>
     <loc>https://ilucasoliveira.dev/projetos/personal-library</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/personal-library" />
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/personal-library?lang=pt" />
@@ -60,18 +84,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/movies-api" />
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/movies-api?lang=pt" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/movies-api" />
-  </url>
-  <url>
-    <loc>https://ilucasoliveira.dev/projetos/portfolio</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/portfolio" />
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/portfolio?lang=pt" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/portfolio" />
-  </url>
-  <url>
-    <loc>https://ilucasoliveira.dev/projetos/portfolio?lang=pt</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ilucasoliveira.dev/projetos/portfolio" />
-    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ilucasoliveira.dev/projetos/portfolio?lang=pt" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ilucasoliveira.dev/projetos/portfolio" />
   </url>
   <url>
     <loc>https://ilucasoliveira.dev/oficina</loc>
