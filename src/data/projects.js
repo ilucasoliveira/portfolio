@@ -26,7 +26,7 @@ export const PROJECTS = [
     tags: ["python", "fastapi", "postgresql", "react"],
     links: [
       { type: "demo", url: "https://my-own-bookshelf.vercel.app" },
-      { type: "docs", url: "https://bookshelf-demo-api.onrender.com/docs" },
+      { type: "docs", url: "https://my-own-bookshelf-api.onrender.com/docs" },
       { type: "codeApi", url: "https://github.com/ilucasoliveira/personal-library-api" },
       { type: "codeFront", url: "https://github.com/ilucasoliveira/personal-library-frontend" },
     ],
@@ -184,17 +184,17 @@ export const PROJECTS = [
     year: "2026",
     tags: ["fastapi", "sqlalchemy async", "redis", "jwt"],
     links: [
-      { type: "docs", url: "https://portfolio-tracker-api-6dvs.onrender.com/docs" },
+      { type: "docs", url: "https://portfolio-tracker-api-ojc3.onrender.com/docs" },
       { type: "code", url: "https://github.com/ilucasoliveira/portfolio-tracker-api" },
     ],
     tree: [
       ["t", "FastAPI · Render"],
-      ["├─", "PostgreSQL · Supabase"],
+      ["├─", "PostgreSQL · Neon"],
       ["├─", "Redis · Upstash"],
       ["└─", "brapi"],
     ],
     diagram: [
-      node(both("Client", "Cliente"), "Bearer JWT"), arrow("→"), node("FastAPI", "Render · async", true), arrow("→"), node("PostgreSQL", "Supabase · pooler"),
+      node(both("Client", "Cliente"), "Bearer JWT"), arrow("→"), node("FastAPI", "Render · async", true), arrow("→"), node("PostgreSQL", "Neon · pooler"),
       gap(), gap(), arrow("↓", both("quotes", "cotações")), gap(), gap(),
       gap(), gap(), node("Redis", "Upstash · quote:TICKER"), arrow("→", both("misses only", "só o que falta")), node("brapi", both("market quotes", "cotações externas")),
     ],
@@ -203,7 +203,7 @@ export const PROJECTS = [
       ["FastAPI", "API"],
       ["SQLAlchemy 2.0", both("async ORM", "ORM assíncrono")],
       ["asyncpg", "driver"],
-      ["PostgreSQL 18", both("database · Supabase", "banco · Supabase")],
+      ["PostgreSQL 18", both("database · Neon", "banco · Neon")],
       ["Redis 8", "cache · Upstash"],
       ["PyJWT", both("tokens", "tokens")],
       ["pwdlib + argon2", both("password hashing", "hash de senha")],
@@ -238,11 +238,11 @@ export const PROJECTS = [
         meta: [
           ["Type", "REST API"],
           ["Stack", "FastAPI · SQLAlchemy async · PostgreSQL 18 · Redis 8 · JWT"],
-          ["Deploy", "Render + Supabase + Upstash"],
+          ["Deploy", "Render + Neon + Upstash"],
           ["Tests", "10 with pytest (5 unit, 5 API)"],
         ],
         note: "Render's free tier sleeps after 15 minutes of inactivity: the first request may take up to a minute.",
-        archLabel: "The client sends a JWT to the FastAPI API on Render. The API reads transactions from PostgreSQL on Supabase and looks up quotes in Redis on Upstash; only tickers missing from the cache are requested from brapi.",
+        archLabel: "The client sends a JWT to the FastAPI API on Render. The API reads transactions from PostgreSQL on Neon and looks up quotes in Redis on Upstash; only tickers missing from the cache are requested from brapi.",
         archCaption: "deployment described in the portfolio-tracker-api README",
         flow: "GET /portfolio reads the user's transactions from PostgreSQL and aggregates each asset's position. For the current price it checks Redis per ticker; only missing tickers go to brapi. If brapi is down, current price and profit come back null and the rest of the portfolio still responds.",
         features: [
@@ -283,11 +283,11 @@ export const PROJECTS = [
         meta: [
           ["Tipo", "API REST"],
           ["Stack", "FastAPI · SQLAlchemy async · PostgreSQL 18 · Redis 8 · JWT"],
-          ["Deploy", "Render + Supabase + Upstash"],
+          ["Deploy", "Render + Neon + Upstash"],
           ["Testes", "10 com pytest (5 unitários, 5 de API)"],
         ],
         note: "O plano gratuito do Render dorme após 15 minutos sem uso: a primeira requisição pode levar até um minuto.",
-        archLabel: "O cliente envia JWT para a API FastAPI no Render. A API lê transações do PostgreSQL no Supabase e busca cotações no Redis do Upstash; só os tickers ausentes no cache são pedidos à brapi.",
+        archLabel: "O cliente envia JWT para a API FastAPI no Render. A API lê transações do PostgreSQL no Neon e busca cotações no Redis do Upstash; só os tickers ausentes no cache são pedidos à brapi.",
         archCaption: "deploy descrito no README do portfolio-tracker-api",
         flow: "O GET /portfolio lê as transações do usuário no PostgreSQL e agrega a posição de cada ativo. Para o preço atual, consulta o Redis por ticker; só os tickers que faltam no cache vão à brapi. Se a brapi cair, preço atual e lucro voltam nulos e o resto da carteira responde normalmente.",
         features: [
