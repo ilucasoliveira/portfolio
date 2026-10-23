@@ -61,10 +61,32 @@ function useMatch(query) {
   return matches;
 }
 
+// a cena só entra com a página assentada: fontes carregadas e um instante depois da abertura
+// (quando ela termina, a barra de rolagem volta e a largura muda). Montada antes disso, a camada
+// do tamanho da tela inteira se reposicionava e contava como deslocamento de layout (CLS)
+const SETTLE_MS = 400;
+
+function useSettled() {
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    let timer = 0;
+    let cancelled = false;
+    (document.fonts?.ready ?? Promise.resolve()).then(() => {
+      if (!cancelled) timer = setTimeout(() => setSettled(true), SETTLE_MS);
+    });
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, []);
+  return settled;
+}
+
 function HeroScene() {
   const tablet = useMatch(TABLET);
   const desktop = useMatch(DESKTOP);
   const still = useMatch(STILL);
+  const settled = useSettled();
   const ref = useRef(null);
 
   // fora da tela, tudo para (as animações ficam pausadas, sem custo)
@@ -74,9 +96,9 @@ function HeroScene() {
     const observer = new IntersectionObserver(([entry]) => el.classList.toggle("is-paused", !entry.isIntersecting));
     observer.observe(el);
     return () => observer.disconnect();
-  }, [tablet, still]);
+  }, [tablet, still, settled]);
 
-  if (!tablet || still) return null;
+  if (!tablet || still || !settled) return null;
   const show = (item) => desktop || !item.full;
 
   return (
