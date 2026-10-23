@@ -1,5 +1,10 @@
 /* ===== Página 404 (404.html): o espectro, sempre de noite como no epílogo ===== */
 
+/* as fontes entram aqui dentro (e não num <link> próprio no 404.html): se o fonts.css fosse
+   compartilhado com o site, o build o separaria num arquivo à parte, e a página principal teria
+   de baixá-lo antes de saber quais fontes pedir */
+@import "./fonts.css";
+
 :root {
   --color-bg: #07070a;
   --color-gold: #c9a84c;
