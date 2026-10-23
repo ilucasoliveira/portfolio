@@ -47,6 +47,14 @@
   color: var(--color-mono-green);
 }
 
+.api-status__note {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
 .api-status__docs {
   align-self: flex-start;
   font-family: var(--font-heading);

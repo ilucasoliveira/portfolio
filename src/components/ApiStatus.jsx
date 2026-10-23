@@ -81,6 +81,9 @@ function ApiStatus({ active }) {
         </span>
       </div>
 
+      {/* fora do ar: avisa antes de a pessoa preencher o formulário e aponta os outros canais */}
+      {state === "offline" && <p className="api-status__note">{t.contact.api.maintenance}</p>}
+
       {DOCS_URL && (
         <a
           href={DOCS_URL}

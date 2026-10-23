@@ -144,7 +144,8 @@ export const translations = {
         checking: "checking…",
         waking: "waking up the server…",
         online: "online",
-        offline: "offline",
+        offline: "under maintenance",
+        maintenance: "The form may not send right now. Reach me by email or on LinkedIn.",
         docs: "Explore the API docs →",
       },
       form: {
@@ -343,7 +344,8 @@ export const translations = {
         checking: "verificando…",
         waking: "acordando o servidor…",
         online: "online",
-        offline: "offline",
+        offline: "em manutenção",
+        maintenance: "O formulário pode não enviar agora. Fale comigo pelo e-mail ou pelo LinkedIn.",
         docs: "Ver a documentação da API →",
       },
       form: {
